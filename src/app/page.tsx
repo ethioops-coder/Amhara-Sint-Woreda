@@ -2625,6 +2625,7 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   const [likes, setLikes] = useState<Record<string, number>>({});
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [sortBy, setSortBy] = useState<"newest" | "oldest" | "popular">("newest");
+  const [selectedNews, setSelectedNews] = useState<any>(null);
   const perPage = 5;
 
   const allNews = [
@@ -2681,6 +2682,60 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
 
   return (
     <div className="min-h-screen bg-gray-50/80 pt-[110px] md:pt-[130px]">
+      {/* ── News Detail Modal ─────────────────────────────── */}
+      {selectedNews && (
+        <div className="fixed inset-0 z-[500] bg-black/70 backdrop-blur-sm flex items-start justify-center p-4 overflow-y-auto" onClick={() => setSelectedNews(null)}>
+          <div className="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full my-8 overflow-hidden" onClick={e => e.stopPropagation()}>
+            {/* Header image */}
+            <div className="relative h-56 sm:h-72 overflow-hidden">
+              <img src={selectedNews.image || selectedNews.imageUrl || "https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg"} alt={selectedNews.title} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = 'https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg'; }} />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <button onClick={() => setSelectedNews(null)} className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 hover:bg-black/80 text-white flex items-center justify-center transition-all">
+                <X className="w-5 h-5" />
+              </button>
+              <div className="absolute bottom-4 left-4 flex gap-2">
+                <span className={`${categoryColors[selectedNews.category] || "bg-[#EAB308]"} text-white text-[10px] font-black px-3 py-1 rounded-md uppercase tracking-wider`}>{selectedNews.category}</span>
+                {selectedNews.featured && <span className="bg-[#EAB308] text-[#0B3D2E] text-[10px] font-black px-3 py-1 rounded-md uppercase tracking-wider">Featured</span>}
+              </div>
+            </div>
+            {/* Content */}
+            <div className="p-6 sm:p-8">
+              <h2 className="text-xl sm:text-2xl font-extrabold text-[#0B3D2E] mb-3 leading-tight">{selectedNews.title}</h2>
+              {/* Meta */}
+              <div className="flex flex-wrap items-center gap-4 text-xs text-[#0B3D2E]/40 mb-5 pb-5 border-b border-gray-100">
+                <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" />{selectedNews.date}</span>
+                <span className="flex items-center gap-1.5"><User className="w-3.5 h-3.5" />{selectedNews.author}</span>
+                <span className="flex items-center gap-1.5"><Eye className="w-3.5 h-3.5" />{selectedNews.views || 0} views</span>
+                <span className="flex items-center gap-1.5"><MessageCircle className="w-3.5 h-3.5" />{selectedNews.initialComments || 0} comments</span>
+              </div>
+              {/* Full content */}
+              <div className="prose prose-sm max-w-none text-[#0B3D2E]/70 leading-relaxed">
+                <p className="text-base text-[#0B3D2E]/80 font-medium mb-4">{selectedNews.summary}</p>
+                {selectedNews.content && selectedNews.content !== selectedNews.summary && (
+                  <p className="text-sm leading-relaxed">{selectedNews.content}</p>
+                )}
+              </div>
+              {/* Share & like */}
+              <div className="flex items-center justify-between mt-6 pt-5 border-t border-gray-100">
+                <button onClick={() => { setLiked(p => ({ ...p, [selectedNews.id]: !p[selectedNews.id] })); setLikes(p => ({ ...p, [selectedNews.id]: (p[selectedNews.id] || 0) + (liked[selectedNews.id] ? -1 : 1) })); }}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${liked[selectedNews.id] ? "bg-red-50 text-red-500" : "bg-gray-100 text-gray-500 hover:bg-red-50 hover:text-red-400"}`}>
+                  <Heart className={`w-4 h-4 ${liked[selectedNews.id] ? "fill-red-500" : ""}`} />
+                  {(selectedNews.initialLikes || 0) + (likes[selectedNews.id] || 0)} Likes
+                </button>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => { if (navigator.share) { navigator.share({ title: selectedNews.title, text: selectedNews.summary, url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href); } }}
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-[#0B3D2E] text-white hover:bg-[#145A44] transition-all">
+                    <Share2 className="w-4 h-4" /> Share
+                  </button>
+                  <button onClick={() => setSelectedNews(null)} className="px-4 py-2 rounded-xl text-sm font-semibold bg-gray-100 text-gray-500 hover:bg-gray-200 transition-all">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
@@ -2717,7 +2772,7 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
             {/* Featured card */}
             {featured && currentPage === 1 && activeCategory === "All" && (
               <AnimatedSection>
-                <div className="relative rounded-2xl overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 h-64 sm:h-72 md:h-80">
+                <div className="relative rounded-2xl overflow-hidden group cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500 h-64 sm:h-72 md:h-80" onClick={() => setSelectedNews(featured)}>
                   <img src={featured.image || featured.imageUrl} alt={featured.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" onError={(e) => { (e.target as HTMLImageElement).src = 'https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg'; }} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10" />
                   <div className="absolute top-4 left-4 flex items-center gap-2">
@@ -2744,7 +2799,7 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
               const isLiked = liked[item.id] || false;
               return (
                 <AnimatedSection key={item.id} delay={i * 50}>
-                  <div className="bg-white rounded-xl border border-gray-100 p-4 md:p-5 flex gap-4 md:gap-5 hover:shadow-lg hover:border-gray-200 transition-all duration-300 group cursor-pointer">
+                  <div className="bg-white rounded-xl border border-gray-100 p-4 md:p-5 flex gap-4 md:gap-5 hover:shadow-lg hover:border-gray-200 transition-all duration-300 group cursor-pointer" onClick={() => setSelectedNews(item)}>
                     <div className="relative w-28 h-24 sm:w-36 sm:h-28 md:w-40 md:h-28 rounded-lg overflow-hidden shrink-0">
                       <img src={item.image || item.imageUrl || "https://sfile.chatglm.cn/images-ppt/31a73cdbeed8.jpg"} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onError={(e) => { (e.target as HTMLImageElement).src = 'https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg'; }} />
                       <span className={`absolute top-2 left-2 ${categoryColors[item.category] || "bg-[#EAB308]"} text-white text-[8px] font-black px-2 py-0.5 rounded uppercase tracking-wider`}>{item.category}</span>
@@ -2758,10 +2813,13 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
                         <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{item.date}</span>
                         <span className="flex items-center gap-1"><Eye className="w-3 h-3" />{item.views || 0}</span>
                         <span className="flex items-center gap-1"><MessageCircle className="w-3 h-3" />{item.initialComments || 0}</span>
-                        <button onClick={() => toggleLike(item.id)}
+                        <button onClick={(e) => { e.stopPropagation(); toggleLike(item.id); }}
                           className={`ml-auto flex items-center gap-1 transition-colors ${isLiked ? "text-red-500" : "text-[#0B3D2E]/30 hover:text-red-400"}`}>
                           <Heart className={`w-3.5 h-3.5 ${isLiked ? "fill-red-500" : ""}`} />{likeCount}
                         </button>
+                        <span className="flex items-center gap-1 text-[#0B3D2E]/40 font-semibold hover:text-[#EAB308] transition-colors">
+                          See Details →
+                        </span>
                       </div>
                     </div>
                   </div>
