@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 
 /* ─── types ─── */
-type AdminPage = "dashboard" | "news" | "news-new" | "news-edit" | "bids" | "bids-new" | "bids-edit" | "vacancy" | "vacancy-new" | "vacancy-edit" | "menus" | "applications" | "subscribers" | "settings" | "content" | "pages" | "pages-new" | "pages-edit" | "contact-messages";
+type AdminPage = "dashboard" | "news" | "news-new" | "news-edit" | "bids" | "bids-new" | "bids-edit" | "vacancy" | "vacancy-new" | "vacancy-edit" | "menus" | "applications" | "subscribers" | "settings" | "content" | "pages" | "pages-new" | "pages-edit" | "contact-messages" | "visitors";
 
 interface DashboardStats {
   totalNews: number;
@@ -35,6 +35,7 @@ function Spinner() {
 function Sidebar({ page, nav, onLogout }: { page: AdminPage; nav: (p: AdminPage) => void; onLogout: () => void }) {
   const items: { label: string; key: AdminPage; icon: string }[] = [
     { label: "Dashboard", key: "dashboard", icon: "📊" },
+    { label: "Visitors", key: "visitors", icon: "👁️" },
     { label: "News", key: "news", icon: "📰" },
     { label: "Bids & Tenders", key: "bids", icon: "💼" },
     { label: "Vacancies", key: "vacancy", icon: "📋" },
@@ -1252,6 +1253,161 @@ function ApplicationsPageV2() {
   );
 }
 
+/* ─── VISITORS PAGE ─── */
+function VisitorsPage() {
+  const [logs, setLogs] = useState<any[]>([]);
+  const [total, setTotal] = useState(0);
+  const [pages, setPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filter, setFilter] = useState("all");
+  const [loading, setLoading] = useState(true);
+  const [clearing, setClearing] = useState(false);
+
+  const load = (page = 1, f = filter) => {
+    setLoading(true);
+    fetch(`/admin/api/visitors?page=${page}&limit=50&filter=${f}`)
+      .then(r => r.json())
+      .then(data => { setLogs(data.logs || []); setTotal(data.total || 0); setPages(data.pages || 1); setCurrentPage(page); })
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => { load(1, filter); }, [filter]);
+
+  const clearLogs = async () => {
+    if (!confirm("Clear all visitor logs? This cannot be undone.")) return;
+    setClearing(true);
+    await fetch("/admin/api/visitors", { method: "DELETE" });
+    setLogs([]); setTotal(0); setPages(1); setCurrentPage(1);
+    setClearing(false);
+  };
+
+  const deviceIcon = (d: string) => d === "Mobile" ? "📱" : d === "Tablet" ? "📟" : "🖥️";
+  const flagEmoji = (country: string) => {
+    const flags: Record<string, string> = { "Ethiopia": "🇪🇹", "United States": "🇺🇸", "United Kingdom": "🇬🇧", "Germany": "🇩🇪", "France": "🇫🇷", "Canada": "🇨🇦", "Australia": "🇦🇺", "Local": "🏠", "Unknown": "🌍" };
+    return flags[country] || "🌍";
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-[#0B3D2E]">Visitor Logs</h1>
+          <p className="text-sm text-gray-500 mt-0.5">Total {total.toLocaleString()} visits recorded</p>
+        </div>
+        <div className="flex items-center gap-3">
+          {/* Filter */}
+          <div className="flex rounded-xl overflow-hidden border border-gray-200">
+            {[["all", "All"], ["new", "New"], ["returning", "Returning"]].map(([v, l]) => (
+              <button key={v} onClick={() => setFilter(v)}
+                className={`px-3 py-2 text-xs font-semibold transition-all ${filter === v ? "bg-[#0B3D2E] text-white" : "bg-white text-gray-500 hover:bg-gray-50"}`}>
+                {l}
+              </button>
+            ))}
+          </div>
+          <button onClick={clearLogs} disabled={clearing || logs.length === 0}
+            className="px-3 py-2 rounded-xl text-xs font-semibold bg-red-50 text-red-500 hover:bg-red-100 border border-red-200 transition-all disabled:opacity-40">
+            {clearing ? "Clearing..." : "🗑️ Clear"}
+          </button>
+          <button onClick={() => load(currentPage, filter)}
+            className="px-3 py-2 rounded-xl text-xs font-semibold bg-[#0B3D2E] text-white hover:bg-[#145A44] transition-all">
+            🔄 Refresh
+          </button>
+        </div>
+      </div>
+
+      {/* Summary cards */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {[
+          { label: "Total Visits", value: total, icon: "👁️", color: "bg-blue-50 text-blue-600 border-blue-100" },
+          { label: "New Visitors", value: logs.filter(l => l.isNew).length, icon: "🆕", color: "bg-green-50 text-green-600 border-green-100" },
+          { label: "Mobile Users", value: logs.filter(l => l.device === "Mobile").length, icon: "📱", color: "bg-purple-50 text-purple-600 border-purple-100" },
+          { label: "Countries", value: new Set(logs.map(l => l.country).filter(c => c !== "Unknown" && c !== "Local")).size, icon: "🌍", color: "bg-amber-50 text-amber-600 border-amber-100" },
+        ].map(s => (
+          <div key={s.label} className={`rounded-xl border p-4 ${s.color}`}>
+            <div className="text-2xl mb-1">{s.icon}</div>
+            <div className="text-2xl font-black">{s.value}</div>
+            <div className="text-xs font-medium opacity-70">{s.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Table */}
+      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+        {loading ? (
+          <div className="flex items-center justify-center h-48 text-gray-400 text-sm">Loading visitor logs...</div>
+        ) : logs.length === 0 ? (
+          <div className="flex flex-col items-center justify-center h-48 text-gray-400">
+            <span className="text-4xl mb-3">👁️</span>
+            <p className="font-medium">No visits recorded yet</p>
+            <p className="text-xs mt-1">Visits will appear here as people browse the website</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-gray-50 border-b border-gray-200">
+                  <th className="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">#</th>
+                  <th className="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Time</th>
+                  <th className="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Location</th>
+                  <th className="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Page</th>
+                  <th className="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Device</th>
+                  <th className="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Browser</th>
+                  <th className="text-left px-4 py-3 text-xs font-bold text-gray-500 uppercase tracking-wide">Type</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {logs.map((log, i) => (
+                  <tr key={log.id} className="hover:bg-gray-50 transition-colors">
+                    <td className="px-4 py-3 text-xs text-gray-400">{(currentPage - 1) * 50 + i + 1}</td>
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <div className="text-xs font-medium text-gray-800">{new Date(log.timestamp).toLocaleDateString()}</div>
+                      <div className="text-[10px] text-gray-400">{new Date(log.timestamp).toLocaleTimeString()}</div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-base">{flagEmoji(log.country)}</span>
+                        <div>
+                          <div className="text-xs font-medium text-gray-800">{log.country}</div>
+                          <div className="text-[10px] text-gray-400">{log.city}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="text-xs text-gray-600 font-mono bg-gray-100 px-2 py-0.5 rounded max-w-[150px] truncate block">{log.page || "/"}</span>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="text-sm">{deviceIcon(log.device)}</span>
+                      <span className="text-[10px] text-gray-400 ml-1">{log.os}</span>
+                    </td>
+                    <td className="px-4 py-3 text-xs text-gray-600">{log.browser}</td>
+                    <td className="px-4 py-3">
+                      <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${log.isNew ? "bg-green-100 text-green-700" : "bg-blue-100 text-blue-700"}`}>
+                        {log.isNew ? "🆕 New" : "↩ Return"}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Pagination */}
+      {pages > 1 && (
+        <div className="flex items-center justify-center gap-2">
+          <button onClick={() => load(currentPage - 1)} disabled={currentPage === 1}
+            className="px-4 py-2 rounded-lg text-sm font-semibold border border-gray-200 text-gray-500 hover:bg-gray-100 disabled:opacity-30">← Prev</button>
+          <span className="text-sm text-gray-500">Page {currentPage} of {pages}</span>
+          <button onClick={() => load(currentPage + 1)} disabled={currentPage === pages}
+            className="px-4 py-2 rounded-lg text-sm font-semibold border border-gray-200 text-gray-500 hover:bg-gray-100 disabled:opacity-30">Next →</button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ─── MAIN ─── */
 export default function AdminPage() {
   const [page, setPage] = useState<AdminPage>("dashboard");
@@ -1300,6 +1456,7 @@ export default function AdminPage() {
         </header>
         <main className="flex-1 p-4 sm:p-6 lg:p-8">
           {page === "dashboard" && <DashboardPage nav={nav} />}
+          {page === "visitors" && <VisitorsPage />}
           {page === "news" && <NewsListPage nav={nav} />}
           {page === "news-new" && <NewsForm editId={null} onBack={() => nav("news")} />}
           {page === "news-edit" && <NewsForm editId={editId} onBack={() => nav("news")} />}
