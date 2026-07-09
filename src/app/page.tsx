@@ -23,6 +23,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import CookieConsentBanner from "@/components/cookie-consent";
+import VisitorCounter from "@/components/visitor-counter";
 
 /* ─── Types ────────────────────────────────────────────────── */
 type PageId =
@@ -3390,6 +3391,7 @@ export default function Home() {
         <PageContent currentPage={currentPage} onNavigate={setCurrentPage} />
       </main>
       <Footer onNavigate={setCurrentPage} />
+      <VisitorCounter />
       <CookieConsentBanner />
       <ScrollToTop />
     </div>

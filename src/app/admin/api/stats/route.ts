@@ -10,7 +10,7 @@ export async function GET() {
     const vacancies = getVacancies();
     const subscribers = getSubscribers();
 
-    // Count applications from file
+    // Count applications
     let appCount = 0;
     const appFile = path.join(process.cwd(), "data", "applications.json");
     if (fs.existsSync(appFile)) {
@@ -18,12 +18,29 @@ export async function GET() {
       appCount = apps.length;
     }
 
-    // Count contact messages from file
+    // Count contact messages
     let msgCount = 0;
     const msgFile = path.join(process.cwd(), "data", "contact-messages.json");
     if (fs.existsSync(msgFile)) {
       const msgs = JSON.parse(fs.readFileSync(msgFile, "utf-8"));
       msgCount = msgs.length;
+    }
+
+    // Visitor stats
+    let visitorStats = { totalVisits: 0, uniqueVisitors: 0, pageViews: 0, todayVisits: 0, monthVisits: 0, dailyStats: {} as Record<string, number> };
+    const visitorFile = path.join(process.cwd(), "data", "visitors.json");
+    if (fs.existsSync(visitorFile)) {
+      const v = JSON.parse(fs.readFileSync(visitorFile, "utf-8"));
+      const today = new Date().toISOString().split("T")[0];
+      const month = today.substring(0, 7);
+      visitorStats = {
+        totalVisits: v.totalVisits || 0,
+        uniqueVisitors: v.uniqueVisitors || 0,
+        pageViews: v.pageViews || 0,
+        todayVisits: v.dailyStats?.[today] || 0,
+        monthVisits: v.monthlyStats?.[month] || 0,
+        dailyStats: v.dailyStats || {},
+      };
     }
 
     const newsByMonth: Record<string, number> = {};
@@ -61,12 +78,20 @@ export async function GET() {
       publishedNews: news.filter((n) => n.status === "published").length,
       newsByMonth,
       recentActivity,
+      // Visitor stats
+      totalVisits: visitorStats.totalVisits,
+      uniqueVisitors: visitorStats.uniqueVisitors,
+      pageViews: visitorStats.pageViews,
+      todayVisits: visitorStats.todayVisits,
+      monthVisits: visitorStats.monthVisits,
+      dailyVisitorStats: visitorStats.dailyStats,
     });
   } catch {
     return NextResponse.json({
       totalNews: 0, totalBids: 0, totalVacancies: 0, totalSubscribers: 0,
       totalApplications: 0, totalMessages: 0, openBids: 0, publishedNews: 0,
       newsByMonth: {}, recentActivity: [],
+      totalVisits: 0, uniqueVisitors: 0, pageViews: 0, todayVisits: 0, monthVisits: 0, dailyVisitorStats: {},
     });
   }
 }
