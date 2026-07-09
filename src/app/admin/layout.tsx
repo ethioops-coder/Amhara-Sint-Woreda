@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
 import AdminSessionGuard from "@/components/admin-session-guard";
 
+export const dynamic = "force-dynamic";
+
 export default async function AdminLayout({
   children,
 }: {
