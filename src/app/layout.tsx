@@ -451,7 +451,7 @@ export default function RootLayout({
         <meta httpEquiv="content-language" content="en, am" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {!isAdmin && <SeoContent />}
+        <SeoContent />
         <ErrorBoundary>
           {children}
         </ErrorBoundary>
