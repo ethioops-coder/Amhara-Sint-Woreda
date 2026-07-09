@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useCallback, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Clock, LogOut } from "lucide-react";
 
 const IDLE_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutes
@@ -20,9 +19,8 @@ export default function AdminSessionGuard() {
     try {
       await fetch("/admin/api/logout", { method: "POST" });
     } catch {}
-    router.push("/admin/login");
-    router.refresh();
-  }, [router]);
+    window.location.href = "/admin/login";
+  }, []);
 
   const dismissWarning = useCallback(() => {
     setShowWarning(false);
