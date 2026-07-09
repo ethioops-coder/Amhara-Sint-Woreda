@@ -1,32 +1,125 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
-model User {
+// ── Visitor tracking ──────────────────────────────────────
+model VisitorStat {
+  id           String   @id @default(cuid())
+  totalVisits  Int      @default(0)
+  uniqueVisitors Int    @default(0)
+  pageViews    Int      @default(0)
+  updatedAt    DateTime @updatedAt
+}
+
+model VisitLog {
   id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  timestamp DateTime @default(now())
+  page      String   @default("/")
+  ip        String   @default("")
+  country   String   @default("Unknown")
+  city      String   @default("Unknown")
+  browser   String   @default("Unknown")
+  os        String   @default("Unknown")
+  device    String   @default("Desktop")
+  isNew     Boolean  @default(true)
+  referrer  String   @default("Direct")
+  daily     String   @default("") // YYYY-MM-DD
+  monthly   String   @default("") // YYYY-MM
 }
 
-model Post {
+// ── Applications ──────────────────────────────────────────
+model Application {
+  id              String   @id @default(cuid())
+  vacancyId       String
+  vacancyTitle    String
+  fullName        String
+  email           String
+  phone           String
+  dob             String   @default("")
+  gender          String   @default("")
+  address         String   @default("")
+  education       String   @default("")
+  institution     String   @default("")
+  yearGraduated   String   @default("")
+  experienceYears String   @default("")
+  currentEmployer String   @default("")
+  currentPosition String   @default("")
+  keyQualifications String @default("")
+  cvName          String   @default("")
+  cvFile          String   @default("")
+  coverLetterName String   @default("")
+  coverLetterFile String   @default("")
+  status          String   @default("Under Review")
+  notes           String   @default("")
+  appliedAt       DateTime @default(now())
+  createdAt       DateTime @default(now())
+}
+
+// ── Contact messages ──────────────────────────────────────
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String   @default("")
+  subject   String   @default("")
+  message   String
+  status    String   @default("unread")
+  createdAt DateTime @default(now())
+}
+
+// ── Subscribers ───────────────────────────────────────────
+model Subscriber {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  subscribedAt DateTime @default(now())
+}
+
+// ── News ──────────────────────────────────────────────────
+model News {
   id        String   @id @default(cuid())
   title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String
+  summary   String   @default("")
+  content   String   @default("")
+  category  String   @default("")
+  author    String   @default("")
+  imageUrl  String   @default("")
+  featured  Boolean  @default(false)
+  status    String   @default("draft")
+  date      String   @default("")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// ── Bids ──────────────────────────────────────────────────
+model Bid {
+  id           String   @id @default(cuid())
+  title        String
+  description  String   @default("")
+  budget       String   @default("")
+  budgetAmount Float    @default(0)
+  deadline     String   @default("")
+  status       String   @default("Open")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// ── Vacancies ─────────────────────────────────────────────
+model Vacancy {
+  id           String   @id @default(cuid())
+  title        String
+  department   String   @default("")
+  type         String   @default("Full-Time")
+  salary       String   @default("")
+  deadline     String   @default("")
+  description  String   @default("")
+  requirements String   @default("")
+  status       String   @default("Open")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

@@ -1,15 +1,6 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import fs from "fs";
-import path from "path";
-
-const LOGS_FILE = path.join(process.cwd(), "data", "visit-logs.json");
-
-function isAuthenticated(request: Request): boolean {
-  // Check session cookie via headers
-  const cookieHeader = request.headers.get("cookie") || "";
-  return cookieHeader.includes("admin_session=");
-}
+import prisma from "@/lib/prisma";
 
 export async function GET(request: Request) {
   try {
@@ -20,36 +11,35 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     const page = parseInt(url.searchParams.get("page") || "1");
     const limit = parseInt(url.searchParams.get("limit") || "50");
-    const filter = url.searchParams.get("filter") || "all"; // all | new | returning
+    const filter = url.searchParams.get("filter") || "all";
 
-    if (!fs.existsSync(LOGS_FILE)) return NextResponse.json({ logs: [], total: 0, pages: 0 });
+    const where = filter === "new" ? { isNew: true } : filter === "returning" ? { isNew: false } : {};
 
-    let logs = JSON.parse(fs.readFileSync(LOGS_FILE, "utf-8"));
+    const [logs, total] = await Promise.all([
+      prisma.visitLog.findMany({
+        where,
+        orderBy: { timestamp: "desc" },
+        skip: (page - 1) * limit,
+        take: limit,
+      }),
+      prisma.visitLog.count({ where }),
+    ]);
 
-    // Filter
-    if (filter === "new") logs = logs.filter((l: any) => l.isNew);
-    if (filter === "returning") logs = logs.filter((l: any) => !l.isNew);
-
-    const total = logs.length;
-    const pages = Math.ceil(total / limit);
-    const start = (page - 1) * limit;
-    const paginated = logs.slice(start, start + limit);
-
-    return NextResponse.json({ logs: paginated, total, pages, page });
-  } catch {
+    return NextResponse.json({ logs, total, pages: Math.ceil(total / limit), page });
+  } catch (e: any) {
     return NextResponse.json({ logs: [], total: 0, pages: 0 });
   }
 }
 
-// DELETE — clear all logs
 export async function DELETE(request: Request) {
   try {
     const cookieStore = await cookies();
     const session = cookieStore.get("admin_session")?.value;
     if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    fs.writeFileSync(LOGS_FILE, "[]", "utf-8");
+    await prisma.visitLog.deleteMany({});
+    await prisma.visitorStat.updateMany({ data: { totalVisits: 0, uniqueVisitors: 0, pageViews: 0 } });
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (e: any) {
     return NextResponse.json({ success: false }, { status: 500 });
   }
 }
