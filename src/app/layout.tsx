@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ErrorBoundary } from "@/components/error-boundary";
+import SeoContent from "@/components/seo-content";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -49,37 +50,80 @@ export const metadata: Metadata = {
     "Official government portal for Amhara Sint (Sayint) Woreda, South Wollo Zone, Amhara Region, Ethiopia. Find news, job vacancies, bids & tenders, public services, development statistics, health, education, agriculture, and administrative information.",
 
   keywords: [
-    // Core identity
+    // Primary search terms — exactly what people type
+    "Amhara Sint",
+    "Amhara Saint",
+    "Sint Ethiopia",
+    "Saint Ethiopia",
+    "Sayint",
+    "Amhara Sayint",
     "Amhara Sint Woreda",
     "Sayint Woreda",
     "Sint Woreda",
-    "Amhara Sayint",
-    "Mehal Sayint",
+
+    // Town names
     "Ajibar",
-    // Location
-    "South Wollo Zone",
-    "Amhara Region",
-    "Ethiopia government",
-    "Amhara Region administration",
-    "Ethiopia woreda",
-    // Services people search for
-    "woreda job vacancies Ethiopia",
-    "government jobs South Wollo",
-    "bid tenders Ethiopia woreda",
-    "Ethiopia public tender",
-    "Ethiopia government services",
-    // Development & news
-    "Amhara Sint news",
-    "South Wollo development",
-    "Ethiopia highland development",
+    "Ajibar Ethiopia",
+    "Ajibar town",
+    "Mehal Sayint",
+    "Mehal Sayint Ethiopia",
+
+    // Famous landmark — very searchable
+    "Tadbaba Maryam",
     "Tadbaba Maryam monastery",
+    "Tadbaba Maryam Ethiopia",
+    "Tadbaba Maryam church",
+    "Tadbabe Maryam",
+    "Tadbaba Mary",
+    "Debre Tsige Tadbaba Maryam",
+
+    // Tourism & geography
     "Mount Tabor Ethiopia",
+    "Tabor mountain South Wollo",
     "Blue Nile canyon Ethiopia",
+    "Abay canyon Amhara",
     "Borena Sayint National Park",
-    // Language variants
+    "Borena Sayint park",
+    "Ethiopian highland tourism",
+
+    // Location searches
+    "South Wollo",
+    "South Wollo Zone",
+    "South Wollo Ethiopia",
+    "Wollo Ethiopia",
+    "Wollo region",
+    "Amhara Region",
+    "Amhara Region Ethiopia",
+    "Amhara government",
+
+    // Government & services
+    "Ethiopia woreda",
+    "woreda administration Ethiopia",
+    "Ethiopia government portal",
+    "Ethiopia government services",
+    "government jobs South Wollo",
+    "Ethiopia job vacancies",
+    "woreda vacancies Ethiopia",
+    "Ethiopia public tender",
+    "Ethiopia bid tender",
+    "South Wollo development",
+
+    // History & culture
+    "Emperor Tewodros mother Ethiopia",
+    "Atitegeb Wondbewossen",
+    "Battle Wayna Daga",
+    "Ethiopian Orthodox monastery",
+    "Ethiopia historical sites",
+    "Amhara culture",
+    "Ethiopian heritage site",
+
+    // Amharic language keywords
+    "ሳይንት",
     "ሳይንት ወረዳ",
     "አምሐራ ሳይንት",
     "ደቡብ ወሎ",
+    "ጣዕባ ማርያም",
+    "አጅባር",
   ],
 
   authors: [
@@ -295,9 +339,9 @@ const jsonLd = {
     {
       "@type": "Place",
       name: "Amhara Sint Woreda",
-      alternateName: "Sayint Woreda",
+      alternateName: ["Sayint Woreda", "Sint Woreda", "Amhara Sayint", "Mehal Sayint"],
       description:
-        "Amhara Sint Woreda is located in South Wollo Zone, Amhara Region, Ethiopia. It covers 1,437 km² and has a population of 144,972 people across 37 kebeles.",
+        "Amhara Sint Woreda is located in South Wollo Zone, Amhara Region, Ethiopia. It covers 1,437 km² and has a population of 144,972 people across 37 kebeles. The woreda is home to Tadbaba Maryam monastery, Mount Tabor (4,247m), and the spectacular Blue Nile canyon.",
       geo: {
         "@type": "GeoCoordinates",
         latitude: 10.95,
@@ -308,6 +352,75 @@ const jsonLd = {
         name: "South Wollo Zone, Amhara Region, Ethiopia",
       },
       hasMap: "https://maps.google.com/?q=Amhara+Sint+Woreda+Ethiopia",
+    },
+    {
+      "@type": "LandmarksOrHistoricalBuildings",
+      name: "Tadbaba Maryam Monastery",
+      alternateName: ["Tadbabe Maryam", "Debre Tsige Tadbaba Maryam", "Tadbaba Mary"],
+      description:
+        "One of the most historically significant Ethiopian Orthodox monasteries in Ethiopia, founded during the reign of Emperor Menelik I. Located 28 km from Ajibar town in Amhara Sint Woreda, South Wollo Zone. Houses sacred relics, ancient manuscripts, and royal crowns. The monastery played a key role in the Battle of Wayna Daga (1543).",
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: 11.114074,
+        longitude: 38.753427,
+      },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "28 km from Ajibar",
+        addressRegion: "South Wollo Zone, Amhara Region",
+        addressCountry: "ET",
+      },
+      containedInPlace: {
+        "@type": "AdministrativeArea",
+        name: "Amhara Sint Woreda, South Wollo Zone, Ethiopia",
+      },
+      url: SITE_URL,
+      image: "https://sfile.chatglm.cn/images-ppt/10cf906e32cf.jpg",
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Where is Amhara Sint (Sayint) Woreda located?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Amhara Sint Woreda (also called Sayint Woreda) is located in South Wollo Zone, Amhara Region, Ethiopia. The woreda capital is Ajibar town. It covers 1,437 km² and borders the Blue Nile (Abay) canyon to the west.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is Tadbaba Maryam?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Tadbaba Maryam (also spelled Tadbabe Maryam) is a famous Ethiopian Orthodox monastery in Amhara Sint Woreda, South Wollo, Ethiopia. It was founded during the reign of Emperor Menelik I and is one of the most historically important monasteries in Ethiopia, housing ancient manuscripts and royal crowns.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is the population of Amhara Sint Woreda?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Amhara Sint Woreda has a population of 144,972 people across 37 kebeles (CSA 2007 census). 99.96% are Amhara (Amharic speaking) and 98% practice Ethiopian Orthodox Tewahedo Christianity.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What is the highest mountain in South Wollo Zone?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Mount Tabor (Tabor Terara) at 4,247 meters above sea level is the highest peak in South Wollo Zone. It lies on the border of Amhara Sint Woreda and Legambo Woreda, approximately 170 km east of Dessie.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How can I find job vacancies in Amhara Sint Woreda?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Current job vacancies and government employment opportunities in Amhara Sint Woreda are published on this official portal. Visit the Vacancy section at amhara-sint-woreda.onrender.com for all open positions.",
+          },
+        },
+      ],
     },
   ],
 };
@@ -338,6 +451,7 @@ export default function RootLayout({
         <meta httpEquiv="content-language" content="en, am" />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <SeoContent />
         <ErrorBoundary>
           {children}
         </ErrorBoundary>
