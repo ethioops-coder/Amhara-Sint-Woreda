@@ -7,11 +7,17 @@ import { ErrorBoundary } from "@/components/error-boundary";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  fallback: ["system-ui", "arial"],
+  preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  fallback: ["monospace"],
+  preload: false,
 });
 
 export const metadata: Metadata = {

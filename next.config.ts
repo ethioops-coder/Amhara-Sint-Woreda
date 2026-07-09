@@ -9,16 +9,13 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   reactStrictMode: false,
+  experimental: {
+    optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
+  },
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "sfile.chatglm.cn",
-      },
-      {
-        protocol: "https",
-        hostname: "**",
-      },
+      { protocol: "https", hostname: "sfile.chatglm.cn" },
+      { protocol: "https", hostname: "**" },
     ],
   },
 };
