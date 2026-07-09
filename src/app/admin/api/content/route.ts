@@ -20,7 +20,7 @@ const DEFAULT_CONTENT = {
       youtube: "https://youtube.com/@AmharaSint",
       telegram: "https://t.me/AmharaSint",
       instagram: "https://instagram.com/AmharaSint",
-      linkedin: "https://linkedin.com/company/amhara-sint-woreda",
+      linkedin: "https://www.linkedin.com/in/meseret-akalu-76363121b/",
     },
   },
 };

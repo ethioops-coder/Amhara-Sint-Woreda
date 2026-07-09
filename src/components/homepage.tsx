@@ -40,7 +40,7 @@ export function HeroSlider() {
         {[
           { icon: Facebook, url: "https://facebook.com/AmharaSint", color: "bg-[#1877F2] hover:bg-[#1565C0]", label: "Facebook" },
           { icon: Youtube, url: "https://youtube.com/@AmharaSint", color: "bg-[#FF0000] hover:bg-[#CC0000]", label: "YouTube" },
-          { icon: Linkedin, url: "https://linkedin.com/company/AmharaSint", color: "bg-[#0A66C2] hover:bg-[#084F97]", label: "LinkedIn" },
+          { icon: Linkedin, url: "https://www.linkedin.com/in/meseret-akalu-76363121b/", color: "bg-[#0A66C2] hover:bg-[#084F97]", label: "LinkedIn" },
           { icon: Github, url: "https://github.com/AmharaSint", color: "bg-[#333] hover:bg-[#24292F]", label: "GitHub" },
           { icon: Instagram, url: "https://instagram.com/AmharaSint", color: "bg-[#E4405F] hover:bg-[#C13584]", label: "Instagram" },
           { icon: Twitter, url: "https://twitter.com/AmharaSint", color: "bg-[#1DA1F2] hover:bg-[#0D8BD9]", label: "Twitter/X" },

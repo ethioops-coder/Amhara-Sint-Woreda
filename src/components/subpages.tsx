@@ -22,7 +22,7 @@ export function Sidebar({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   const socialLinks = [
     { label: "Facebook", icon: Facebook, url: "https://facebook.com/AmharaSint", color: "hover:bg-[#1877F2] hover:text-white" },
     { label: "YouTube", icon: Youtube, url: "https://youtube.com/@AmharaSint", color: "hover:bg-[#FF0000] hover:text-white" },
-    { label: "LinkedIn", icon: Linkedin, url: "https://linkedin.com/company/AmharaSint", color: "hover:bg-[#0A66C2] hover:text-white" },
+    { label: "LinkedIn", icon: Linkedin, url: "https://www.linkedin.com/in/meseret-akalu-76363121b/", color: "hover:bg-[#0A66C2] hover:text-white" },
     { label: "GitHub", icon: Github, url: "https://github.com/AmharaSint", color: "hover:bg-[#333] hover:text-white" },
     { label: "Instagram", icon: Instagram, url: "https://instagram.com/AmharaSint", color: "hover:bg-[#E4405F] hover:text-white" },
     { label: "Twitter / X", icon: Twitter, url: "https://twitter.com/AmharaSint", color: "hover:bg-[#1DA1F2] hover:text-white" },
