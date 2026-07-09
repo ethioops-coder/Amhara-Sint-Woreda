@@ -2423,15 +2423,15 @@ function VacancyPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
       const cvFile = fd.get("cv") as File;
       const coverFile = fd.get("coverLetter") as File;
 
-      // Upload files to server
+      // Upload files to server (best-effort, don't block submission on failure)
       let cvStoredName: string | null = null;
       let coverStoredName: string | null = null;
 
       if (cvFile && cvFile.size > 0) {
-        cvStoredName = await uploadFile(cvFile);
+        cvStoredName = await uploadFile(cvFile).catch(() => null);
       }
       if (coverFile && coverFile.size > 0) {
-        coverStoredName = await uploadFile(coverFile);
+        coverStoredName = await uploadFile(coverFile).catch(() => null);
       }
 
       const data: ApplicationData = {
@@ -2457,27 +2457,36 @@ function VacancyPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
         status: "Under Review",
       };
 
-      // Save to server
-      try {
-        await fetch("/api/applications", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            ...data,
-            cvFile: cvStoredName,
-            coverLetterFile: coverStoredName,
-          }),
-        });
-      } catch {}
+      // Save to server — this is the primary storage
+      const serverRes = await fetch("/api/applications", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          cvFile: cvStoredName,
+          coverLetterFile: coverStoredName,
+        }),
+      });
+
+      if (!serverRes.ok) {
+        const err = await serverRes.json().catch(() => ({}));
+        throw new Error(err.error || "Server error");
+      }
 
       // Also save locally for immediate display
-      const all = [...applications, data];
-      localStorage.setItem("amharasint_applications", JSON.stringify(all));
-      setApplications(all);
+      try {
+        const all = [...applications, data];
+        localStorage.setItem("amharasint_applications", JSON.stringify(all));
+        setApplications(all);
+      } catch {}
+
       setFormStatus("success");
       (e.target as HTMLFormElement).reset();
       setTimeout(() => { setSelectedVacancy(null); setFormStatus("idle"); }, 4000);
-    } catch { setFormStatus("error"); }
+    } catch (err: any) {
+      console.error("Application submit error:", err);
+      setFormStatus("error");
+    }
   };
 
   const isExpired = (deadline: string) => new Date(deadline) < new Date();
@@ -2602,12 +2611,21 @@ function VacancyPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
               </div>
 
               {/* Submit */}
-              <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
-                <button type="submit" disabled={formStatus === "loading"}
-                  className="inline-flex items-center gap-2 bg-[#EAB308] hover:bg-[#CA8A04] disabled:bg-gray-300 text-[#0B3D2E] font-bold text-sm px-8 py-3 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed">
-                  {formStatus === "loading" ? "Submitting..." : <><Send className="w-4 h-4" /> Submit Application</>}
-                </button>
-                <button type="button" onClick={() => setSelectedVacancy(null)} className="text-sm text-[#0B3D2E]/50 hover:text-[#0B3D2E] transition-colors">Cancel</button>
+              <div className="flex flex-col gap-3 pt-4 border-t border-gray-100">
+                {formStatus === "error" && (
+                  <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl px-4 py-3 flex items-center gap-2">
+                    <span className="font-bold">!</span>
+                    Submission failed. Please check your internet connection and try again.
+                    <button onClick={() => setFormStatus("idle")} className="ml-auto text-red-400 hover:text-red-600 text-xs underline">Dismiss</button>
+                  </div>
+                )}
+                <div className="flex items-center gap-4">
+                  <button type="submit" disabled={formStatus === "loading"}
+                    className="inline-flex items-center gap-2 bg-[#EAB308] hover:bg-[#CA8A04] disabled:bg-gray-300 text-[#0B3D2E] font-bold text-sm px-8 py-3 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed">
+                    {formStatus === "loading" ? "Submitting..." : <><Send className="w-4 h-4" /> Submit Application</>}
+                  </button>
+                  <button type="button" onClick={() => setSelectedVacancy(null)} className="text-sm text-[#0B3D2E]/50 hover:text-[#0B3D2E] transition-colors">Cancel</button>
+                </div>
               </div>
             </form>
           </ContentCard>

@@ -4,28 +4,26 @@ import type { NextRequest } from "next/server";
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Skip all API routes — they handle their own auth
-  if (pathname.startsWith("/admin/api/")) {
-    return NextResponse.next();
-  }
+  // ── Public API routes — never block these ──────────────────
+  // Allow file uploads from public (vacancy applications)
+  if (pathname === "/admin/api/upload") return NextResponse.next();
+  // Allow auth and logout
+  if (pathname.startsWith("/admin/api/auth")) return NextResponse.next();
+  if (pathname.startsWith("/admin/api/logout")) return NextResponse.next();
+  // Allow all other admin APIs (they handle their own auth)
+  if (pathname.startsWith("/admin/api/")) return NextResponse.next();
 
-  // Skip login page
+  // ── Login page ─────────────────────────────────────────────
   if (pathname === "/admin/login" || pathname.startsWith("/admin/login/")) {
     const session = request.cookies.get("admin_session")?.value;
-    // Already logged in → go to admin
-    if (session) {
-      return NextResponse.redirect(new URL("/admin", request.url));
-    }
+    if (session) return NextResponse.redirect(new URL("/admin", request.url));
     return NextResponse.next();
   }
 
-  // Protect all other /admin/* pages
+  // ── Protect admin UI pages ─────────────────────────────────
   if (pathname.startsWith("/admin")) {
     const session = request.cookies.get("admin_session")?.value;
-    if (!session) {
-      const loginUrl = new URL("/admin/login", request.url);
-      return NextResponse.redirect(loginUrl);
-    }
+    if (!session) return NextResponse.redirect(new URL("/admin/login", request.url));
   }
 
   return NextResponse.next();
