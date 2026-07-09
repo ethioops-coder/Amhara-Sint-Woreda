@@ -452,9 +452,7 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <SeoContent />
-        <ErrorBoundary>
-          {children}
-        </ErrorBoundary>
+        {children}
         <Toaster />
       </body>
     </html>
