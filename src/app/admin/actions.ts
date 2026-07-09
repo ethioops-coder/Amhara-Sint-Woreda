@@ -23,13 +23,14 @@ import {
   type VacancyItem,
 } from "@/lib/storage";
 
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
 const SESSION_COOKIE = "admin_session";
-const SESSION_MAX_AGE = 60 * 60 * 24; // 24 hours
+const SESSION_MAX_AGE = 60 * 10; // 10 minutes
 
 // ── Auth Actions ──────────────────────────────────────────────
-export async function login(password: string): Promise<{ success: boolean; error?: string }> {
-  if (password === ADMIN_PASSWORD) {
+export async function login(username: string, password: string): Promise<{ success: boolean; error?: string }> {
+  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
     const cookieStore = await cookies();
     const token = Buffer.from(`admin:${Date.now()}`).toString("base64");
     cookieStore.set(SESSION_COOKIE, token, {
@@ -41,7 +42,7 @@ export async function login(password: string): Promise<{ success: boolean; error
     });
     return { success: true };
   }
-  return { success: false, error: "Invalid password" };
+  return { success: false, error: "Invalid username or password" };
 }
 
 export async function logout(): Promise<void> {

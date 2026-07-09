@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { getSession } from "./actions";
+import AdminSessionGuard from "@/components/admin-session-guard";
 
 export default async function AdminLayout({
   children,
@@ -9,7 +9,7 @@ export default async function AdminLayout({
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get("admin_session")?.value;
 
-  // For the login page, just render children without auth wrapper
+  // No session — show login page without the session guard
   if (!sessionToken) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-[#062B1F] via-[#0B3D2E] to-[#145A44]">
@@ -18,14 +18,11 @@ export default async function AdminLayout({
     );
   }
 
-  const isAuthenticated = await getSession();
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-[#062B1F] via-[#0B3D2E] to-[#145A44]">
-        {children}
-      </div>
-    );
-  }
-
-  return <>{children}</>;
+  // Has session — render the admin UI with the idle-timeout guard active
+  return (
+    <>
+      <AdminSessionGuard />
+      {children}
+    </>
+  );
 }
