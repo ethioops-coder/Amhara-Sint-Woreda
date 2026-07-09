@@ -24,7 +24,7 @@ import {
 } from "@/lib/storage";
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "AmharaSint@2026";
 const SESSION_COOKIE = "admin_session";
 const SESSION_MAX_AGE = 60 * 10; // 10 minutes
 
