@@ -1263,15 +1263,16 @@ function VisitorsPage() {
   const [loading, setLoading] = useState(true);
   const [clearing, setClearing] = useState(false);
 
-  const load = (page = 1, f = filter) => {
+  const load = useCallback((page = 1, f = "all") => {
     setLoading(true);
     fetch(`/admin/api/visitors?page=${page}&limit=50&filter=${f}`)
       .then(r => r.json())
       .then(data => { setLogs(data.logs || []); setTotal(data.total || 0); setPages(data.pages || 1); setCurrentPage(page); })
+      .catch(() => { setLogs([]); setTotal(0); })
       .finally(() => setLoading(false));
-  };
+  }, []);
 
-  useEffect(() => { load(1, filter); }, [filter]);
+  useEffect(() => { load(1, filter); }, [filter, load]);
 
   const clearLogs = async () => {
     if (!confirm("Clear all visitor logs? This cannot be undone.")) return;
