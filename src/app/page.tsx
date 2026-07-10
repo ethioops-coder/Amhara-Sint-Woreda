@@ -3467,8 +3467,8 @@ export default function Home() {
       <main className="flex-1">
         <PageContent currentPage={currentPage} onNavigate={setCurrentPage} />
       </main>
-      <Footer onNavigate={setCurrentPage} />
       <SubscribeBanner />
+      <Footer onNavigate={setCurrentPage} />
       <VisitorCounter />
       <CookieConsentBanner />
       <ScrollToTop />
