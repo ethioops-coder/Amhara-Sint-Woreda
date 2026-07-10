@@ -1,50 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import prisma from "@/lib/prisma";
 
-const DATA_FILE = path.join(process.cwd(), "data", "applications.json");
-
-function ensure() {
-  const dir = path.dirname(DATA_FILE);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  if (!fs.existsSync(DATA_FILE)) fs.writeFileSync(DATA_FILE, "[]", "utf-8");
-}
-
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    ensure();
-    const data = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
-    return NextResponse.json(data);
-  } catch {
-    return NextResponse.json([]);
+    const id = request.nextUrl.searchParams.get("id");
+    const vacancyId = request.nextUrl.searchParams.get("vacancyId");
+
+    if (id) {
+      const app = await prisma.application.findUnique({ where: { id } });
+      if (!app) return NextResponse.json({ error: "Not found" }, { status: 404 });
+      return NextResponse.json(app);
+    }
+    if (vacancyId) {
+      const apps = await prisma.application.findMany({ where: { vacancyId }, orderBy: { createdAt: "desc" } });
+      return NextResponse.json(apps);
+    }
+    const apps = await prisma.application.findMany({ orderBy: { createdAt: "desc" } });
+    return NextResponse.json(apps);
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
 
 export async function PUT(request: NextRequest) {
   try {
-    ensure();
-    const { id, status } = await request.json();
-    const apps: any[] = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
-    const idx = apps.findIndex((a) => a.id === id);
-    if (idx === -1) return NextResponse.json({ error: "Not found" }, { status: 404 });
-    apps[idx].status = status;
-    fs.writeFileSync(DATA_FILE, JSON.stringify(apps, null, 2));
-    return NextResponse.json(apps[idx]);
+    const { id, status, notes } = await request.json();
+    if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
+    const app = await prisma.application.update({
+      where: { id },
+      data: { ...(status && { status }), ...(notes !== undefined && { notes }) },
+    });
+    return NextResponse.json(app);
   } catch (e: any) {
-    return NextResponse.json({ error: e.message || "Failed" }, { status: 500 });
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }
 
 export async function DELETE(request: NextRequest) {
   try {
-    ensure();
     const id = request.nextUrl.searchParams.get("id");
     if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
-    let apps: any[] = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
-    apps = apps.filter((a) => a.id !== id);
-    fs.writeFileSync(DATA_FILE, JSON.stringify(apps, null, 2));
+    await prisma.application.delete({ where: { id } });
     return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json({ error: "Failed" }, { status: 500 });
+  } catch (e: any) {
+    return NextResponse.json({ error: e.message }, { status: 500 });
   }
 }

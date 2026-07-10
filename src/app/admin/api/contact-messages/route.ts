@@ -1,35 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-
-const MSG_FILE = path.join(process.cwd(), "data", "contact-messages.json");
-
-function ensure() {
-  const dir = path.dirname(MSG_FILE);
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-  if (!fs.existsSync(MSG_FILE)) fs.writeFileSync(MSG_FILE, "[]", "utf-8");
-}
+import prisma from "@/lib/prisma";
 
 export async function GET() {
   try {
-    ensure();
-    const data = JSON.parse(fs.readFileSync(MSG_FILE, "utf-8"));
-    return NextResponse.json(data);
-  } catch {
-    return NextResponse.json([]);
-  }
+    const msgs = await prisma.contactMessage.findMany({ orderBy: { createdAt: "desc" } });
+    return NextResponse.json(msgs);
+  } catch { return NextResponse.json([]); }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const { id, status } = await request.json();
+    const msg = await prisma.contactMessage.update({ where: { id }, data: { status } });
+    return NextResponse.json(msg);
+  } catch (e: any) { return NextResponse.json({ error: e.message }, { status: 500 }); }
 }
 
 export async function DELETE(request: NextRequest) {
   try {
-    ensure();
     const id = request.nextUrl.searchParams.get("id");
     if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
-    let msgs: any[] = JSON.parse(fs.readFileSync(MSG_FILE, "utf-8"));
-    msgs = msgs.filter((m) => m.id !== id);
-    fs.writeFileSync(MSG_FILE, JSON.stringify(msgs, null, 2));
+    await prisma.contactMessage.delete({ where: { id } });
     return NextResponse.json({ success: true });
-  } catch {
-    return NextResponse.json({ error: "Failed" }, { status: 500 });
-  }
+  } catch { return NextResponse.json({ error: "Failed" }, { status: 500 }); }
 }
