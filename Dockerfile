@@ -53,5 +53,5 @@ USER nextjs
 
 EXPOSE 10000
 
-# Push DB schema then start server
+# Push DB schema then start server added new 
 CMD ["sh", "-c", "node_modules/.bin/prisma db push --skip-generate 2>/dev/null || true && node server.js"]
