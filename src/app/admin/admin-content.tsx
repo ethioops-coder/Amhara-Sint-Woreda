@@ -246,24 +246,62 @@ function NewsListPage({ nav }: { nav: (p: AdminPage) => void }) {
 function NewsForm({ editId, onBack }: { editId: string | null; onBack: () => void }) {
   const [loading, setLoading] = useState(!!editId);
   const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({ title: "", summary: "", content: "", category: "Education", author: "", imageUrl: "", featured: false, status: "draft" as "published" | "draft", date: new Date().toISOString().split("T")[0] });
+  const [uploading, setUploading] = useState(false);
+  const [form, setForm] = useState({
+    title: "", summary: "", content: "", category: "Education",
+    author: "", imageUrl: "", featured: false,
+    status: "draft" as "published" | "draft",
+    date: new Date().toISOString().split("T")[0]
+  });
 
   useEffect(() => {
     if (!editId) return;
     fetch("/admin/api/news").then(r => r.json()).then((items: NewsItem[]) => {
       const item = items.find(n => n.id === editId);
-      if (item) setForm({ title: item.title || "", summary: item.summary || "", content: item.content || "", category: item.category || "Education", author: item.author || "", imageUrl: item.imageUrl || "", featured: item.featured || false, status: item.status || "draft", date: item.date || "" });
+      if (item) setForm({
+        title: item.title || "", summary: item.summary || "",
+        content: item.content || "", category: item.category || "Education",
+        author: item.author || "", imageUrl: item.imageUrl || "",
+        featured: item.featured || false, status: item.status || "draft",
+        date: item.date || ""
+      });
     }).finally(() => setLoading(false));
   }, [editId]);
+
+  // Upload a single image and return the URL
+  const uploadImage = async (file: File): Promise<string | null> => {
+    const fd = new FormData();
+    fd.append("file", file);
+    const res = await fetch("/admin/api/upload", { method: "POST", body: fd });
+    const data = await res.json();
+    return data.url || null;
+  };
+
+  // Handle cover image upload
+  const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const url = await uploadImage(file);
+      if (url) setForm(f => ({ ...f, imageUrl: url }));
+    } catch { alert("Upload failed"); }
+    finally { setUploading(false); e.target.value = ""; }
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.title.trim()) return;
     setSaving(true);
     try {
-      await fetch("/admin/api/news", { method: editId ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(editId ? { id: editId, ...form } : form) });
+      await fetch("/admin/api/news", {
+        method: editId ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editId ? { id: editId, ...form } : form)
+      });
       onBack();
-    } catch { alert("Failed to save article"); } finally { setSaving(false); }
+    } catch { alert("Failed to save article"); }
+    finally { setSaving(false); }
   };
 
   if (loading) return <Spinner />;
@@ -275,34 +313,130 @@ function NewsForm({ editId, onBack }: { editId: string | null; onBack: () => voi
         <button onClick={onBack} className="text-gray-500 hover:text-gray-900 text-sm">← Back</button>
         <h1 className="text-2xl font-bold text-gray-900">{editId ? "Edit" : "Add"} News Article</h1>
       </div>
-      <div className="bg-white rounded-xl shadow-sm p-6">
-        <h3 className="text-base font-semibold text-gray-900 mb-4">Article Details</h3>
-        <form onSubmit={handleSubmit} className="space-y-5">
-          <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Title *</label><input value={form.title} onChange={e => u("title", e.target.value)} placeholder="Enter article title" required className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+
+        {/* Basic Info */}
+        <div className="bg-white rounded-xl shadow-sm p-6 space-y-5">
+          <h3 className="text-base font-semibold text-gray-900 border-b border-gray-100 pb-3">📝 Article Details</h3>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">Title *</label>
+            <input value={form.title} onChange={e => u("title", e.target.value)} placeholder="Enter article title" required
+              className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Category</label><select value={form.category} onChange={e => u("category", e.target.value)} className="w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm">{CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}</select></div>
-            <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Author</label><input value={form.author} onChange={e => u("author", e.target.value)} placeholder="e.g. Communication Office" className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Category</label>
+              <select value={form.category} onChange={e => u("category", e.target.value)}
+                className="w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm">
+                {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Author</label>
+              <input value={form.author} onChange={e => u("author", e.target.value)} placeholder="e.g. Communication Office"
+                className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Publish Date</label><input type="date" value={form.date} onChange={e => u("date", e.target.value)} className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
-            <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Image URL</label><input value={form.imageUrl} onChange={e => u("imageUrl", e.target.value)} placeholder="https://..." className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">Publish Date</label>
+            <input type="date" value={form.date} onChange={e => u("date", e.target.value)}
+              className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
           </div>
-          <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Summary</label><textarea value={form.summary} onChange={e => u("summary", e.target.value)} placeholder="Brief summary" rows={3} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] resize-none" /></div>
-          <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Full Content</label><textarea value={form.content} onChange={e => u("content", e.target.value)} placeholder="Full article content..." rows={8} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] resize-y" /></div>
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-            <div><p className="text-sm font-medium text-gray-700">Featured Article</p><p className="text-xs text-gray-400">Featured articles appear on the homepage</p></div>
-            <button type="button" onClick={() => u("featured", !form.featured)} className={`relative w-11 h-6 rounded-full transition-colors ${form.featured ? "bg-[#0B3D2E]" : "bg-gray-300"}`}><span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform shadow-sm ${form.featured ? "translate-x-5" : ""}`} /></button>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">Summary</label>
+            <textarea value={form.summary} onChange={e => u("summary", e.target.value)} placeholder="Brief summary shown in news list..." rows={3}
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] resize-none" />
           </div>
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-            <div><p className="text-sm font-medium text-gray-700">Status</p><p className="text-xs text-gray-400">Draft articles are not public</p></div>
-            <select value={form.status} onChange={e => u("status", e.target.value)} className="h-9 rounded-lg border border-gray-200 bg-white px-3 text-sm"><option value="draft">Draft</option><option value="published">Published</option></select>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-700">Full Content</label>
+            <textarea value={form.content} onChange={e => u("content", e.target.value)} placeholder="Full article text..." rows={10}
+              className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] resize-y" />
           </div>
-          <div className="flex gap-3 pt-2">
-            <button type="submit" disabled={saving || !form.title.trim()} className="bg-[#0B3D2E] hover:bg-[#145A44] disabled:opacity-50 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors">{saving ? "⏳ Saving..." : editId ? "Save Changes" : "Create Article"}</button>
-            <button type="button" onClick={onBack} className="border border-gray-200 hover:bg-gray-50 text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors">Cancel</button>
+        </div>
+
+        {/* Cover Image */}
+        <div className="bg-white rounded-xl shadow-sm p-6 space-y-4">
+          <h3 className="text-base font-semibold text-gray-900 border-b border-gray-100 pb-3">🖼️ Cover Image</h3>
+
+          {/* Upload button */}
+          <label className="flex items-center gap-3 w-full cursor-pointer border-2 border-dashed border-gray-200 hover:border-[#0B3D2E]/40 rounded-xl p-4 transition-colors group">
+            <div className="w-10 h-10 bg-[#0B3D2E]/10 rounded-lg flex items-center justify-center group-hover:bg-[#0B3D2E]/20 transition-colors">
+              {uploading ? <div className="w-5 h-5 border-2 border-[#0B3D2E]/30 border-t-[#0B3D2E] rounded-full animate-spin" /> : <span className="text-xl">📷</span>}
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-700">{uploading ? "Uploading..." : "Click to upload cover photo"}</p>
+              <p className="text-xs text-gray-400">JPG, PNG — max 10MB</p>
+            </div>
+            <input type="file" accept="image/*" onChange={handleCoverUpload} className="hidden" disabled={uploading} />
+          </label>
+
+          {/* OR paste URL */}
+          <div className="flex items-center gap-2">
+            <div className="flex-1 h-px bg-gray-100" />
+            <span className="text-xs text-gray-400 font-medium">OR paste image URL</span>
+            <div className="flex-1 h-px bg-gray-100" />
           </div>
-        </form>
-      </div>
+          <input value={form.imageUrl} onChange={e => u("imageUrl", e.target.value)} placeholder="https://example.com/photo.jpg"
+            className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
+
+          {/* Preview */}
+          {form.imageUrl && (
+            <div className="relative rounded-xl overflow-hidden h-48 bg-gray-100">
+              <img src={form.imageUrl} alt="Preview" className="w-full h-full object-cover"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+              <button type="button" onClick={() => u("imageUrl", "")}
+                className="absolute top-2 right-2 w-7 h-7 bg-red-500 hover:bg-red-600 text-white rounded-full text-xs font-bold flex items-center justify-center">✕</button>
+              <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded-lg">Cover Image Preview</div>
+            </div>
+          )}
+        </div>
+
+        {/* Settings */}
+        <div className="bg-white rounded-xl shadow-sm p-6 space-y-4">
+          <h3 className="text-base font-semibold text-gray-900 border-b border-gray-100 pb-3">⚙️ Settings</h3>
+
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+            <div>
+              <p className="text-sm font-medium text-gray-700">Featured Article</p>
+              <p className="text-xs text-gray-400">Appears prominently on homepage</p>
+            </div>
+            <button type="button" onClick={() => u("featured", !form.featured)}
+              className={`relative w-11 h-6 rounded-full transition-colors ${form.featured ? "bg-[#0B3D2E]" : "bg-gray-300"}`}>
+              <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform shadow-sm ${form.featured ? "translate-x-5" : ""}`} />
+            </button>
+          </div>
+
+          <div className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
+            <div>
+              <p className="text-sm font-medium text-gray-700">Visibility</p>
+              <p className="text-xs text-gray-400">Draft = not visible to public</p>
+            </div>
+            <select value={form.status} onChange={e => u("status", e.target.value)}
+              className="h-9 rounded-lg border border-gray-200 bg-white px-3 text-sm font-medium">
+              <option value="draft">📄 Draft</option>
+              <option value="published">✅ Published</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Action buttons */}
+        <div className="flex gap-3 pb-6">
+          <button type="submit" disabled={saving || !form.title.trim()}
+            className="flex-1 sm:flex-none bg-[#0B3D2E] hover:bg-[#145A44] disabled:opacity-50 text-white font-semibold text-sm px-8 py-3 rounded-xl transition-colors shadow-md">
+            {saving ? "⏳ Saving..." : editId ? "✅ Save Changes" : "🚀 Publish Article"}
+          </button>
+          <button type="button" onClick={onBack}
+            className="border border-gray-200 hover:bg-gray-50 text-sm font-semibold px-6 py-3 rounded-xl transition-colors">
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
