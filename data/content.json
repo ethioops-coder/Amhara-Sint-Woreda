@@ -50,7 +50,7 @@
     }
   ],
   "heroStats": [
-    { "value": 144972, "suffix": "", "display": "144,972", "label": "Population", "icon": "Users", "color": "#10B981", "light": "#ECFDF5" },
+    { "value": 214056, "suffix": "", "display": "214,056", "label": "Population", "icon": "Users", "color": "#10B981", "light": "#ECFDF5" },
     { "value": 37, "suffix": "", "display": null, "label": "Kebeles", "icon": "MapPin", "color": "#6366F1", "light": "#EEF2FF" },
     { "value": 100, "suffix": "+", "display": null, "label": "Schools", "icon": "School", "color": "#F59E0B", "light": "#FFFBEB" },
     { "value": 16, "suffix": "", "display": "16", "label": "Health Facilities", "icon": "HeartPulse", "color": "#F43F5E", "light": "#FFF1F2" },
@@ -64,8 +64,8 @@
     { "sector": "Agriculture", "icon": "Sprout", "color": "#16A34A", "bg": "#F0FDF4", "programs": ["Animal Production", "Crop Production"] }
   ],
   "serviceCards": [
-    { "title": "Education", "desc": "100 schools, 3 preparatory schools, and a TVET college providing quality education.", "icon": "GraduationCap", "href": "svc-education", "color": "from-blue-500 to-indigo-600", "img": "https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg" },
-    { "title": "Health", "desc": "1 hospital and 15 clinics delivering comprehensive primary healthcare.", "icon": "HeartPulse", "href": "svc-health", "color": "from-rose-500 to-pink-600", "img": "https://sfile.chatglm.cn/images-ppt/40afb43a5118.jpg" },
+    { "title": "Education", "desc": "106 schools, 3 preparatory schools, and a TVET college providing quality education.", "icon": "GraduationCap", "href": "svc-education", "color": "from-blue-500 to-indigo-600", "img": "https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg" },
+    { "title": "Health", "desc": "1 hospital and 7 health centers delivering comprehensive primary healthcare.", "icon": "HeartPulse", "href": "svc-health", "color": "from-rose-500 to-pink-600", "img": "https://sfile.chatglm.cn/images-ppt/40afb43a5118.jpg" },
     { "title": "Agriculture", "desc": "Supporting farming households with modern techniques across 1,437 km².", "icon": "Tractor", "href": "svc-agriculture", "color": "from-green-500 to-emerald-600", "img": "https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg" },
     { "title": "Trade", "desc": "Promoting enterprises, market linkages, and cooperative development.", "icon": "Store", "href": "svc-trade", "color": "from-purple-500 to-violet-600", "img": "https://sfile.chatglm.cn/images-ppt/b4f869ff3165.jpg" },
     { "title": "Technology", "desc": "Digital transformation, ICT training, and e-government services.", "icon": "Monitor", "href": "svc-technology", "color": "from-cyan-500 to-teal-600", "img": "https://sfile.chatglm.cn/images-ppt/31a73cdbeed8.jpg" },

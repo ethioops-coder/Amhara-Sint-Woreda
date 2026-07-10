@@ -150,8 +150,8 @@ export function QuickStats() {
 }
 
 const SERVICE_CARDS = [
-  { icon: GraduationCap, title: "Education", desc: "55 schools serving the community", color: "from-emerald-500 to-green-500", href: "svc-education" as PageId },
-  { icon: HeartPulse, title: "Health", desc: "23 health facilities across the woreda", color: "from-red-500 to-rose-500", href: "svc-health" as PageId },
+  { icon: GraduationCap, title: "Education", desc: "106 schools serving the community", color: "from-emerald-500 to-green-500", href: "svc-education" as PageId },
+  { icon: HeartPulse, title: "Health", desc: "8 health facilities across the woreda", color: "from-red-500 to-rose-500", href: "svc-health" as PageId },
   { icon: Tractor, title: "Agriculture", desc: "Supporting 75% of the population", color: "from-amber-500 to-yellow-500", href: "svc-agriculture" as PageId },
   { icon: Truck, title: "Transport", desc: "Expanding road infrastructure", color: "from-violet-500 to-purple-500", href: "svc-transport" as PageId },
   { icon: Droplets, title: "Water & Sanitation", desc: "64 clean water access points", color: "from-sky-500 to-cyan-500", href: "svc-water" as PageId },

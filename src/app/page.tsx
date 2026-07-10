@@ -302,10 +302,10 @@ function QuickNavBar({ onNavigate }: { onNavigate: (p: PageId) => void }) {
 
 /* ─── HERO STATS SECTION (Below Slider) — FULL WIDTH COLOR BAR ─── */
 const HERO_STATS = [
-  { value: 144972, suffix: "", display: "144,972", label: "Population", icon: Users, color: "#10B981", bg: "bg-emerald-500", hoverBg: "hover:bg-emerald-600" },
+  { value: 214056, suffix: "", display: "214,056", label: "Population", icon: Users, color: "#10B981", bg: "bg-emerald-500", hoverBg: "hover:bg-emerald-600" },
   { value: 37, suffix: "", display: null, label: "Kebeles", icon: MapPin, color: "#6366F1", bg: "bg-indigo-500", hoverBg: "hover:bg-indigo-600" },
-  { value: 100, suffix: "+", display: null, label: "Schools", icon: School, color: "#F59E0B", bg: "bg-amber-500", hoverBg: "hover:bg-amber-600" },
-  { value: 16, suffix: "", display: "16", label: "Health Facilities", icon: HeartPulse, color: "#F43F5E", bg: "bg-rose-500", hoverBg: "hover:bg-rose-600" },
+  { value: 106, suffix: "", display: "106", label: "Schools", icon: School, color: "#F59E0B", bg: "bg-amber-500", hoverBg: "hover:bg-amber-600" },
+  { value: 8, suffix: "", display: "8", label: "Health Facilities", icon: HeartPulse, color: "#F43F5E", bg: "bg-rose-500", hoverBg: "hover:bg-rose-600" },
   { value: 1437, suffix: "", display: "1,437", label: "Area (km\u00B2)", icon: Map, color: "#8B5CF6", bg: "bg-violet-500", hoverBg: "hover:bg-violet-600" },
   { value: 200, suffix: " M ETB", display: "200M ETB", label: "Annual Budget", icon: Banknote, color: "#06B6D4", bg: "bg-cyan-500", hoverBg: "hover:bg-cyan-600" },
 ];
@@ -341,14 +341,14 @@ function HeroStatsSection() {
 /* ─── DID YOU KNOW BAR (Home) ─────────────────────────────── */
 function DidYouKnowBar() {
   const facts = [
-    "Sayint (Amhara Sayint) has 37 kebeles and a population of 144,972 (CSA 2007 census).",
+    "Sayint (Amhara Sayint) has 37 kebeles and a population of 214,056 (CSA 2007 census).",
     "The woreda covers 1,437.30 km\u00B2, bordered by the Blue Nile and Bashilo River.",
     "Mount Tabor (4,247m), the highest point in South Wollo Zone, lies on the border with Legambo.",
     "98% of inhabitants practice Orthodox Tewahedo, and 99.96% are Amhara (Amharic speaking).",
     "The historic Tadbaba Maryam monastery was founded during the reign of Emperor Minilik I.",
     "Emperor Tewodros II's mother, Atitegeb Wondbewossen, was a native of Amhara Sayint.",
     "Amhara Sayint TVET College offers technical and vocational training programs for the youth.",
-    "100 schools and 3 preparatory schools serve students across the entire woreda.",
+    "106 schools and 3 preparatory schools serve students across the entire woreda.",
   ];
   const [idx, setIdx] = useState(0);
   useEffect(() => { const t = setInterval(() => setIdx((p) => (p + 1) % facts.length), 5000); return () => clearInterval(t); }, []);
@@ -858,10 +858,10 @@ function TVETCollegeSection({ onNavigate }: { onNavigate: (p: PageId) => void })
 
 /* ─── QUICK STATS (Home) — Compact horizontal row ───────── */
 const KEY_STATS = [
-  { label: "Population", value: 144972, suffix: "", display: "144,972", icon: Users, color: "text-emerald-600", bg: "bg-emerald-50" },
+  { label: "Population", value: 214056, suffix: "", display: "214,056", icon: Users, color: "text-emerald-600", bg: "bg-emerald-50" },
   { label: "Kebeles", value: 37, suffix: "", display: null, icon: MapPin, color: "text-blue-600", bg: "bg-blue-50" },
-  { label: "Schools", value: 100, suffix: "", display: null, icon: School, color: "text-amber-600", bg: "bg-amber-50" },
-  { label: "Health Facilities", value: 16, suffix: "", display: null, icon: HeartPulse, color: "text-rose-600", bg: "bg-rose-50" },
+  { label: "Schools", value: 106, suffix: "", display: "106", icon: School, color: "text-amber-600", bg: "bg-amber-50" },
+  { label: "Health Facilities", value: 8, suffix: "", display: "8", icon: HeartPulse, color: "text-rose-600", bg: "bg-rose-50" },
   { label: "Area (km\u00B2)", value: 1437, suffix: "", display: "1,437", icon: Map, color: "text-purple-600", bg: "bg-purple-50" },
   { label: "Budget (ETB)", value: 200, suffix: " M", display: "200 M", icon: Banknote, color: "text-teal-600", bg: "bg-teal-50" },
 ];
@@ -893,8 +893,8 @@ function QuickStats() {
 
 /* ─── SERVICES OVERVIEW (Home) ─────────────────────────── */
 const HOME_SERVICE_CARDS = [
-  { title: "Education", desc: "100+ schools, TVET college, 680+ teachers", icon: GraduationCap, color: "#1D4ED8", bg: "from-blue-500 to-indigo-600", image: "https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg", href: "svc-education" as PageId },
-  { title: "Health", desc: "23 health facilities, 120+ health workers", icon: HeartPulse, color: "#DC2626", bg: "from-rose-500 to-pink-600", image: "https://sfile.chatglm.cn/images-ppt/10cf906e32cf.jpg", href: "svc-health" as PageId },
+  { title: "Education", desc: "106 schools, TVET college, 680+ teachers", icon: GraduationCap, color: "#1D4ED8", bg: "from-blue-500 to-indigo-600", image: "https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg", href: "svc-education" as PageId },
+  { title: "Health", desc: "8 health facilities, 120+ health workers", icon: HeartPulse, color: "#DC2626", bg: "from-rose-500 to-pink-600", image: "https://sfile.chatglm.cn/images-ppt/10cf906e32cf.jpg", href: "svc-health" as PageId },
   { title: "Agriculture", desc: "28,500+ farm households, 120+ cooperatives", icon: Tractor, color: "#16A34A", bg: "from-emerald-500 to-teal-600", image: "https://sfile.chatglm.cn/images-ppt/30fee1e622be.jpg", href: "svc-agriculture" as PageId },
   { title: "Construction", desc: "85 km roads, 34 public buildings, 64 water points", icon: HardHat, color: "#EA580C", bg: "from-orange-500 to-red-600", image: "https://sfile.chatglm.cn/images-ppt/56336ff1a645.jpg", href: "svc-construction" as PageId },
   { title: "Trade & Commerce", desc: "850+ enterprises, 8 markets, 45 cooperatives", icon: Store, color: "#9333EA", bg: "from-purple-500 to-violet-600", image: "https://sfile.chatglm.cn/images-ppt/6c328167366f.jpg", href: "svc-trade" as PageId },
@@ -1322,8 +1322,8 @@ function GeoMapSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
 
 /* ─── SERVICES OVERVIEW (Home) ─────────────────────────────── */
 const SERVICE_CARDS = [
-  { title: "Education", desc: "100 schools, 3 preparatory schools, and a TVET college providing quality education.", icon: GraduationCap, href: "svc-education" as PageId, color: "from-blue-500 to-indigo-600", img: "https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg" },
-  { title: "Health", desc: "1 hospital and 15 clinics delivering comprehensive primary healthcare.", icon: HeartPulse, href: "svc-health" as PageId, color: "from-rose-500 to-pink-600", img: "https://sfile.chatglm.cn/images-ppt/40afb43a5118.jpg" },
+  { title: "Education", desc: "106 schools, 3 preparatory schools, and a TVET college providing quality education.", icon: GraduationCap, href: "svc-education" as PageId, color: "from-blue-500 to-indigo-600", img: "https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg" },
+  { title: "Health", desc: "1 hospital and 7 health centers delivering comprehensive primary healthcare.", icon: HeartPulse, href: "svc-health" as PageId, color: "from-rose-500 to-pink-600", img: "https://sfile.chatglm.cn/images-ppt/40afb43a5118.jpg" },
   { title: "Agriculture", desc: "Supporting farming households with modern techniques across 1,437 km².", icon: Tractor, href: "svc-agriculture" as PageId, color: "from-green-500 to-emerald-600", img: "https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg" },
   { title: "Trade", desc: "Promoting enterprises, market linkages, and cooperative development.", icon: Store, href: "svc-trade" as PageId, color: "from-purple-500 to-violet-600", img: "https://sfile.chatglm.cn/images-ppt/b4f869ff3165.jpg" },
   { title: "Technology", desc: "Digital transformation, ICT training, and e-government services.", icon: Monitor, href: "svc-technology" as PageId, color: "from-cyan-500 to-teal-600", img: "https://sfile.chatglm.cn/images-ppt/31a73cdbeed8.jpg" },
@@ -1473,7 +1473,7 @@ function AboutHistoryPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
         </ContentCard>
         <ContentCard delay={400}>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><TrendingUp className="w-6 h-6 text-[#EAB308]" /> Modern Development</h2>
-          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Since 1991, Amhara Sayint has embarked on ambitious development. Elected kebele councils, women's associations, youth groups, and farmer cooperatives now play active roles in identifying priorities. Key milestones include: school enrollment from under 20% to over 85%, health facilities from 1 clinic to 23 institutions, 64 clean water points, and 85 km of all-weather roads. The annual budget has grown significantly, reaching ETB 85 million for 2026/27.</p>
+          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Since 1991, Amhara Sayint has embarked on ambitious development. Elected kebele councils, women's associations, youth groups, and farmer cooperatives now play active roles in identifying priorities. Key milestones include: school enrollment from under 20% to over 85%, health facilities expanded to 8 including 1 hospital, 64 clean water points, and 85 km of all-weather roads. The annual budget has grown significantly, reaching ETB 85 million for 2026/27.</p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">Despite challenges including climate variability, youth unemployment, and limited infrastructure, Amhara Sayint continues steady progress toward a prosperous, equitable, and self-reliant community.</p>
         </ContentCard>
       </div>
@@ -1495,7 +1495,7 @@ function AboutOverviewPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
           <ContentCard delay={100}>
             <h3 className="font-bold text-[#0B3D2E] mb-3">Key Facts</h3>
             <ul className="space-y-2 text-sm text-[#0B3D2E]/70">
-              {[["Zone: South Wollo", "#EAB308"], ["Region: Amhara Regional State", "#EAB308"], ["Population: ~142,350", "#EAB308"], ["Area: ~1,245 km\u00B2", "#EAB308"], ["Kebeles: 22", "#EAB308"], ["Elevation: 1,500 - 3,200m", "#EAB308"], ["Capital Town: Amhara Sayint", "#EAB308"], ["Language: Amharic", "#EAB308"]].map(([t, c]) => (
+              {[["Zone: South Wollo", "#EAB308"], ["Region: Amhara Regional State", "#EAB308"], ["Population: ~214,056", "#EAB308"], ["Area: ~1,245 km\u00B2", "#EAB308"], ["Kebeles: 22", "#EAB308"], ["Elevation: 1,500 - 3,200m", "#EAB308"], ["Capital Town: Amhara Sayint", "#EAB308"], ["Language: Amharic", "#EAB308"]].map(([t, c]) => (
                 <li key={t} className="flex items-start gap-2"><ChevronRight className="w-4 h-4 mt-0.5 shrink-0" style={{ color: c }} />{t}</li>
               ))}
             </ul>
@@ -1697,7 +1697,7 @@ function AboutLocationPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><Users className="w-6 h-6 text-[#EAB308]" /> Demographics (2007 Census)</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { label: "Total Population", value: "144,972", note: "71,979 men / 72,993 women" },
+              { label: "Total Population", value: "214,056", note: "71,979 men / 72,993 women" },
               { label: "Urban Population", value: "5,474 (3.78%)", note: "Concentrated in Ajibar town" },
               { label: "Households", value: "34,999", note: "Average 4.14 persons per household" },
               { label: "Housing Units", value: "33,604", note: "" },
@@ -1747,9 +1747,9 @@ function GovLeadershipPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
   };
 
   const sectorHeads = [
-    { name: "W/ro Tigist Mekonnen", title: "Head of Education Office", phone: "+251 33 440 1005", email: "education@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Tigist+Mekonnen&background=1D4ED8&color=fff&size=200&bold=true", icon: GraduationCap, deptLabel: "Education Bureau", deptColor: "#1D4ED8", desc: "Leads education reform, manages 100+ schools, and improves learning quality across all kebeles.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintEducation", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintEdu", icon: "telegram" }] },
+    { name: "W/ro Tigist Mekonnen", title: "Head of Education Office", phone: "+251 33 440 1005", email: "education@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Tigist+Mekonnen&background=1D4ED8&color=fff&size=200&bold=true", icon: GraduationCap, deptLabel: "Education Bureau", deptColor: "#1D4ED8", desc: "Leads education reform, manages 106 schools, and improves learning quality across all kebeles.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintEducation", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintEdu", icon: "telegram" }] },
     { name: "Ato Fikadu Hailu", title: "Head of Agriculture Office", phone: "+251 33 440 1007", email: "agriculture@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Fikadu+Hailu&background=16A34A&color=fff&size=200&bold=true", icon: Tractor, deptLabel: "Agriculture Bureau", deptColor: "#16A34A", desc: "Manages agricultural extension, food security programs, and natural resource conservation.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintAgriculture", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintAgri", icon: "telegram" }] },
-    { name: "Dr. Alemayehu Bekele", title: "Head of Health Office", phone: "+251 33 440 1006", email: "health@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Alemayehu+Bekele&background=DC2626&color=fff&size=200&bold=true", icon: HeartPulse, deptLabel: "Health Bureau", deptColor: "#DC2626", desc: "Oversees public health programs, 16 health facilities, and community health extension workers.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintHealth", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintHealth", icon: "telegram" }] },
+    { name: "Dr. Alemayehu Bekele", title: "Head of Health Office", phone: "+251 33 440 1006", email: "health@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Alemayehu+Bekele&background=DC2626&color=fff&size=200&bold=true", icon: HeartPulse, deptLabel: "Health Bureau", deptColor: "#DC2626", desc: "Oversees public health programs, 8 health facilities, and community health extension workers.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintHealth", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintHealth", icon: "telegram" }] },
     { name: "Ato Getachew Worku", title: "Head of Transport", phone: "+251 33 440 1009", email: "transport@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Getachew+Worku&background=0284C7&color=fff&size=200&bold=true", icon: Truck, deptLabel: "Transport Office", deptColor: "#0284C7", desc: "Leads road construction, rural connectivity, and transport infrastructure development.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintTransport", icon: "facebook" }] },
     { name: "Ato Nahom Tadesse", title: "Head of ICT & Technology", phone: "+251 33 440 1012", email: "tech@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Nahom+Tadesse&background=0891B2&color=fff&size=200&bold=true", icon: Monitor, deptLabel: "Technology Office", deptColor: "#0891B2", desc: "Manages ICT infrastructure, digital transformation, and computer lab maintenance.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintTech", icon: "facebook" }, { platform: "LinkedIn", url: "https://www.linkedin.com/in/meseret-akalu-76363121b/", icon: "linkedin" }] },
     { name: "Ato Yohannes Girma", title: "Head of Finance", phone: "+251 33 440 1004", email: "finance@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Yohannes+Girma&background=059669&color=fff&size=200&bold=true", icon: Banknote, deptLabel: "Finance & Revenue", deptColor: "#059669", desc: "Oversees budget planning, revenue collection, and economic development initiatives.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintFinance", icon: "facebook" }] },
@@ -2074,7 +2074,7 @@ function ServiceEducationPage({ onNavigate }: { onNavigate: (p: PageId) => void 
     image="https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg"
     description="Providing quality education from early childhood through TVET and preparatory level across all 37 kebeles of Amhara Sayint Woreda, including the Amhara Sayint TVET College."
     stats={[
-      { label: "Total Schools", value: "100", icon: School },
+      { label: "Total Schools", value: "106", icon: School },
       { label: "TVET College", value: "1", icon: GraduationCap },
       { label: "Preparatory Schools", value: "3", icon: Building2 },
       { label: "Teachers", value: "680+", icon: UserCheck },
@@ -2106,7 +2106,7 @@ function ServiceEducationPage({ onNavigate }: { onNavigate: (p: PageId) => void 
 function ServiceHealthPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   return <ServicePageTemplate onNavigate={onNavigate} title="Health Services" breadcrumb="Services / Health" badge="Health Sector" icon={HeartPulse} color="#DC2626"
     image="https://sfile.chatglm.cn/images-ppt/10cf906e32cf.jpg"
-    description="Comprehensive healthcare delivery ensuring the well-being of all 142,350 residents through 23 health institutions."
+    description="Comprehensive healthcare delivery ensuring the well-being of all 142,350 residents through 8 health facilities."
     stats={[
       { label: "Health Centers", value: "23", icon: Stethoscope },
       { label: "Health Workers", value: "120+", icon: UserCheck },
@@ -2124,7 +2124,7 @@ function ServiceHealthPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
       { name: "Pharmacy & Drug Supply", desc: "Essential drugs and medical supplies available at all health institutions." },
     ]}
     achievements={[
-      "Expanded from 1 clinic to 23 health institutions over three decades",
+      "Expanded from 1 clinic to 8 health facilities over three decades",
       "Under-5 mortality reduced by 60% since 2005",
       "92% of pregnant women now receive at least 4 antenatal care visits",
       "Immunization coverage reached 95% for basic childhood vaccines",
