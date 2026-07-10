@@ -53,4 +53,4 @@ USER nextjs
 
 EXPOSE 10000
 
-CMD ["sh", "-c", "node_modules/.bin/prisma db push --schema=./prisma/schema.prisma --skip-generate --accept-data-loss && node server.js"]
+CMD ["sh", "-c", "node ./node_modules/prisma/build/index.js db push --schema=./prisma/schema.prisma --skip-generate --accept-data-loss && node server.js"]
