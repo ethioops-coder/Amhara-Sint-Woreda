@@ -21,8 +21,9 @@ export async function GET() {
     const appCount = await prisma.application.count();
     const visitorCount = await prisma.visitLog.count();
     const subCount = await prisma.subscriber.count();
+    const newsCount = await prisma.news.count();
     checks.tables_ok = true;
-    checks.counts = { applications: appCount, visitors: visitorCount, subscribers: subCount };
+    checks.counts = { applications: appCount, visitors: visitorCount, subscribers: subCount, news: newsCount };
   } catch (e: any) {
     checks.tables_ok = false;
     checks.tables_error = e.message;
