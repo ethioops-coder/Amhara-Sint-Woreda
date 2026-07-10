@@ -1,3 +1,5 @@
-#!/bin/bash
-cd /home/z/my-project
-exec npx next dev -p 3000 --webpack
+#!/bin/sh
+echo "Running Prisma DB push..."
+node_modules/.bin/prisma db push --skip-generate --accept-data-loss
+echo "Starting server..."
+node server.js

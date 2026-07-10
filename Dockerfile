@@ -38,20 +38,22 @@ RUN adduser --system --uid 1001 nextjs
 # Copy standalone build
 COPY --from=builder /app/.next/standalone ./
 
-# Copy prisma for runtime migrations
+# Copy prisma schema + client for runtime migrations
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
 
-# Copy data (JSON content files — news, bids, etc.)
+# Copy data (JSON content files — news, bids, vacancies etc.)
 COPY --from=builder /app/data ./data
 
-RUN mkdir -p ./public/uploads && chown -R nextjs:nodejs /app
+# Copy startup script
+COPY --from=builder /app/start.sh ./start.sh
+
+RUN mkdir -p ./public/uploads && chown -R nextjs:nodejs /app && chmod +x ./start.sh
 
 USER nextjs
 
 EXPOSE 10000
 
-# Push DB schema then start server added new 
-CMD ["sh", "-c", "node_modules/.bin/prisma db push --skip-generate 2>/dev/null || true && node server.js"]
+CMD ["sh", "./start.sh"]
