@@ -3138,38 +3138,193 @@ function GalleryPage() {
 
 /* ─── CONTACT PAGE ───────────────────────────────────── */
 function ContactPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
+  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [form, setForm] = useState({ name: "", email: "", phone: "", category: "", subject: "", message: "" });
+
+  const SERVICE_CATEGORIES = [
+    "General Inquiry",
+    "Education Service",
+    "Health Service",
+    "Agriculture Support",
+    "Water & Sanitation",
+    "Road & Transport",
+    "Justice & Security",
+    "Finance & Revenue",
+    "Trade & Commerce",
+    "Construction",
+    "Technology & ICT",
+    "Job Vacancy",
+    "Bid & Tender",
+    "Land Administration",
+    "Environmental Protection",
+    "Women & Youth Affairs",
+    "Complaint / Feedback",
+    "Other",
+  ];
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.message) return;
+    setFormStatus("loading");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, subject: `[${form.category}] ${form.subject}` }),
+      });
+      if (res.ok) {
+        setFormStatus("success");
+        setForm({ name: "", email: "", phone: "", category: "", subject: "", message: "" });
+      } else {
+        setFormStatus("error");
+      }
+    } catch {
+      setFormStatus("error");
+    }
+    setTimeout(() => setFormStatus("idle"), 4000);
+  };
+
   return (
     <SubPage onNavigate={onNavigate} title="Contact Us" breadcrumb="Contact" badge="Get in Touch">
-      <div className="space-y-8 max-w-4xl mx-auto">
-        <ContentCard>
-          <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><Phone className="w-6 h-6 text-[#EAB308]" /> Contact Information</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="space-y-4">
-              <div className="flex items-start gap-3"><div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><Phone className="w-5 h-5 text-[#0B3D2E]" /></div><div><h4 className="font-bold text-[#0B3D2E] text-sm">Phone</h4><p className="text-[#0B3D2E]/60 text-sm">+251 33 440 1001 (Main)</p><p className="text-[#0B3D2E]/60 text-sm">+251 912 465 247 (Developer)</p></div></div>
-              <div className="flex items-start gap-3"><div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><Mail className="w-5 h-5 text-[#0B3D2E]" /></div><div><h4 className="font-bold text-[#0B3D2E] text-sm">Email</h4><p className="text-[#0B3D2E]/60 text-sm">info@amharasint.gov.et</p></div></div>
-              <div className="flex items-start gap-3"><div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><MapPinned className="w-5 h-5 text-[#0B3D2E]" /></div><div><h4 className="font-bold text-[#0B3D2E] text-sm">Address</h4><p className="text-[#0B3D2E]/60 text-sm">Amhara Sayint Town, South Wollo Zone, Amhara Region, Ethiopia</p></div></div>
+      <div className="max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-6">
+
+          {/* ── LEFT: Contact Info (existing) ─────────────── */}
+          <ContentCard>
+            <h2 className="text-lg font-bold text-[#0B3D2E] mb-5 flex items-center gap-2">
+              <Phone className="w-5 h-5 text-[#EAB308]" /> Contact Information
+            </h2>
+            <div className="space-y-4 mb-6">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><Phone className="w-5 h-5 text-[#0B3D2E]" /></div>
+                <div><h4 className="font-bold text-[#0B3D2E] text-sm">Phone</h4><p className="text-[#0B3D2E]/60 text-sm">+251 33 440 1001 (Main)</p><p className="text-[#0B3D2E]/60 text-sm">+251 912 465 247 (Developer)</p></div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><Mail className="w-5 h-5 text-[#0B3D2E]" /></div>
+                <div><h4 className="font-bold text-[#0B3D2E] text-sm">Email</h4><p className="text-[#0B3D2E]/60 text-sm">info@amharasint.gov.et</p></div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><MapPinned className="w-5 h-5 text-[#0B3D2E]" /></div>
+                <div><h4 className="font-bold text-[#0B3D2E] text-sm">Address</h4><p className="text-[#0B3D2E]/60 text-sm">Amhara Sayint Town, South Wollo Zone, Amhara Region, Ethiopia</p></div>
+              </div>
             </div>
-            <div>
-              <h4 className="font-bold text-[#0B3D2E] text-sm mb-3">Follow Us</h4>
-              <div className="flex gap-3">
-                {[
-                  { I: Facebook, label: "Facebook", url: "https://facebook.com/100066823706013", c: "#1877F2" },
-                  { I: Youtube, label: "YouTube", url: "https://youtube.com/@AmharaSint", c: "#FF0000" },
-                  { I: Twitter, label: "Telegram", url: "https://t.me/AmharaSint", c: "#0088CC" },
-                  { I: Instagram, label: "Instagram", url: "https://facebook.com/100066823706013", c: "#E4405F" },
-                ].map((s) => (
-                  <a key={s.label} href={s.url} target="_blank" rel="noopener noreferrer" className="w-11 h-11 rounded-xl flex items-center justify-center transition-all hover:scale-110 shadow-md" style={{ backgroundColor: s.c + "15", color: s.c }}><s.I className="w-5 h-5" /></a>
+
+            <h4 className="font-bold text-[#0B3D2E] text-sm mb-3">Follow Us</h4>
+            <div className="flex gap-3 mb-6">
+              {[
+                { I: Facebook, label: "Facebook", url: "https://facebook.com/100066823706013", c: "#1877F2" },
+                { I: Youtube, label: "YouTube", url: "https://youtube.com/@AmharaSint", c: "#FF0000" },
+                { I: Twitter, label: "Telegram", url: "https://t.me/AmharaSint", c: "#0088CC" },
+                { I: Instagram, label: "Instagram", url: "https://facebook.com/100066823706013", c: "#E4405F" },
+              ].map((s) => (
+                <a key={s.label} href={s.url} target="_blank" rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-xl flex items-center justify-center transition-all hover:scale-110 shadow-md"
+                  style={{ backgroundColor: s.c + "15", color: s.c }}><s.I className="w-5 h-5" /></a>
+              ))}
+            </div>
+
+            <div className="bg-[#F0FDF4] rounded-xl p-4 border border-[#0B3D2E]/5">
+              <h4 className="font-bold text-[#0B3D2E] text-sm mb-2">🕐 Office Hours</h4>
+              <p className="text-[#0B3D2E]/60 text-xs">Monday - Friday: 8:00 AM - 5:00 PM</p>
+              <p className="text-[#0B3D2E]/60 text-xs">Saturday: 8:00 AM - 12:00 PM</p>
+              <p className="text-[#0B3D2E]/60 text-xs">Sunday & Public Holidays: Closed</p>
+            </div>
+
+            {/* Service categories quick list */}
+            <div className="mt-5">
+              <h4 className="font-bold text-[#0B3D2E] text-sm mb-3">📋 Available Services</h4>
+              <div className="flex flex-wrap gap-1.5">
+                {["Education", "Health", "Agriculture", "Water", "Transport", "Justice", "Finance", "Trade", "Construction", "ICT"].map(s => (
+                  <span key={s} className="bg-[#0B3D2E]/5 text-[#0B3D2E]/70 text-[11px] font-medium px-2.5 py-1 rounded-full border border-[#0B3D2E]/10">{s}</span>
                 ))}
               </div>
-              <div className="mt-6 bg-[#F0FDF4] rounded-xl p-4 border border-[#0B3D2E]/5">
-                <h4 className="font-bold text-[#0B3D2E] text-sm mb-1">Office Hours</h4>
-                <p className="text-[#0B3D2E]/60 text-xs">Monday - Friday: 8:00 AM - 5:00 PM</p>
-                <p className="text-[#0B3D2E]/60 text-xs">Saturday: 8:00 AM - 12:00 PM</p>
-                <p className="text-[#0B3D2E]/60 text-xs">Sunday & Public Holidays: Closed</p>
-              </div>
             </div>
-          </div>
-        </ContentCard>
+          </ContentCard>
+
+          {/* ── RIGHT: Service Request Form ────────────────── */}
+          <ContentCard>
+            <h2 className="text-lg font-bold text-[#0B3D2E] mb-5 flex items-center gap-2">
+              <MessageSquare className="w-5 h-5 text-[#EAB308]" /> Send a Message / Service Request
+            </h2>
+
+            {formStatus === "success" ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center gap-3">
+                <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-8 h-8 text-emerald-600" />
+                </div>
+                <h3 className="font-bold text-emerald-700 text-lg">Message Sent!</h3>
+                <p className="text-sm text-gray-500">We received your message and will respond within 2 business days.</p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Name + Phone */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-gray-600">Full Name *</label>
+                    <input value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                      placeholder="Your full name" required
+                      className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-gray-600">Phone</label>
+                    <input value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                      placeholder="+251 9XX XXX XXX"
+                      className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-600">Email *</label>
+                  <input type="email" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                    placeholder="your@email.com" required
+                    className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
+                </div>
+
+                {/* Category */}
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-600">Service Category *</label>
+                  <select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} required
+                    className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]">
+                    <option value="">— Select a category —</option>
+                    {SERVICE_CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                  </select>
+                </div>
+
+                {/* Subject */}
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-600">Subject</label>
+                  <input value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
+                    placeholder="Brief subject of your message"
+                    className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
+                </div>
+
+                {/* Message */}
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-gray-600">Message *</label>
+                  <textarea value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                    placeholder="Describe your request or question in detail..." required rows={5}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] resize-none" />
+                </div>
+
+                {formStatus === "error" && (
+                  <p className="text-red-500 text-sm bg-red-50 border border-red-200 rounded-lg px-3 py-2">Failed to send. Please try again.</p>
+                )}
+
+                <button type="submit" disabled={formStatus === "loading" || !form.name || !form.email || !form.message || !form.category}
+                  className="w-full h-11 bg-[#0B3D2E] hover:bg-[#145A44] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2">
+                  {formStatus === "loading" ? (
+                    <><div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Sending...</>
+                  ) : (
+                    <><Send className="w-4 h-4" /> Send Message</>
+                  )}
+                </button>
+                <p className="text-center text-xs text-gray-400">We will respond within 2 business days</p>
+              </form>
+            )}
+          </ContentCard>
+
+        </div>
       </div>
     </SubPage>
   );
