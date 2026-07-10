@@ -418,15 +418,13 @@ function NewsFeedSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   const [liked, setLiked] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    // First try localStorage (for backwards compatibility)
-    try { const d = localStorage.getItem("amharasint_news"); if (d) { const parsed = JSON.parse(d); if (Array.isArray(parsed) && parsed.length > 0) { setItems(parsed); return; } } } catch {}
-    // Then try admin API (published news managed by admin)
+    // Always fetch fresh from API — never use stale localStorage cache
     fetch("/admin/api/news").then(r => r.json()).then(data => {
       if (Array.isArray(data) && data.length > 0) {
         const published = data.filter((n: any) => n.status === "published").map((n: any) => ({ ...n, image: n.image || n.imageUrl }));
         if (published.length > 0) { setItems(published); return; }
       }
-      // Fallback to default data
+      // Fallback to default data only if API returns nothing
       setItems([
         { id: "1", title: "Amhara Sayint Launches New Water Supply Project", summary: "A major clean water initiative covering 8 kebeles has been approved with a budget of ETB 12 million, bringing safe drinking water to over 15,000 residents.", category: "Water", author: "Communications Office", status: "published", featured: true, date: "2026-06-28", image: "https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg", initialLikes: 47, initialComments: 12 },
         { id: "2", title: "Annual Agricultural Exhibition a Great Success", summary: "Over 2,000 farmers participated in this year's exhibition showcasing modern farming techniques, improved seed varieties, and irrigation methods.", category: "Agriculture", author: "Agriculture Office", status: "published", featured: false, date: "2026-06-25", image: "https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg", initialLikes: 83, initialComments: 24 },
@@ -2663,8 +2661,13 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   ];
 
   useEffect(() => {
-    try { const d = localStorage.getItem("amharasint_news"); if (d) { setItems(JSON.parse(d)); return; } } catch {}
-    setItems(allNews);
+    fetch("/admin/api/news").then(r => r.json()).then(data => {
+      if (Array.isArray(data) && data.length > 0) {
+        setItems(data.filter((n: any) => n.status === "published").map((n: any) => ({ ...n, image: n.image || n.imageUrl })));
+      } else {
+        setItems(allNews);
+      }
+    }).catch(() => setItems(allNews));
   }, []);
 
   const categories = ["All", ...Array.from(new Set(items.map(i => i.category)))];
