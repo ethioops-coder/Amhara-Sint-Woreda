@@ -22,7 +22,6 @@ ENV NODE_OPTIONS=--max-old-space-size=512
 
 RUN npx next build
 RUN cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/
-
 # ── Stage 3: Production runner ────────────────────────────────
 FROM node:22-alpine AS runner
 WORKDIR /app
@@ -47,10 +46,13 @@ COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
 # Copy data (JSON content files — news, bids, vacancies etc.)
 COPY --from=builder /app/data ./data
 
+# Copy migration script
+COPY --from=builder /app/migrate.js ./migrate.js
+
 RUN mkdir -p ./public/uploads && chown -R nextjs:nodejs /app
 
 USER nextjs
 
 EXPOSE 10000
 
-CMD ["sh", "-c", "node ./node_modules/prisma/build/index.js db push --schema=./prisma/schema.prisma --skip-generate --accept-data-loss && node server.js"]
+CMD ["node", "migrate.js"]
