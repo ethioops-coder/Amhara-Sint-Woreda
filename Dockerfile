@@ -47,13 +47,10 @@ COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
 # Copy data (JSON content files — news, bids, vacancies etc.)
 COPY --from=builder /app/data ./data
 
-# Copy startup script
-COPY --from=builder /app/start.sh ./start.sh
-
-RUN mkdir -p ./public/uploads && chown -R nextjs:nodejs /app && chmod +x ./start.sh
+RUN mkdir -p ./public/uploads && chown -R nextjs:nodejs /app
 
 USER nextjs
 
 EXPOSE 10000
 
-CMD ["sh", "./start.sh"]
+CMD ["sh", "-c", "node_modules/.bin/prisma db push --schema=./prisma/schema.prisma --skip-generate --accept-data-loss && node server.js"]
