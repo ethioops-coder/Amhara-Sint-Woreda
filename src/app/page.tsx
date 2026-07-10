@@ -2742,7 +2742,7 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
                   {(selectedNews.initialLikes || 0) + (likes[selectedNews.id] || 0)} Likes
                 </button>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => { if (navigator.share) { navigator.share({ title: selectedNews.title, text: selectedNews.summary, url: window.location.href }); } else { navigator.clipboard.writeText(window.location.href); } }}
+                  <button onClick={() => { const shareUrl = `https://amhara-sint-woreda.onrender.com`; if (navigator.share) { navigator.share({ title: selectedNews.title, text: selectedNews.summary, url: shareUrl }); } else { navigator.clipboard.writeText(shareUrl); } }}
                     className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-[#0B3D2E] text-white hover:bg-[#145A44] transition-all">
                     <Share2 className="w-4 h-4" /> Share
                   </button>

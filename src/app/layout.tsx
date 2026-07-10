@@ -42,12 +42,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
   title: {
-    default: "Amhara Sint Woreda | Official Government Portal — South Wollo, Ethiopia",
-    template: "%s | Amhara Sint Woreda",
+    default: "Amhara Saint Woreda | Official Government Portal — South Wollo, Ethiopia",
+    template: "%s | Amhara Saint Woreda",
   },
 
   description:
-    "Official government portal for Amhara Sint (Sayint) Woreda, South Wollo Zone, Amhara Region, Ethiopia. Find news, job vacancies, bids & tenders, public services, development statistics, health, education, agriculture, and administrative information.",
+    "Official government portal for Amhara Saint (Sayint) Woreda, South Wollo Zone, Amhara Region, Ethiopia. Find news, job vacancies, bids & tenders, public services, development statistics, health, education, agriculture, and administrative information.",
 
   keywords: [
     // Primary search terms — exactly what people type
@@ -153,10 +153,10 @@ export const metadata: Metadata = {
     locale: "en_US",
     alternateLocale: ["am_ET"],
     url: SITE_URL,
-    siteName: SITE_NAME,
-    title: "Amhara Sint Woreda | Official Government Portal",
+    siteName: "Amhara Saint Woreda Administration",
+    title: "Amhara Saint Woreda | Official Government Portal",
     description:
-      "Official portal for Amhara Sint (Sayint) Woreda, South Wollo, Ethiopia. News, vacancies, bids, public services, development statistics and government information.",
+      "Official portal for Amhara Saint (Sayint) Woreda, South Wollo, Ethiopia. News, vacancies, bids, public services, development statistics and government information.",
     images: [
       {
         url: OG_IMAGE,
@@ -178,11 +178,11 @@ export const metadata: Metadata = {
   /* ── Twitter / X Card ───────────────────────────────────────── */
   twitter: {
     card: "summary_large_image",
-    site: "@AmharaSint",
+    site: "@AmharaSaint",
     creator: "@MeseretAkalu",
-    title: "Amhara Sint Woreda | Official Government Portal",
+    title: "Amhara Saint Woreda | Official Government Portal",
     description:
-      "Official government portal for Amhara Sint Woreda, South Wollo Zone, Ethiopia. News, vacancies, bids, and public services.",
+      "Official government portal for Amhara Saint Woreda, South Wollo Zone, Ethiopia. News, vacancies, bids, and public services.",
     images: [OG_IMAGE],
   },
 
@@ -222,7 +222,7 @@ export const metadata: Metadata = {
   },
 
   /* ── App info ───────────────────────────────────────────────── */
-  applicationName: "Amhara Sint Woreda Portal",
+  applicationName: "Amhara Saint Woreda Portal",
   referrer: "origin-when-cross-origin",
   generator: "Next.js",
   formatDetection: {
@@ -239,8 +239,8 @@ const jsonLd = {
     {
       "@type": "GovernmentOrganization",
       "@id": `${SITE_URL}/#organization`,
-      name: "Amhara Sint Woreda Administration",
-      alternateName: ["Sayint Woreda", "Sint Woreda", "Amhara Sayint Woreda"],
+      name: "Amhara Saint Woreda Administration",
+      alternateName: ["Sayint Woreda", "Sint Woreda", "Amhara Sayint Woreda", "Amhara Sint Woreda"],
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",
@@ -290,9 +290,9 @@ const jsonLd = {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       url: SITE_URL,
-      name: "Amhara Sint Woreda Official Portal",
+      name: "Amhara Saint Woreda Official Portal",
       description:
-        "Official government portal for Amhara Sint Woreda — news, vacancies, bids, services, and community information.",
+        "Official government portal for Amhara Saint Woreda — news, vacancies, bids, services, and community information.",
       publisher: { "@id": `${SITE_URL}/#organization` },
       potentialAction: {
         "@type": "SearchAction",
