@@ -139,7 +139,7 @@ function LeaderPhoto({ name, avatar, size = 120, title, socials }: {
 
 /* ─── Hero Slides ──────────────────────────────────────────── */
 const SLIDES = [
-  { image: "https://sfile.chatglm.cn/images-ppt/5d712c5b8f44.jpg", title: "Welcome to Amhara Sint Woreda", subtitle: "A land of beauty, culture, and progress in South Wollo Zone, Amhara Region" },
+  { image: "https://sfile.chatglm.cn/images-ppt/5d712c5b8f44.jpg", title: "Welcome to Amhara Sayint Woreda", subtitle: "A land of beauty, culture, and progress in South Wollo Zone, Amhara Region" },
   { image: "https://sfile.chatglm.cn/images-ppt/e2eed6eb06d5.jpg", title: "Majestic Highland Landscapes", subtitle: "Rolling highlands and fertile valleys stretching from the Blue Nile to Mount Tabor at 4,247m" },
   { image: "https://sfile.chatglm.cn/images-ppt/c9ebd2951a03.jpg", title: "Rich Natural Heritage", subtitle: "Diverse ecosystems and breathtaking scenery in the heart of the Amhara highlands" },
   { image: "https://sfile.chatglm.cn/images-ppt/b37b6e89b27a.jpg", title: "Vibrant Cultural Traditions", subtitle: "Ancient Orthodox heritage, Meskel celebrations, and time-honored customs define our community" },
@@ -147,8 +147,8 @@ const SLIDES = [
   { image: "https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg", title: "Agricultural Heartland", subtitle: "Supporting farmers with modern techniques across 1,437 km² of fertile highland terrain" },
   { image: "https://sfile.chatglm.cn/images-ppt/15e928c7ad4d.jpg", title: "Building the Future", subtitle: "Roads, schools, and health facilities connecting communities to opportunities" },
   { image: "https://sfile.chatglm.cn/images-ppt/395da4df6bb6.jpg", title: "Trade & Commerce", subtitle: "Local markets, cooperatives, and enterprises driving economic growth" },
-  { image: "https://sfile.chatglm.cn/images-ppt/a842501dc00b.jpg", title: "Education & Youth Empowerment", subtitle: "Amhara Sint TVET College and preparatory schools preparing the next generation" },
-  { image: "https://sfile.chatglm.cn/images-ppt/5d19c0f98d58.jpg", title: "Our Vision", subtitle: "A prosperous, equitable, and self-reliant Amhara Sint — rooted in tradition, reaching for the future" },
+  { image: "https://sfile.chatglm.cn/images-ppt/a842501dc00b.jpg", title: "Education & Youth Empowerment", subtitle: "Amhara Sayint TVET College and preparatory schools preparing the next generation" },
+  { image: "https://sfile.chatglm.cn/images-ppt/5d19c0f98d58.jpg", title: "Our Vision", subtitle: "A prosperous, equitable, and self-reliant Amhara Sayint — rooted in tradition, reaching for the future" },
 ];
 
 /* ─── Nav Links ────────────────────────────────────────────── */
@@ -203,9 +203,9 @@ function Header({ currentPage, onNavigate }: { currentPage: PageId; onNavigate: 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-[92px] md:h-[110px]">
           <button onClick={() => nav("home")} className="flex items-center gap-4 group shrink-0">
-            <img src="/logo.png" alt="Amhara Sint Woreda" className="h-[88px] w-auto rounded-2xl shadow-xl group-hover:scale-105 transition-transform object-contain ring-2 ring-white/20 ring-offset-2 ring-offset-[#0B3D2E]" />
+            <img src="/logo.png" alt="Amhara Sayint Woreda" className="h-[88px] w-auto rounded-2xl shadow-xl group-hover:scale-105 transition-transform object-contain ring-2 ring-white/20 ring-offset-2 ring-offset-[#0B3D2E]" />
             <div className="hidden sm:block">
-              <h1 className="text-white font-bold text-xl md:text-2xl leading-tight">Amhara Sint</h1>
+              <h1 className="text-white font-bold text-xl md:text-2xl leading-tight">Amhara Sayint</h1>
               <p className="text-[#86EFAC] text-xs md:text-sm font-medium">Woreda Administration</p>
             </div>
           </button>
@@ -341,13 +341,13 @@ function HeroStatsSection() {
 /* ─── DID YOU KNOW BAR (Home) ─────────────────────────────── */
 function DidYouKnowBar() {
   const facts = [
-    "Sayint (Amhara Sint) has 37 kebeles and a population of 144,972 (CSA 2007 census).",
+    "Sayint (Amhara Sayint) has 37 kebeles and a population of 144,972 (CSA 2007 census).",
     "The woreda covers 1,437.30 km\u00B2, bordered by the Blue Nile and Bashilo River.",
     "Mount Tabor (4,247m), the highest point in South Wollo Zone, lies on the border with Legambo.",
     "98% of inhabitants practice Orthodox Tewahedo, and 99.96% are Amhara (Amharic speaking).",
     "The historic Tadbaba Maryam monastery was founded during the reign of Emperor Minilik I.",
     "Emperor Tewodros II's mother, Atitegeb Wondbewossen, was a native of Amhara Sayint.",
-    "Amhara Sint TVET College offers technical and vocational training programs for the youth.",
+    "Amhara Sayint TVET College offers technical and vocational training programs for the youth.",
     "100 schools and 3 preparatory schools serve students across the entire woreda.",
   ];
   const [idx, setIdx] = useState(0);
@@ -428,10 +428,10 @@ function NewsFeedSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
       }
       // Fallback to default data
       setItems([
-        { id: "1", title: "Amhara Sint Launches New Water Supply Project", summary: "A major clean water initiative covering 8 kebeles has been approved with a budget of ETB 12 million, bringing safe drinking water to over 15,000 residents.", category: "Water", author: "Communications Office", status: "published", featured: true, date: "2026-06-28", image: "https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg", initialLikes: 47, initialComments: 12 },
+        { id: "1", title: "Amhara Sayint Launches New Water Supply Project", summary: "A major clean water initiative covering 8 kebeles has been approved with a budget of ETB 12 million, bringing safe drinking water to over 15,000 residents.", category: "Water", author: "Communications Office", status: "published", featured: true, date: "2026-06-28", image: "https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg", initialLikes: 47, initialComments: 12 },
         { id: "2", title: "Annual Agricultural Exhibition a Great Success", summary: "Over 2,000 farmers participated in this year's exhibition showcasing modern farming techniques, improved seed varieties, and irrigation methods.", category: "Agriculture", author: "Agriculture Office", status: "published", featured: false, date: "2026-06-25", image: "https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg", initialLikes: 83, initialComments: 24 },
         { id: "3", title: "New Primary School Inaugurated in Kebele 05", summary: "The woreda administration inaugurated a fully equipped primary school serving 400 students with modern classrooms, a computer lab, and a library.", category: "Education", author: "Education Office", status: "published", featured: false, date: "2026-06-20", image: "https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg", initialLikes: 62, initialComments: 8 },
-        { id: "4", title: "TVET College Enrolls Record 500 Students", summary: "Amhara Sint TVET College has enrolled a record 500 students this academic year in construction, ICT, wood work, and agriculture programs.", category: "Education", author: "TVET College Office", status: "published", featured: false, date: "2026-06-15", image: "https://sfile.chatglm.cn/images-ppt/a842501dc00b.jpg", initialLikes: 95, initialComments: 31 },
+        { id: "4", title: "TVET College Enrolls Record 500 Students", summary: "Amhara Sayint TVET College has enrolled a record 500 students this academic year in construction, ICT, wood work, and agriculture programs.", category: "Education", author: "TVET College Office", status: "published", featured: false, date: "2026-06-15", image: "https://sfile.chatglm.cn/images-ppt/a842501dc00b.jpg", initialLikes: 95, initialComments: 31 },
         { id: "5", title: "Meskel Celebration Unites Community", summary: "Thousands of residents gathered for the annual Meskel celebration with Demera bonfire, prayer, and cultural performances across the woreda.", category: "Culture", author: "Culture & Tourism Office", status: "published", featured: false, date: "2026-06-10", image: "https://sfile.chatglm.cn/images-ppt/b37b6e89b27a.jpg", initialLikes: 128, initialComments: 45 },
         { id: "6", title: "Road Construction Connects Remote Kebeles", summary: "A new 18 km all-weather road now connects 5 previously isolated kebeles to the main town, improving access for over 8,000 residents.", category: "Infrastructure", author: "Road Authority", status: "published", featured: false, date: "2026-06-05", image: "https://sfile.chatglm.cn/images-ppt/15e928c7ad4d.jpg", initialLikes: 56, initialComments: 15 },
         { id: "7", title: "Health Campaign Reaches 10,000 Residents", summary: "A week-long health awareness campaign reached 10,000 residents with free screenings for diabetes, hypertension, and eye diseases.", category: "Health", author: "Communications Office", status: "published", featured: false, date: "2026-05-28", image: "https://sfile.chatglm.cn/images-ppt/40afb43a5118.jpg", initialLikes: 71, initialComments: 19 },
@@ -440,7 +440,7 @@ function NewsFeedSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
       ]);
     }).catch(() => {
       setItems([
-        { id: "1", title: "Amhara Sint Launches New Water Supply Project", summary: "A major clean water initiative covering 8 kebeles has been approved with a budget of ETB 12 million, bringing safe drinking water to over 15,000 residents.", category: "Water", author: "Communications Office", status: "published", featured: true, date: "2026-06-28", image: "https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg", initialLikes: 47, initialComments: 12 },
+        { id: "1", title: "Amhara Sayint Launches New Water Supply Project", summary: "A major clean water initiative covering 8 kebeles has been approved with a budget of ETB 12 million, bringing safe drinking water to over 15,000 residents.", category: "Water", author: "Communications Office", status: "published", featured: true, date: "2026-06-28", image: "https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg", initialLikes: 47, initialComments: 12 },
         { id: "2", title: "Annual Agricultural Exhibition a Great Success", summary: "Over 2,000 farmers participated in this year's exhibition showcasing modern farming techniques, improved seed varieties, and irrigation methods.", category: "Agriculture", author: "Agriculture Office", status: "published", featured: false, date: "2026-06-25", image: "https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg", initialLikes: 83, initialComments: 24 },
       ]);
     });
@@ -478,7 +478,7 @@ function NewsFeedSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
           <div className="flex items-end justify-between mb-8">
             <div>
               <h2 className="text-2xl md:text-3xl font-extrabold text-[#0B3D2E] mb-1">Latest News & Events</h2>
-              <p className="text-[#0B3D2E]/50 text-sm">Stay informed about developments from Amhara Sint Woreda</p>
+              <p className="text-[#0B3D2E]/50 text-sm">Stay informed about developments from Amhara Sayint Woreda</p>
             </div>
             <button onClick={() => onNavigate("news-news")} className="hidden sm:inline-flex items-center gap-1.5 text-sm font-bold text-[#16A34A] hover:text-[#15803d] transition-colors">
               View All <ArrowRight className="w-4 h-4" />
@@ -674,7 +674,7 @@ function TVETCollegeSection({ onNavigate }: { onNavigate: (p: PageId) => void })
               <span className="text-[#0B3D2E] text-xs font-bold uppercase tracking-[0.15em]">Technical &amp; Vocational Education</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-black text-[#0B3D2E] mb-2 leading-tight">
-              Amhara Sint <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0B3D2E] to-[#EAB308]">TVET College</span>
+              Amhara Sayint <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0B3D2E] to-[#EAB308]">TVET College</span>
             </h2>
             <p className="text-[#0B3D2E]/50 max-w-2xl mx-auto text-sm leading-relaxed">
               Equipping youth with market-relevant skills in manufacturing, construction, ICT, and agriculture.
@@ -1069,7 +1069,7 @@ function CulturalPlacesSection({ onNavigate }: { onNavigate: (p: PageId) => void
               <span className="text-amber-800 text-xs font-bold uppercase tracking-[0.15em]">Heritage & Treasures</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-[#0B3D2E] mb-3">Cultural & Natural <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600">Heritage</span></h2>
-            <p className="text-[#0B3D2E]/50 max-w-2xl mx-auto text-sm leading-relaxed">Ancient monasteries dating to King Solomon's era, dramatic canyons, and towering peaks — discover the extraordinary treasures of Amhara Sint Woreda.</p>
+            <p className="text-[#0B3D2E]/50 max-w-2xl mx-auto text-sm leading-relaxed">Ancient monasteries dating to King Solomon's era, dramatic canyons, and towering peaks — discover the extraordinary treasures of Amhara Sayint Woreda.</p>
           </div>
         </AnimatedSection>
 
@@ -1427,19 +1427,19 @@ function ContentCard({ children, delay = 0 }: { children: React.ReactNode; delay
 /* ─── ABOUT: History ─────────────────────────────────────── */
 function AboutHistoryPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   const timeline = [
-    { era: "Medieval Period (Pre-1900)", year: "Before 1900", desc: "The area that is now Amhara Sint was part of the medieval Amhara kingdom, strategically positioned along ancient trade routes connecting the northern highlands to the Shewa region. The woreda gained renown for its exceptional horse breeding, supplying cavalry mounts to regional lords and serving as a vital waypoint for merchants transporting salt, gold, and textiles. Ancient rock-hewn churches and archaeological sites bear testimony to a civilization that dates back centuries, with local oral traditions preserving epic tales of warriors and saints." },
-    { era: "Imperial Era (1900-1935)", year: "1900 - 1935", desc: "During the reign of Emperor Menelik II and later Emperor Haile Selassie I, Amhara Sint was formally established as an administrative district within the Wollo province. The imperial government constructed the first formal government offices, introduced modern tax collection systems, and established the first primary school. The town grew into a modest administrative center, attracting merchants, artisans, and civil servants. Ethiopian Orthodox Tewahedo Church influence deepened during this period." },
+    { era: "Medieval Period (Pre-1900)", year: "Before 1900", desc: "The area that is now Amhara Sayint was part of the medieval Amhara kingdom, strategically positioned along ancient trade routes connecting the northern highlands to the Shewa region. The woreda gained renown for its exceptional horse breeding, supplying cavalry mounts to regional lords and serving as a vital waypoint for merchants transporting salt, gold, and textiles. Ancient rock-hewn churches and archaeological sites bear testimony to a civilization that dates back centuries, with local oral traditions preserving epic tales of warriors and saints." },
+    { era: "Imperial Era (1900-1935)", year: "1900 - 1935", desc: "During the reign of Emperor Menelik II and later Emperor Haile Selassie I, Amhara Sayint was formally established as an administrative district within the Wollo province. The imperial government constructed the first formal government offices, introduced modern tax collection systems, and established the first primary school. The town grew into a modest administrative center, attracting merchants, artisans, and civil servants. Ethiopian Orthodox Tewahedo Church influence deepened during this period." },
     { era: "Italian Occupation (1935-1941)", year: "1935 - 1941", desc: "The five-year Italian occupation brought profound disruption. However, the people earned a distinguished reputation for fierce resistance against the fascist invaders. Local guerrilla fighters (Arbegnoch) operated from the rugged highland terrain, ambushing Italian patrols and maintaining communication with the broader Ethiopian resistance movement. Several local resistance leaders became celebrated figures, commemorated annually during patriotic celebrations." },
-    { era: "Post-Liberation (1941-1974)", year: "1941 - 1974", desc: "Following liberation, Amhara Sint experienced significant modernization. The imperial government expanded educational facilities, established agricultural extension services, and improved road connections to Dessie and other major towns. The woreda participated in Ethiopia's first limited parliamentary elections, sending representatives to the national assembly. The community's horse breeding traditions received official recognition, with annual horse fairs attracting traders from across the Amhara Region." },
+    { era: "Post-Liberation (1941-1974)", year: "1941 - 1974", desc: "Following liberation, Amhara Sayint experienced significant modernization. The imperial government expanded educational facilities, established agricultural extension services, and improved road connections to Dessie and other major towns. The woreda participated in Ethiopia's first limited parliamentary elections, sending representatives to the national assembly. The community's horse breeding traditions received official recognition, with annual horse fairs attracting traders from across the Amhara Region." },
     { era: "Derg Era (1974-1991)", year: "1974 - 1991", desc: "The 1974 Revolution brought radical transformation. Sweeping land reform abolished the feudal landholding system, redistributing land to tenant farmers and establishing producer cooperatives. The woreda suffered during the devastating 1984-85 famine, with loss of life and mass displacement. Civil conflict in the late 1980s further challenged the community. Despite hardships, community institutions like the Idir and traditional mutual support networks played crucial roles in survival." },
-    { era: "Federal Era (1991-Present)", year: "1991 - Present", desc: "The establishment of the Federal Democratic Republic marked a new chapter. The woreda was reorganized under South Wollo Zone with an elected Woreda Council and Executive Committee. School enrollment increased from under 20% to over 85% at primary level, health facilities expanded from a single clinic to 23 institutions, and road connectivity reached 14 of 22 kebeles. The 2026/27 fiscal year budget reached ETB 85 million. Despite ongoing challenges, Amhara Sint continues toward its vision of a prosperous, equitable, and self-reliant community." },
+    { era: "Federal Era (1991-Present)", year: "1991 - Present", desc: "The establishment of the Federal Democratic Republic marked a new chapter. The woreda was reorganized under South Wollo Zone with an elected Woreda Council and Executive Committee. School enrollment increased from under 20% to over 85% at primary level, health facilities expanded from a single clinic to 23 institutions, and road connectivity reached 14 of 22 kebeles. The 2026/27 fiscal year budget reached ETB 85 million. Despite ongoing challenges, Amhara Sayint continues toward its vision of a prosperous, equitable, and self-reliant community." },
   ];
   return (
     <SubPage onNavigate={onNavigate} title="History & Background" breadcrumb="About / History" badge="About the Woreda">
       <div className="space-y-8 max-w-4xl mx-auto">
         <ContentCard>
-          <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><BookOpen className="w-6 h-6 text-[#EAB308]" /> Origins of Amhara Sint</h2>
-          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Amhara Sint (also known as Sayint) is one of the most historic woredas in the South Wollo Zone of the Amhara Region, Ethiopia. The name &ldquo;Sayint&rdquo; carries deep historical significance, referring to a place of gathering, administration, and strategic importance. Nestled in the rugged highlands of northern Ethiopia, the woreda has been a crossroads of civilizations for centuries.</p>
+          <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><BookOpen className="w-6 h-6 text-[#EAB308]" /> Origins of Amhara Sayint</h2>
+          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Amhara Sayint (also known as Sayint) is one of the most historic woredas in the South Wollo Zone of the Amhara Region, Ethiopia. The name &ldquo;Sayint&rdquo; carries deep historical significance, referring to a place of gathering, administration, and strategic importance. Nestled in the rugged highlands of northern Ethiopia, the woreda has been a crossroads of civilizations for centuries.</p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">From its origins as a medieval settlement renowned for horse breeding, through the trials of foreign occupation and revolutionary upheaval, to its current position as a developing administrative district, the woreda has demonstrated remarkable resilience and an enduring commitment to community and progress.</p>
         </ContentCard>
         <ContentCard delay={100}>
@@ -1470,13 +1470,13 @@ function AboutHistoryPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
         </ContentCard>
         <ContentCard delay={300}>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><Flag className="w-6 h-6 text-[#EAB308]" /> Resistance & Patriotism</h2>
-          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Amhara Sint holds a special place in Ethiopia's history of resistance. During the Italian occupation of 1935-1941, the woreda's rugged terrain provided ideal conditions for guerrilla warfare. Local Patriots organized effective resistance cells that harassed Italian garrisons and sabotaged supply lines. Several local leaders emerged as heroic figures, commemorated annually on Patriots' Victory Day, March 12th.</p>
+          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Amhara Sayint holds a special place in Ethiopia's history of resistance. During the Italian occupation of 1935-1941, the woreda's rugged terrain provided ideal conditions for guerrilla warfare. Local Patriots organized effective resistance cells that harassed Italian garrisons and sabotaged supply lines. Several local leaders emerged as heroic figures, commemorated annually on Patriots' Victory Day, March 12th.</p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">Monuments and memorial sites have been established, and oral history traditions ensure stories of courage are transmitted to younger generations. The woreda's contributions to Ethiopia's struggle for freedom remain a source of immense community pride.</p>
         </ContentCard>
         <ContentCard delay={400}>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><TrendingUp className="w-6 h-6 text-[#EAB308]" /> Modern Development</h2>
-          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Since 1991, Amhara Sint has embarked on ambitious development. Elected kebele councils, women's associations, youth groups, and farmer cooperatives now play active roles in identifying priorities. Key milestones include: school enrollment from under 20% to over 85%, health facilities from 1 clinic to 23 institutions, 64 clean water points, and 85 km of all-weather roads. The annual budget has grown significantly, reaching ETB 85 million for 2026/27.</p>
-          <p className="text-[#0B3D2E]/70 leading-relaxed">Despite challenges including climate variability, youth unemployment, and limited infrastructure, Amhara Sint continues steady progress toward a prosperous, equitable, and self-reliant community.</p>
+          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Since 1991, Amhara Sayint has embarked on ambitious development. Elected kebele councils, women's associations, youth groups, and farmer cooperatives now play active roles in identifying priorities. Key milestones include: school enrollment from under 20% to over 85%, health facilities from 1 clinic to 23 institutions, 64 clean water points, and 85 km of all-weather roads. The annual budget has grown significantly, reaching ETB 85 million for 2026/27.</p>
+          <p className="text-[#0B3D2E]/70 leading-relaxed">Despite challenges including climate variability, youth unemployment, and limited infrastructure, Amhara Sayint continues steady progress toward a prosperous, equitable, and self-reliant community.</p>
         </ContentCard>
       </div>
     </SubPage>
@@ -1489,15 +1489,15 @@ function AboutOverviewPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
     <SubPage onNavigate={onNavigate} title="Overview" breadcrumb="About / Overview" badge="General Information">
       <div className="space-y-8 max-w-4xl mx-auto">
         <ContentCard>
-          <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><Globe className="w-6 h-6 text-[#EAB308]" /> About Amhara Sint Woreda</h2>
-          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Amhara Sint Woreda is an administrative district in the South Wollo Zone of the Amhara Regional State, Ethiopia. Covering approximately 1,245 square kilometers, it is home to an estimated 142,350 people across 22 kebeles. The administration is headquartered in the town of Amhara Sint.</p>
+          <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><Globe className="w-6 h-6 text-[#EAB308]" /> About Amhara Sayint Woreda</h2>
+          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Amhara Sayint Woreda is an administrative district in the South Wollo Zone of the Amhara Regional State, Ethiopia. Covering approximately 1,245 square kilometers, it is home to an estimated 142,350 people across 22 kebeles. The administration is headquartered in the town of Amhara Sayint.</p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">The woreda operates under Ethiopia's federal governance structure, with administrative layers including the woreda council, executive committee, and kebele-level administrations responsible for delivering public services and managing development programs.</p>
         </ContentCard>
         <div className="grid md:grid-cols-2 gap-6">
           <ContentCard delay={100}>
             <h3 className="font-bold text-[#0B3D2E] mb-3">Key Facts</h3>
             <ul className="space-y-2 text-sm text-[#0B3D2E]/70">
-              {[["Zone: South Wollo", "#EAB308"], ["Region: Amhara Regional State", "#EAB308"], ["Population: ~142,350", "#EAB308"], ["Area: ~1,245 km\u00B2", "#EAB308"], ["Kebeles: 22", "#EAB308"], ["Elevation: 1,500 - 3,200m", "#EAB308"], ["Capital Town: Amhara Sint", "#EAB308"], ["Language: Amharic", "#EAB308"]].map(([t, c]) => (
+              {[["Zone: South Wollo", "#EAB308"], ["Region: Amhara Regional State", "#EAB308"], ["Population: ~142,350", "#EAB308"], ["Area: ~1,245 km\u00B2", "#EAB308"], ["Kebeles: 22", "#EAB308"], ["Elevation: 1,500 - 3,200m", "#EAB308"], ["Capital Town: Amhara Sayint", "#EAB308"], ["Language: Amharic", "#EAB308"]].map(([t, c]) => (
                 <li key={t} className="flex items-start gap-2"><ChevronRight className="w-4 h-4 mt-0.5 shrink-0" style={{ color: c }} />{t}</li>
               ))}
             </ul>
@@ -1516,7 +1516,7 @@ function AboutOverviewPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
           <div className="space-y-4">
             <div className="bg-[#F0FDF4] rounded-xl p-5 border border-[#0B3D2E]/5">
               <h3 className="font-bold text-[#0B3D2E] mb-2">Vision</h3>
-              <p className="text-[#0B3D2E]/70 text-sm leading-relaxed">To see Amhara Sint become a prosperous, equitable, and self-reliant woreda where all citizens enjoy improved livelihoods, quality education, accessible healthcare, and sustainable development within a democratic and transparent governance framework.</p>
+              <p className="text-[#0B3D2E]/70 text-sm leading-relaxed">To see Amhara Sayint become a prosperous, equitable, and self-reliant woreda where all citizens enjoy improved livelihoods, quality education, accessible healthcare, and sustainable development within a democratic and transparent governance framework.</p>
             </div>
             <div className="bg-[#EAB308]/5 rounded-xl p-5 border border-[#EAB308]/10">
               <h3 className="font-bold text-[#0B3D2E] mb-2">Mission</h3>
@@ -1730,7 +1730,7 @@ function GovLeadershipPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
     name: "Ato Dereje Getachew", title: "Woreda Administrator",
     phone: "+251 33 440 1001", email: "admin@amharasint.gov.et",
     avatar: "https://ui-avatars.com/api/?name=Dereje+Getachew&background=0B3D2E&color=fff&size=200&bold=true&font-size=0.35",
-    desc: "Chief Administrator of Amhara Sint Woreda, leading development initiatives and coordinating all government departments.",
+    desc: "Chief Administrator of Amhara Sayint Woreda, leading development initiatives and coordinating all government departments.",
     deptLabel: "Woreda Administration", deptColor: "#059669",
   };
   const deputyLeader = {
@@ -1865,7 +1865,7 @@ function GovLeadershipPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
         <AnimatedSection>
           <div className="flex items-center gap-3 mb-2">
             <Crown className="w-6 h-6 text-[#EAB308]" />
-            <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E]">Amhara Sint Woreda Executive Leadership</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E]">Amhara Sayint Woreda Executive Leadership</h2>
           </div>
           <p className="text-[#0B3D2E]/60 text-sm mb-6">Woreda Administration &amp; Cabinet Members</p>
           <div className="grid sm:grid-cols-3 gap-6">
@@ -1922,7 +1922,7 @@ function GovStructurePage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
       <div className="space-y-8 max-w-4xl mx-auto">
         <ContentCard>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><Building className="w-6 h-6 text-[#EAB308]" /> Organizational Hierarchy</h2>
-          <p className="text-[#0B3D2E]/70 leading-relaxed mb-6">Amhara Sint Woreda follows a three-tier administrative structure as defined by Ethiopia's federal system. This ensures governance reaches every community while maintaining accountability at each level.</p>
+          <p className="text-[#0B3D2E]/70 leading-relaxed mb-6">Amhara Sayint Woreda follows a three-tier administrative structure as defined by Ethiopia's federal system. This ensures governance reaches every community while maintaining accountability at each level.</p>
           <div className="space-y-4">
             {[
               { level: "Woreda Council", desc: "The supreme legislative body with 45 elected representatives from all 22 kebeles. Responsible for approving budgets, development plans, and policies. Meets quarterly for regular sessions and as needed for extraordinary matters.", color: "#0B3D2E" },
@@ -1976,7 +1976,7 @@ function GovOfficesPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
       <div className="space-y-8 max-w-5xl mx-auto">
         <ContentCard>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><Shield className="w-6 h-6 text-[#EAB308]" /> All Offices & Departments</h2>
-          <p className="text-[#0B3D2E]/70 leading-relaxed mb-6">Amhara Sint Woreda has 21 departmental offices, each led by experienced professionals. Together they employ over 330 civil servants dedicated to public service delivery.</p>
+          <p className="text-[#0B3D2E]/70 leading-relaxed mb-6">Amhara Sayint Woreda has 21 departmental offices, each led by experienced professionals. Together they employ over 330 civil servants dedicated to public service delivery.</p>
           <div className="grid sm:grid-cols-2 gap-4">
             {offices.map((office) => (
               <div key={office.name} className="flex items-start gap-3 p-4 rounded-xl bg-gray-50 border border-gray-100 hover:shadow-md transition-all">
@@ -2074,7 +2074,7 @@ function ServicePageTemplate({ onNavigate, title, breadcrumb, badge, icon: Icon,
 function ServiceEducationPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   return <ServicePageTemplate onNavigate={onNavigate} title="Education Services" breadcrumb="Services / Education" badge="Education Sector" icon={GraduationCap} color="#1D4ED8"
     image="https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg"
-    description="Providing quality education from early childhood through TVET and preparatory level across all 37 kebeles of Amhara Sint Woreda, including the Amhara Sint TVET College."
+    description="Providing quality education from early childhood through TVET and preparatory level across all 37 kebeles of Amhara Sayint Woreda, including the Amhara Sayint TVET College."
     stats={[
       { label: "Total Schools", value: "100", icon: School },
       { label: "TVET College", value: "1", icon: GraduationCap },
@@ -2084,7 +2084,7 @@ function ServiceEducationPage({ onNavigate }: { onNavigate: (p: PageId) => void 
     services={[
       { name: "Primary Education (Grades 1-8)", desc: "36 primary schools providing foundational education in all kebeles with qualified teachers and improved learning materials." },
       { name: "Secondary Education (Grades 9-12)", desc: "8 secondary schools and 3 preparatory schools serving students across the woreda, with science and social science streams." },
-      { name: "Amhara Sint TVET College", desc: "The woreda's own Technical and Vocational Education Training college offers certificate and diploma programs in construction, ICT, agriculture, and other market-relevant trades. The college plays a vital role in equipping youth with practical skills for employment and self-employment." },
+      { name: "Amhara Sayint TVET College", desc: "The woreda's own Technical and Vocational Education Training college offers certificate and diploma programs in construction, ICT, agriculture, and other market-relevant trades. The college plays a vital role in equipping youth with practical skills for employment and self-employment." },
       { name: "Preparatory Schools (Grade 11-12)", desc: "Three preparatory schools — located in the main town and key kebeles — prepare students for the national university entrance examination (EHEECE), with natural science and social science streams available." },
       { name: "Early Childhood Education", desc: "12 kindergarten and preschool centers preparing young children for formal education through play-based learning." },
       { name: "Adult Education & Literacy", desc: "22 adult literacy centers helping adults achieve basic literacy and numeracy skills, with integrated functional literacy programs." },
@@ -2095,7 +2095,7 @@ function ServiceEducationPage({ onNavigate }: { onNavigate: (p: PageId) => void 
     ]}
     achievements={[
       "Primary enrollment increased from 20% to 85% over the past two decades",
-      "Amhara Sint TVET College established and expanding enrollment year-on-year",
+      "Amhara Sayint TVET College established and expanding enrollment year-on-year",
       "Student-to-teacher ratio improved from 65:1 to 42:1 across all levels",
       "12 schools equipped with computer laboratories and internet connectivity",
       "Girls' enrollment reached 48% at primary level, up from 32% a decade ago",
@@ -2248,7 +2248,7 @@ function ServiceConstructionPage({ onNavigate }: { onNavigate: (p: PageId) => vo
       { name: "Public Building Construction", desc: "Schools, health centers, administrative offices, and community halls built to national standards." },
       { name: "Water Infrastructure", desc: "Drilling of boreholes, construction of spring developments, and rainwater harvesting systems." },
       { name: "Bridge & Culvert Construction", desc: "River crossings and drainage structures ensuring year-round road accessibility." },
-      { name: "Urban Planning", desc: "Town planning, land use regulation, and infrastructure design for Amhara Sint town." },
+      { name: "Urban Planning", desc: "Town planning, land use regulation, and infrastructure design for Amhara Sayint town." },
       { name: "Quality Control & Supervision", desc: "Construction quality assurance and building code enforcement for all projects." },
       { name: "Community Infrastructure", desc: "Markets, bus terminals, and public spaces development for community well-being." },
     ]}
@@ -2257,7 +2257,7 @@ function ServiceConstructionPage({ onNavigate }: { onNavigate: (p: PageId) => vo
       "34 public buildings constructed including 8 schools and 4 health centers",
       "64 clean water points developed providing safe water to 78% of the population",
       "12 bridges and 45 culverts constructed improving year-round accessibility",
-      "Amhara Sint town master plan developed and implementation underway",
+      "Amhara Sayint town master plan developed and implementation underway",
       "ETB 28 million allocated to construction projects in the 2026/27 budget",
     ]}
   />;
@@ -2509,7 +2509,7 @@ function VacancyPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
           <>
             <AnimatedSection>
               <div className="bg-gradient-to-r from-[#0B3D2E] to-[#145A44] rounded-2xl p-6 md:p-8 text-white mb-6">
-                <h2 className="text-2xl font-extrabold mb-2">Build Your Career with Amhara Sint</h2>
+                <h2 className="text-2xl font-extrabold mb-2">Build Your Career with Amhara Sayint</h2>
                 <p className="text-white/70 text-sm">Join our team of dedicated public servants making a difference in the community. Browse open positions and apply online.</p>
                 <div className="flex gap-4 mt-4">
                   <div className="bg-white/10 rounded-lg px-4 py-2 text-center"><div className="text-xl font-bold">{vacancies.filter(v => !isExpired(v.deadline)).length}</div><div className="text-white/60 text-xs">Open Positions</div></div>
@@ -2648,10 +2648,10 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   const perPage = 5;
 
   const allNews = [
-    { id: "1", title: "Amhara Sint Launches New Water Supply Project", summary: "A major clean water initiative covering 8 kebeles has been approved with a budget of ETB 12 million, bringing safe drinking water to over 15,000 residents. The project includes 24 new water points and 2 reservoirs.", category: "Water", author: "Communications Office", featured: true, date: "2026-06-28", image: "https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg", initialLikes: 47, initialComments: 12, views: 423 },
+    { id: "1", title: "Amhara Sayint Launches New Water Supply Project", summary: "A major clean water initiative covering 8 kebeles has been approved with a budget of ETB 12 million, bringing safe drinking water to over 15,000 residents. The project includes 24 new water points and 2 reservoirs.", category: "Water", author: "Communications Office", featured: true, date: "2026-06-28", image: "https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg", initialLikes: 47, initialComments: 12, views: 423 },
     { id: "2", title: "Annual Agricultural Exhibition a Great Success", summary: "Over 2,000 farmers participated in this year's exhibition showcasing modern farming techniques, improved seed varieties, and irrigation methods. Awards were given to top-performing cooperatives.", category: "Agriculture", author: "Agriculture Office", featured: false, date: "2026-06-25", image: "https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg", initialLikes: 83, initialComments: 24, views: 891 },
     { id: "3", title: "New Primary School Inaugurated in Kebele 05", summary: "The woreda administration inaugurated a fully equipped primary school serving 400 students with modern classrooms, a computer lab, and a library.", category: "Education", author: "Education Office", featured: false, date: "2026-06-20", image: "https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg", initialLikes: 62, initialComments: 8, views: 567 },
-    { id: "4", title: "TVET College Enrolls Record 500 Students", summary: "Amhara Sint TVET College has enrolled a record 500 students this academic year in construction, ICT, wood work, and agriculture programs.", category: "Education", author: "TVET College Office", featured: false, date: "2026-06-15", image: "https://sfile.chatglm.cn/images-ppt/a842501dc00b.jpg", initialLikes: 95, initialComments: 31, views: 1034 },
+    { id: "4", title: "TVET College Enrolls Record 500 Students", summary: "Amhara Sayint TVET College has enrolled a record 500 students this academic year in construction, ICT, wood work, and agriculture programs.", category: "Education", author: "TVET College Office", featured: false, date: "2026-06-15", image: "https://sfile.chatglm.cn/images-ppt/a842501dc00b.jpg", initialLikes: 95, initialComments: 31, views: 1034 },
     { id: "5", title: "Meskel Celebration Unites Community", summary: "Thousands of residents gathered for the annual Meskel celebration with Demera bonfire, prayer, and cultural performances across the woreda.", category: "Culture", author: "Culture & Tourism Office", featured: false, date: "2026-06-10", image: "https://sfile.chatglm.cn/images-ppt/b37b6e89b27a.jpg", initialLikes: 128, initialComments: 45, views: 1456 },
     { id: "6", title: "Road Construction Connects Remote Kebeles", summary: "A new 18 km all-weather road now connects 5 previously isolated kebeles to the main town, improving access for over 8,000 residents.", category: "Infrastructure", author: "Road Authority", featured: false, date: "2026-06-05", image: "https://sfile.chatglm.cn/images-ppt/15e928c7ad4d.jpg", initialLikes: 56, initialComments: 15, views: 389 },
     { id: "7", title: "Health Campaign Reaches 10,000 Residents", summary: "A week-long health awareness campaign reached 10,000 residents with free screenings for diabetes, hypertension, and eye diseases.", category: "Health", author: "Communications Office", featured: false, date: "2026-05-28", image: "https://sfile.chatglm.cn/images-ppt/40afb43a5118.jpg", initialLikes: 71, initialComments: 19, views: 734 },
@@ -2760,7 +2760,7 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
           <div>
             <h1 className="text-2xl md:text-3xl font-extrabold text-[#0B3D2E] mb-1">Latest News & Events</h1>
-            <p className="text-[#0B3D2E]/50 text-sm">Stay informed with the latest from Amhara Sint Woreda</p>
+            <p className="text-[#0B3D2E]/50 text-sm">Stay informed with the latest from Amhara Sayint Woreda</p>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xs text-[#0B3D2E]/40 font-medium">Sort:</span>
@@ -2944,7 +2944,7 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
                 <div className="rounded-lg overflow-hidden mb-3 bg-gray-100 h-32 flex items-center justify-center">
                   <div className="text-center">
                     <MapPin className="w-8 h-8 text-[#0B3D2E]/20 mx-auto mb-1" />
-                    <p className="text-[10px] text-[#0B3D2E]/30">Amhara Sint Woreda</p>
+                    <p className="text-[10px] text-[#0B3D2E]/30">Amhara Sayint Woreda</p>
                     <p className="text-[10px] text-[#0B3D2E]/30">South Wollo, Amhara</p>
                   </div>
                 </div>
@@ -3004,7 +3004,7 @@ function AnnouncementsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
     { title: "Community Meeting: Kebele 10 Development Plan", date: "2026-07-15", type: "Meeting", desc: "Residents of Kebele 10 are invited to participate in the annual development planning meeting." },
     { title: "Vaccination Campaign: Children Under 5", date: "2026-07-20", type: "Health", desc: "A nationwide vaccination campaign will be conducted at all health posts. Parents are urged to bring their children." },
     { title: "Tax Payment Deadline Extension", date: "2026-07-30", type: "Finance", desc: "The deadline for annual land and property tax payments has been extended to July 30, 2026." },
-    { title: "Road Maintenance Notice: Amhara Sint-Dessie Road", date: "2026-07-10", type: "Infrastructure", desc: "Maintenance work on the main road to Dessie will cause temporary delays. Plan travel accordingly." },
+    { title: "Road Maintenance Notice: Amhara Sayint-Dessie Road", date: "2026-07-10", type: "Infrastructure", desc: "Maintenance work on the main road to Dessie will cause temporary delays. Plan travel accordingly." },
   ];
   return (
     <SubPage onNavigate={onNavigate} title="Announcements & Events" breadcrumb="Announcements" badge="Stay Informed">
@@ -3116,7 +3116,7 @@ function ContactPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
             <div className="space-y-4">
               <div className="flex items-start gap-3"><div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><Phone className="w-5 h-5 text-[#0B3D2E]" /></div><div><h4 className="font-bold text-[#0B3D2E] text-sm">Phone</h4><p className="text-[#0B3D2E]/60 text-sm">+251 33 440 1001 (Main)</p><p className="text-[#0B3D2E]/60 text-sm">+251 912 465 247 (Developer)</p></div></div>
               <div className="flex items-start gap-3"><div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><Mail className="w-5 h-5 text-[#0B3D2E]" /></div><div><h4 className="font-bold text-[#0B3D2E] text-sm">Email</h4><p className="text-[#0B3D2E]/60 text-sm">info@amharasint.gov.et</p></div></div>
-              <div className="flex items-start gap-3"><div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><MapPinned className="w-5 h-5 text-[#0B3D2E]" /></div><div><h4 className="font-bold text-[#0B3D2E] text-sm">Address</h4><p className="text-[#0B3D2E]/60 text-sm">Amhara Sint Town, South Wollo Zone, Amhara Region, Ethiopia</p></div></div>
+              <div className="flex items-start gap-3"><div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><MapPinned className="w-5 h-5 text-[#0B3D2E]" /></div><div><h4 className="font-bold text-[#0B3D2E] text-sm">Address</h4><p className="text-[#0B3D2E]/60 text-sm">Amhara Sayint Town, South Wollo Zone, Amhara Region, Ethiopia</p></div></div>
             </div>
             <div>
               <h4 className="font-bold text-[#0B3D2E] text-sm mb-3">Follow Us</h4>
@@ -3209,7 +3209,7 @@ function SubmitCVPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
         <AnimatedSection>
           <div className="bg-gradient-to-r from-[#0B3D2E] to-[#145A44] rounded-2xl p-6 md:p-8 text-white">
             <h2 className="text-xl font-extrabold mb-2">Submit Your CV or Documents</h2>
-            <p className="text-white/70 text-sm">You can submit your CV, resume, cover letter, or other documents to Amhara Sint Woreda Administration. We will keep your information on file for future opportunities.</p>
+            <p className="text-white/70 text-sm">You can submit your CV, resume, cover letter, or other documents to Amhara Sayint Woreda Administration. We will keep your information on file for future opportunities.</p>
           </div>
         </AnimatedSection>
 
@@ -3305,7 +3305,7 @@ function Footer({ onNavigate }: { onNavigate: (p: PageId) => void }) {
           <div className="md:col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <img src="/logo.png" alt="Logo" className="h-16 w-auto rounded-xl" />
-              <div><h3 className="text-white font-bold text-lg">Amhara Sint</h3><p className="text-[#86EFAC] text-xs">Woreda Administration</p></div>
+              <div><h3 className="text-white font-bold text-lg">Amhara Sayint</h3><p className="text-[#86EFAC] text-xs">Woreda Administration</p></div>
             </div>
             <p className="text-white/40 text-xs leading-relaxed mb-4">Dedicated to transparent governance and community development in South Wollo Zone, Amhara Region.</p>
             <div className="flex gap-2.5 mb-5">
@@ -3340,7 +3340,7 @@ function Footer({ onNavigate }: { onNavigate: (p: PageId) => void }) {
           ))}
         </div>
         <div className="border-t border-white/10 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/30 text-sm">2026 Amhara Sint Woreda Administration. All rights reserved.</p>
+          <p className="text-white/30 text-sm">2026 Amhara Sayint Woreda Administration. All rights reserved.</p>
           <p className="text-white/30 text-sm">Developed by <span className="text-[#86EFAC]">Meseret Akalu</span> | +251 912 465 247</p>
           <a href="/admin" className="text-white/30 hover:text-[#86EFAC] text-xs font-medium transition-colors flex items-center gap-1.5" title="Admin Panel">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>

@@ -38,8 +38,8 @@ export default function Footer({ onNavigate }: { onNavigate: (p: PageId) => void
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 md:gap-8">
           <div>
             <div className="flex items-center gap-3 mb-5">
-              <img src="/logo.png" alt="Amhara Sint Woreda Logo" className="h-16 w-auto rounded-xl shadow-lg ring-2 ring-white/20" />
-              <div><h3 className="text-white font-bold text-base leading-tight">Amhara Sint</h3><p className="text-[#86EFAC] text-xs font-medium">Woreda Administration</p></div>
+              <img src="/logo.png" alt="Amhara Sayint Woreda Logo" className="h-16 w-auto rounded-xl shadow-lg ring-2 ring-white/20" />
+              <div><h3 className="text-white font-bold text-base leading-tight">Amhara Sayint</h3><p className="text-[#86EFAC] text-xs font-medium">Woreda Administration</p></div>
             </div>
             <p className="text-white/50 text-sm leading-relaxed">Committed to transparency, development, and the well-being of every citizen.</p>
           </div>
@@ -62,14 +62,14 @@ export default function Footer({ onNavigate }: { onNavigate: (p: PageId) => void
           <div>
             <h4 className="text-white font-bold text-sm mb-4 uppercase tracking-wider">Contact</h4>
             <div className="space-y-3">
-              <div className="flex items-start gap-2.5"><MapPinned className="w-4 h-4 text-[#EAB308] mt-0.5 shrink-0" /><p className="text-white/50 text-sm">Amhara Sint Town, South Wollo Zone, Amhara, Ethiopia</p></div>
+              <div className="flex items-start gap-2.5"><MapPinned className="w-4 h-4 text-[#EAB308] mt-0.5 shrink-0" /><p className="text-white/50 text-sm">Amhara Sayint Town, South Wollo Zone, Amhara, Ethiopia</p></div>
               <div className="flex items-center gap-2.5"><Phone className="w-4 h-4 text-[#EAB308] shrink-0" /><p className="text-white/50 text-sm">+251 33 XXX XXXX</p></div>
               <div className="flex items-center gap-2.5"><Mail className="w-4 h-4 text-[#EAB308] shrink-0" /><p className="text-white/50 text-sm">info@amharasint.gov.et</p></div>
             </div>
           </div>
           <div>
             <h4 className="text-white font-bold text-sm mb-4 uppercase tracking-wider">Newsletter</h4>
-            <p className="text-white/50 text-sm mb-3">Stay updated with the latest from Amhara Sint.</p>
+            <p className="text-white/50 text-sm mb-3">Stay updated with the latest from Amhara Sayint.</p>
             <NewsletterWidget />
           </div>
           <div>
@@ -91,7 +91,7 @@ export default function Footer({ onNavigate }: { onNavigate: (p: PageId) => void
       </div>
       <div className="border-t border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 flex flex-col items-center gap-3">
-          <p className="text-white/40 text-xs">&copy; {new Date().getFullYear()} Amhara Sint Woreda Administration. All rights reserved.</p>
+          <p className="text-white/40 text-xs">&copy; {new Date().getFullYear()} Amhara Sayint Woreda Administration. All rights reserved.</p>
           <div className="flex items-center gap-3 bg-[#EAB308]/15 border border-[#EAB308]/25 rounded-full px-5 py-2.5 hover:bg-[#EAB308]/25 transition-all duration-300 group">
             <div className="w-8 h-8 rounded-full bg-[#EAB308] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform"><span className="text-[#0B3D2E] font-extrabold text-xs">MA</span></div>
             <div className="flex flex-col">

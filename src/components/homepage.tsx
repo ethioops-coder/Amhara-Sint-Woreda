@@ -12,13 +12,13 @@ import type { PageId } from "@/lib/types";
 
 /* ─── SLIDES ──────────────────────────────────────────────── */
 const SLIDES = [
-  { image: "https://sfile.chatglm.cn/images-ppt/d57be5c1e89d.jpg", title: "Welcome to Amhara Sint Woreda", subtitle: "A land of beauty, culture, and progress in South Wollo Zone, Amhara Region" },
+  { image: "https://sfile.chatglm.cn/images-ppt/d57be5c1e89d.jpg", title: "Welcome to Amhara Sayint Woreda", subtitle: "A land of beauty, culture, and progress in South Wollo Zone, Amhara Region" },
   { image: "https://sfile.chatglm.cn/images-ppt/6c328167366f.jpg", title: "Rich Natural Heritage", subtitle: "Highland landscapes, fertile valleys, and diverse ecosystems" },
   { image: "https://sfile.chatglm.cn/images-ppt/10cf906e32cf.jpg", title: "Vibrant Community Life", subtitle: "Strong traditions, unity, and communal spirit define our people" },
   { image: "https://sfile.chatglm.cn/images-ppt/4781a70c681c.jpg", title: "Growing Together", subtitle: "Investing in education, health, and infrastructure for all citizens" },
   { image: "https://sfile.chatglm.cn/images-ppt/30fee1e622be.jpg", title: "Agricultural Heartland", subtitle: "Supporting farmers and sustainable development across the woreda" },
   { image: "https://sfile.chatglm.cn/images-ppt/56336ff1a645.jpg", title: "Building the Future", subtitle: "Modern infrastructure connecting communities to opportunities" },
-  { image: "https://sfile.chatglm.cn/images-ppt/4db62da31bf6.png", title: "Our Vision", subtitle: "A prosperous, equitable, and self-reliant Amhara Sint" },
+  { image: "https://sfile.chatglm.cn/images-ppt/4db62da31bf6.png", title: "Our Vision", subtitle: "A prosperous, equitable, and self-reliant Amhara Sayint" },
   { image: "https://sfile.chatglm.cn/images-ppt/ba8313230e3e.jpg", title: "Transparent Governance", subtitle: "Committed to accountability and service excellence" },
 ];
 
@@ -109,7 +109,7 @@ export function StatisticsSection() {
         <AnimatedSection className="text-center mb-14">
           <Badge variant="secondary" className="mb-4 px-4 py-1.5 text-sm font-medium bg-[#0B3D2E]/10 text-[#0B3D2E]"><BarChart3 className="w-4 h-4 mr-1.5" />Key Statistics</Badge>
           <h2 className="text-3xl md:text-5xl font-extrabold text-[#0B3D2E] mb-4">Woreda by the <span className="text-[#EAB308]">Numbers</span></h2>
-          <p className="text-[#0B3D2E]/60 max-w-2xl mx-auto text-base md:text-lg">A comprehensive overview of Amhara Sint Woreda&apos;s key development indicators</p>
+          <p className="text-[#0B3D2E]/60 max-w-2xl mx-auto text-base md:text-lg">A comprehensive overview of Amhara Sayint Woreda&apos;s key development indicators</p>
         </AnimatedSection>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {KEY_STATS.map((stat, i) => (
@@ -165,7 +165,7 @@ export function ServicesOverview({ onNavigate }: { onNavigate: (p: PageId) => vo
         <AnimatedSection className="text-center mb-14">
           <Badge variant="secondary" className="mb-4 px-4 py-1.5 text-sm font-medium bg-[#EAB308]/10 text-[#A16207]"><Building2 className="w-4 h-4 mr-1.5" />Our Services</Badge>
           <h2 className="text-3xl md:text-5xl font-extrabold text-[#0B3D2E] mb-4">What We <span className="text-[#EAB308]">Deliver</span></h2>
-          <p className="text-[#0B3D2E]/60 max-w-2xl mx-auto text-base md:text-lg">Key services and development programs driving progress in Amhara Sint Woreda</p>
+          <p className="text-[#0B3D2E]/60 max-w-2xl mx-auto text-base md:text-lg">Key services and development programs driving progress in Amhara Sayint Woreda</p>
         </AnimatedSection>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {SERVICE_CARDS.map((svc, i) => (
@@ -188,7 +188,7 @@ export function ServicesOverview({ onNavigate }: { onNavigate: (p: PageId) => vo
 
 const NEWS_FEED = [
   { image: "https://sfile.chatglm.cn/images-ppt/634822b7ff39.jpg", title: "New Primary School Construction Completed in Gonder Ber Kebele", summary: "A new 8-classroom primary school has been completed and handed over to the community, serving over 400 students from the surrounding areas.", author: "Communication Office", date: "June 28, 2026", likes: 142, category: "Education" },
-  { image: "https://sfile.chatglm.cn/images-ppt/93701603d414.png", title: "Health Center Expansion Project Launched in Amhara Sint Town", summary: "Construction has begun on expanding the main health center to include maternity and pediatric wards.", author: "Health Office", date: "June 25, 2026", likes: 98, category: "Health" },
+  { image: "https://sfile.chatglm.cn/images-ppt/93701603d414.png", title: "Health Center Expansion Project Launched in Amhara Sayint Town", summary: "Construction has begun on expanding the main health center to include maternity and pediatric wards.", author: "Health Office", date: "June 25, 2026", likes: 98, category: "Health" },
   { image: "https://sfile.chatglm.cn/images-ppt/e31dc4b12d41.jpg", title: "Annual Agricultural Input Distribution Campaign Reaches 10,000 Households", summary: "Over 10,000 farming households across all 22 kebeles have received improved seeds and fertilizer.", author: "Agriculture Office", date: "June 22, 2026", likes: 215, category: "Agriculture" },
   { image: "https://sfile.chatglm.cn/images-ppt/6710c8032383.jpeg", title: "Road Construction Connecting 3 Remote Kebeles Approved", summary: "The regional government has approved funding for 25 km of new all-weather roads.", author: "Road & Transport Office", date: "June 18, 2026", likes: 176, category: "Infrastructure" },
   { image: "https://sfile.chatglm.cn/images-ppt/10cf906e32cf.jpg", title: "Woreda Council Approves Record Annual Budget of ETB 85 Million", summary: "The council approved a budget of ETB 85 million for the fiscal year 2026/27.", author: "Finance Office", date: "June 15, 2026", likes: 134, category: "Governance" },
@@ -211,7 +211,7 @@ export function NewsFeedSection({ onNavigate }: { onNavigate: (p: PageId) => voi
         <AnimatedSection className="text-center mb-10">
           <Badge variant="secondary" className="mb-4 px-4 py-1.5 text-sm font-medium bg-[#EAB308]/10 text-[#A16207]"><Newspaper className="w-4 h-4 mr-1.5" />Latest News & Updates</Badge>
           <h2 className="text-3xl md:text-4xl font-extrabold text-[#0B3D2E] mb-3">What&apos;s <span className="text-[#EAB308]">Happening</span></h2>
-          <p className="text-[#0B3D2E]/60 max-w-2xl mx-auto text-base">Stay informed with the latest developments from Amhara Sint Woreda</p>
+          <p className="text-[#0B3D2E]/60 max-w-2xl mx-auto text-base">Stay informed with the latest developments from Amhara Sayint Woreda</p>
         </AnimatedSection>
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           {NEWS_FEED.slice(0, 2).map((item, i) => (

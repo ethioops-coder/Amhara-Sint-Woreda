@@ -137,13 +137,13 @@ export function AboutHistoryPage({ onNavigate }: { onNavigate: (p: PageId) => vo
       <div className="space-y-8 max-w-4xl mx-auto">
         <ContentCard>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2">
-            <BookOpen className="w-6 h-6 text-[#EAB308]" /> Origins of Amhara Sint
+            <BookOpen className="w-6 h-6 text-[#EAB308]" /> Origins of Amhara Sayint
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            Amhara Sint is one of the historic woredas in the South Wollo Zone of the Amhara Region, Ethiopia. The name &ldquo;Sayint&rdquo; carries deep historical significance in the local Amharic context, referring to a place of gathering and administration. The woreda was formally established during the imperial era and has since evolved through various administrative reorganizations under the Derg regime and the current federal system.
+            Amhara Sayint is one of the historic woredas in the South Wollo Zone of the Amhara Region, Ethiopia. The name &ldquo;Sayint&rdquo; carries deep historical significance in the local Amharic context, referring to a place of gathering and administration. The woreda was formally established during the imperial era and has since evolved through various administrative reorganizations under the Derg regime and the current federal system.
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
-            Throughout its history, Amhara Sint has been known for its strategic location along trade routes connecting the highlands to the lowlands. The area has witnessed significant historical events, including resistance movements and community-led development initiatives that have shaped the character of the woreda.
+            Throughout its history, Amhara Sayint has been known for its strategic location along trade routes connecting the highlands to the lowlands. The area has witnessed significant historical events, including resistance movements and community-led development initiatives that have shaped the character of the woreda.
           </p>
         </ContentCard>
         <ContentCard delay={100}>
@@ -169,10 +169,10 @@ export function AboutOverviewPage({ onNavigate }: { onNavigate: (p: PageId) => v
       <div className="space-y-8 max-w-4xl mx-auto">
         <ContentCard>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2">
-            <Globe className="w-6 h-6 text-[#EAB308]" /> About Amhara Sint Woreda
+            <Globe className="w-6 h-6 text-[#EAB308]" /> About Amhara Sayint Woreda
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            Amhara Sint Woreda is an administrative district located in the South Wollo Zone of the Amhara Regional State, Ethiopia. Covering an area of approximately 1,245 square kilometers, the woreda is home to an estimated population of 142,350 people spread across 22 kebeles (local administrative units). The woreda administration is headquartered in the town of Amhara Sint.
+            Amhara Sayint Woreda is an administrative district located in the South Wollo Zone of the Amhara Regional State, Ethiopia. Covering an area of approximately 1,245 square kilometers, the woreda is home to an estimated population of 142,350 people spread across 22 kebeles (local administrative units). The woreda administration is headquartered in the town of Amhara Sayint.
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
             The woreda operates under the federal governance structure of Ethiopia, with administrative layers including the woreda council, executive committee, and kebele-level administrations. The local government is responsible for delivering public services, managing development programs, and maintaining law and order within its jurisdiction.
@@ -216,7 +216,7 @@ export function AboutLocationPage({ onNavigate }: { onNavigate: (p: PageId) => v
             <MapPin className="w-6 h-6 text-[#EAB308]" /> Geographic Location
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            Amhara Sint Woreda is situated in the South Wollo Zone of the Amhara Regional State, in the northern highlands of Ethiopia. The woreda is characterized by its diverse topography, featuring deep river gorges, rolling highland plateaus, and fertile agricultural valleys that drain into the Blue Nile basin.
+            Amhara Sayint Woreda is situated in the South Wollo Zone of the Amhara Regional State, in the northern highlands of Ethiopia. The woreda is characterized by its diverse topography, featuring deep river gorges, rolling highland plateaus, and fertile agricultural valleys that drain into the Blue Nile basin.
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
             The landscape ranges from 1,500 meters in the lowland river valleys to over 3,200 meters in the highland peaks, creating distinct agro-ecological zones that support diverse agricultural activities. The area is fed by several seasonal rivers and streams, making it a critical watershed for the larger region.
@@ -248,7 +248,7 @@ export function GovLeadershipPage({ onNavigate }: { onNavigate: (p: PageId) => v
             <UserCheck className="w-6 h-6 text-[#EAB308]" /> Woreda Administration
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            Amhara Sint Woreda is led by an elected Woreda Council and an Executive Committee headed by the Woreda Administrator (Chief Executive). The leadership team is responsible for implementing development plans, delivering public services, and ensuring good governance at the local level.
+            Amhara Sayint Woreda is led by an elected Woreda Council and an Executive Committee headed by the Woreda Administrator (Chief Executive). The leadership team is responsible for implementing development plans, delivering public services, and ensuring good governance at the local level.
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
             The administration operates under the principles of democratic governance, transparency, and accountability. Regular council meetings are held to discuss development priorities, budget allocations, and policy decisions that affect the community.
@@ -289,7 +289,7 @@ export function GovStructurePage({ onNavigate }: { onNavigate: (p: PageId) => vo
             <Building className="w-6 h-6 text-[#EAB308]" /> Organizational Hierarchy
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            The administrative structure of Amhara Sint Woreda follows the three-tier governance system of Ethiopia: the Woreda Council at the top, followed by sectoral offices and departments, and finally the Kebele administrations at the community level.
+            The administrative structure of Amhara Sayint Woreda follows the three-tier governance system of Ethiopia: the Woreda Council at the top, followed by sectoral offices and departments, and finally the Kebele administrations at the community level.
           </p>
           <div className="space-y-4">
             {[
@@ -359,10 +359,10 @@ export function ServiceEducationPage({ onNavigate }: { onNavigate: (p: PageId) =
       <div className="space-y-8 max-w-4xl mx-auto">
         <ContentCard>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2">
-            <GraduationCap className="w-6 h-6 text-[#EAB308]" /> Education in Amhara Sint
+            <GraduationCap className="w-6 h-6 text-[#EAB308]" /> Education in Amhara Sayint
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            The Amhara Sint Woreda Education Office oversees 55 educational institutions serving the community, including 47 primary schools (grades 1-8) and 8 secondary schools (grades 9-12). The education sector is one of the largest employers in the woreda, with over 600 teachers and administrative staff.
+            The Amhara Sayint Woreda Education Office oversees 55 educational institutions serving the community, including 47 primary schools (grades 1-8) and 8 secondary schools (grades 9-12). The education sector is one of the largest employers in the woreda, with over 600 teachers and administrative staff.
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
             The woreda is committed to achieving universal primary education and improving transition rates to secondary education. Current initiatives include school construction programs, teacher training, curriculum improvement, and community awareness campaigns to increase enrollment, particularly for girls and children in remote areas.
@@ -405,7 +405,7 @@ export function ServiceHealthPage({ onNavigate }: { onNavigate: (p: PageId) => v
       <div className="space-y-8 max-w-4xl mx-auto">
         <ContentCard>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2">
-            <HeartPulse className="w-6 h-6 text-[#EAB308]" /> Healthcare in Amhara Sint
+            <HeartPulse className="w-6 h-6 text-[#EAB308]" /> Healthcare in Amhara Sayint
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
             The woreda&apos;s health system consists of 1 primary hospital, 4 health centers, and 18 health posts strategically distributed across all 22 kebeles. The Health Extension Program (HEP) forms the backbone of community health delivery, with over 40 health extension workers providing preventive and basic curative services at the kebele level.
@@ -451,10 +451,10 @@ export function ServiceAgriculturePage({ onNavigate }: { onNavigate: (p: PageId)
       <div className="space-y-8 max-w-4xl mx-auto">
         <ContentCard>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2">
-            <Tractor className="w-6 h-6 text-[#EAB308]" /> Agriculture in Amhara Sint
+            <Tractor className="w-6 h-6 text-[#EAB308]" /> Agriculture in Amhara Sayint
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            Agriculture is the backbone of Amhara Sint&apos;s economy, employing over 75% of the population. The woreda supports a diverse farming system that includes cereal crop production, livestock rearing, horticulture, and increasingly, apiculture (beekeeping) and spice cultivation.
+            Agriculture is the backbone of Amhara Sayint&apos;s economy, employing over 75% of the population. The woreda supports a diverse farming system that includes cereal crop production, livestock rearing, horticulture, and increasingly, apiculture (beekeeping) and spice cultivation.
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
             The Agriculture and Natural Resources Office provides extension services, improved seed distribution, fertilizer access, soil conservation training, and veterinary services to farmers across all kebeles. Climate-smart agriculture practices are being promoted to build resilience against increasing weather variability.
@@ -493,7 +493,7 @@ export function ServiceTransportPage({ onNavigate }: { onNavigate: (p: PageId) =
             <Truck className="w-6 h-6 text-[#EAB308]" /> Transport & Roads
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            Amhara Sint Woreda has made significant progress in expanding its road network to connect remote kebeles to the woreda capital and zonal centers. The road infrastructure development is a top priority, with both all-weather gravel roads and dry-weather roads being constructed and maintained.
+            Amhara Sayint Woreda has made significant progress in expanding its road network to connect remote kebeles to the woreda capital and zonal centers. The road infrastructure development is a top priority, with both all-weather gravel roads and dry-weather roads being constructed and maintained.
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
             The woreda currently has approximately 85 km of all-weather roads, with an ambitious target of reaching 150 km within the next five years. Rural accessibility remains a challenge, and the administration is working with regional and federal authorities to secure funding for road construction projects.
@@ -532,7 +532,7 @@ export function ServiceWaterPage({ onNavigate }: { onNavigate: (p: PageId) => vo
             <Droplets className="w-6 h-6 text-[#EAB308]" /> Water Supply & Sanitation
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            Access to clean water remains one of the most critical challenges in Amhara Sint Woreda. The Water, Mines & Energy Office manages 64 clean water access points, including hand-dug wells, protected springs, and boreholes equipped with hand pumps. Despite this progress, many rural communities still rely on unprotected water sources.
+            Access to clean water remains one of the most critical challenges in Amhara Sayint Woreda. The Water, Mines & Energy Office manages 64 clean water access points, including hand-dug wells, protected springs, and boreholes equipped with hand pumps. Despite this progress, many rural communities still rely on unprotected water sources.
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
             The woreda is implementing an ambitious water supply expansion program with support from regional and international partners. The goal is to achieve 85% clean water coverage within the next five years, combined with comprehensive sanitation and hygiene promotion activities.
@@ -570,7 +570,7 @@ export function ServiceJusticePage({ onNavigate }: { onNavigate: (p: PageId) => 
             <Scale className="w-6 h-6 text-[#EAB308]" /> Justice & Security Services
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            Amhara Sint Woreda maintains a justice system that includes a woreda court, social courts, and alternative dispute resolution mechanisms. The Justice Office works to ensure the rule of law, protect citizens&apos; rights, and provide accessible justice services to all community members.
+            Amhara Sayint Woreda maintains a justice system that includes a woreda court, social courts, and alternative dispute resolution mechanisms. The Justice Office works to ensure the rule of law, protect citizens&apos; rights, and provide accessible justice services to all community members.
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
             Community-based dispute resolution through elders and local mediators remains an important part of the justice landscape, particularly for civil and family matters. The woreda also maintains law enforcement through the local police department, which works to maintain peace and security across all kebeles.
@@ -837,7 +837,7 @@ export function VacancyPage({ onNavigate }: { onNavigate: (p: PageId) => void })
         <ContentCard delay={400}>
           <div className="bg-[#F0FDF4] rounded-xl p-6 text-center">
             <h3 className="font-bold text-[#0B3D2E] mb-2">How to Apply</h3>
-            <p className="text-[#0B3D2E]/60 text-sm">Click &quot;Apply Now&quot; on any vacancy above to submit your application online. You can also submit in person at the Woreda Administration Office, Amhara Sint Town, or email: info@amharasint.gov.et</p>
+            <p className="text-[#0B3D2E]/60 text-sm">Click &quot;Apply Now&quot; on any vacancy above to submit your application online. You can also submit in person at the Woreda Administration Office, Amhara Sayint Town, or email: info@amharasint.gov.et</p>
           </div>
         </ContentCard>
       </div>
@@ -882,7 +882,7 @@ export function ContactPage({ onNavigate }: { onNavigate: (p: PageId) => void })
       <div className="max-w-4xl mx-auto">
         <div className="grid md:grid-cols-3 gap-6 mb-10">
           {[
-            { title: "Office Location", detail: "Amhara Sint Town\nSouth Wollo Zone\nAmhara Region, Ethiopia", icon: MapPinned, color: "from-[#0B3D2E] to-[#10B981]" },
+            { title: "Office Location", detail: "Amhara Sayint Town\nSouth Wollo Zone\nAmhara Region, Ethiopia", icon: MapPinned, color: "from-[#0B3D2E] to-[#10B981]" },
             { title: "Phone", detail: "+251 33 XXX XXXX\n\nOffice Hours:\nMon-Fri, 8:00 AM - 5:00 PM", icon: Phone, color: "from-[#EAB308] to-[#F59E0B]" },
             { title: "Email", detail: "info@amharasint.gov.et\n\nFor general inquiries\nand service requests", icon: Mail, color: "from-[#DC2626] to-[#EF4444]" },
           ].map((c, i) => (

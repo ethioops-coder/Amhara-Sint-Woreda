@@ -1,6 +1,6 @@
 {
   "heroSlides": [
-    { "image": "https://sfile.chatglm.cn/images-ppt/5d712c5b8f44.jpg", "title": "Welcome to Amhara Sint Woreda", "subtitle": "A land of beauty, culture, and progress in South Wollo Zone, Amhara Region" },
+    { "image": "https://sfile.chatglm.cn/images-ppt/5d712c5b8f44.jpg", "title": "Welcome to Amhara Sayint Woreda", "subtitle": "A land of beauty, culture, and progress in South Wollo Zone, Amhara Region" },
     { "image": "https://sfile.chatglm.cn/images-ppt/e2eed6eb06d5.jpg", "title": "Majestic Highland Landscapes", "subtitle": "Rolling highlands and fertile valleys stretching from the Blue Nile to Mount Tabor at 4,247m" },
     { "image": "https://sfile.chatglm.cn/images-ppt/c9ebd2951a03.jpg", "title": "Rich Natural Heritage", "subtitle": "Diverse ecosystems and breathtaking scenery in the heart of the Amhara highlands" },
     { "image": "https://sfile.chatglm.cn/images-ppt/b37b6e89b27a.jpg", "title": "Vibrant Cultural Traditions", "subtitle": "Ancient Orthodox heritage, Meskel celebrations, and time-honored customs define our community" },
@@ -8,8 +8,8 @@
     { "image": "https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg", "title": "Agricultural Heartland", "subtitle": "Supporting farmers with modern techniques across 1,437 km² of fertile highland terrain" },
     { "image": "https://sfile.chatglm.cn/images-ppt/15e928c7ad4d.jpg", "title": "Building the Future", "subtitle": "Roads, schools, and health facilities connecting communities to opportunities" },
     { "image": "https://sfile.chatglm.cn/images-ppt/395da4df6bb6.jpg", "title": "Trade & Commerce", "subtitle": "Local markets, cooperatives, and enterprises driving economic growth" },
-    { "image": "https://sfile.chatglm.cn/images-ppt/a842501dc00b.jpg", "title": "Education & Youth Empowerment", "subtitle": "Amhara Sint TVET College and preparatory schools preparing the next generation" },
-    { "image": "https://sfile.chatglm.cn/images-ppt/5d19c0f98d58.jpg", "title": "Our Vision", "subtitle": "A prosperous, equitable, and self-reliant Amhara Sint — rooted in tradition, reaching for the future" }
+    { "image": "https://sfile.chatglm.cn/images-ppt/a842501dc00b.jpg", "title": "Education & Youth Empowerment", "subtitle": "Amhara Sayint TVET College and preparatory schools preparing the next generation" },
+    { "image": "https://sfile.chatglm.cn/images-ppt/5d19c0f98d58.jpg", "title": "Our Vision", "subtitle": "A prosperous, equitable, and self-reliant Amhara Sayint — rooted in tradition, reaching for the future" }
   ],
   "culturalPlaces": [
     {
@@ -76,7 +76,7 @@
     { "title": "Finance", "desc": "Revenue collection, budget management, and financial administration.", "icon": "Banknote", "href": "svc-finance", "color": "from-emerald-500 to-green-600", "img": "https://sfile.chatglm.cn/images-ppt/9c67be723339.jpg" }
   ],
   "siteSettings": {
-    "siteName": "Amhara Sint",
+    "siteName": "Amhara Sayint",
     "tagline": "Woreda Administration",
     "developerName": "Meseret Akalu",
     "developerPhone": "+251 912 465 247",

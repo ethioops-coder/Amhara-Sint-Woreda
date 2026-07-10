@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
 
 /* ── Site constants ──────────────────────────────────────────── */
 const SITE_URL = "https://amhara-sint-woreda.onrender.com";
-const SITE_NAME = "Amhara Sint Woreda Administration";
+const SITE_NAME = "Amhara Sayint Woreda Administration";
 const OG_IMAGE = "https://sfile.chatglm.cn/images-ppt/d57be5c1e89d.jpg";
 
 /* ── Viewport ────────────────────────────────────────────────── */
@@ -42,22 +42,22 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
 
   title: {
-    default: "Amhara Saint Woreda | Official Government Portal — South Wollo, Ethiopia",
-    template: "%s | Amhara Saint Woreda",
+    default: "Amhara Sayint Woreda | Official Government Portal — South Wollo, Ethiopia",
+    template: "%s | Amhara Sayint Woreda",
   },
 
   description:
-    "Official government portal for Amhara Saint (Sayint) Woreda, South Wollo Zone, Amhara Region, Ethiopia. Find news, job vacancies, bids & tenders, public services, development statistics, health, education, agriculture, and administrative information.",
+    "Official government portal for Amhara Sayint (Sayint) Woreda, South Wollo Zone, Amhara Region, Ethiopia. Find news, job vacancies, bids & tenders, public services, development statistics, health, education, agriculture, and administrative information.",
 
   keywords: [
     // Primary search terms — exactly what people type
-    "Amhara Sint",
-    "Amhara Saint",
+    "Amhara Sayint",
+    "Amhara Sayint",
     "Sint Ethiopia",
     "Saint Ethiopia",
     "Sayint",
     "Amhara Sayint",
-    "Amhara Sint Woreda",
+    "Amhara Sayint Woreda",
     "Sayint Woreda",
     "Sint Woreda",
 
@@ -128,11 +128,11 @@ export const metadata: Metadata = {
 
   authors: [
     { name: "Meseret Akalu", url: "https://www.linkedin.com/in/meseret-akalu-76363121b/" },
-    { name: "Amhara Sint Woreda Administration" },
+    { name: "Amhara Sayint Woreda Administration" },
   ],
 
   creator: "Meseret Akalu",
-  publisher: "Amhara Sint Woreda Administration",
+  publisher: "Amhara Sayint Woreda Administration",
 
   category: "Government",
 
@@ -153,23 +153,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     alternateLocale: ["am_ET"],
     url: SITE_URL,
-    siteName: "Amhara Saint Woreda Administration",
-    title: "Amhara Saint Woreda | Official Government Portal",
+    siteName: "Amhara Sayint Woreda Administration",
+    title: "Amhara Sayint Woreda | Official Government Portal",
     description:
-      "Official portal for Amhara Saint (Sayint) Woreda, South Wollo, Ethiopia. News, vacancies, bids, public services, development statistics and government information.",
+      "Official portal for Amhara Sayint (Sayint) Woreda, South Wollo, Ethiopia. News, vacancies, bids, public services, development statistics and government information.",
     images: [
       {
         url: OG_IMAGE,
         width: 1200,
         height: 630,
-        alt: "Amhara Sint Woreda — The highlands of South Wollo, Ethiopia",
+        alt: "Amhara Sayint Woreda — The highlands of South Wollo, Ethiopia",
         type: "image/jpeg",
       },
       {
         url: "https://sfile.chatglm.cn/images-ppt/5d712c5b8f44.jpg",
         width: 1200,
         height: 630,
-        alt: "Welcome to Amhara Sint Woreda",
+        alt: "Welcome to Amhara Sayint Woreda",
         type: "image/jpeg",
       },
     ],
@@ -180,9 +180,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@AmharaSaint",
     creator: "@MeseretAkalu",
-    title: "Amhara Saint Woreda | Official Government Portal",
+    title: "Amhara Sayint Woreda | Official Government Portal",
     description:
-      "Official government portal for Amhara Saint Woreda, South Wollo Zone, Ethiopia. News, vacancies, bids, and public services.",
+      "Official government portal for Amhara Sayint Woreda, South Wollo Zone, Ethiopia. News, vacancies, bids, and public services.",
     images: [OG_IMAGE],
   },
 
@@ -222,7 +222,7 @@ export const metadata: Metadata = {
   },
 
   /* ── App info ───────────────────────────────────────────────── */
-  applicationName: "Amhara Saint Woreda Portal",
+  applicationName: "Amhara Sayint Woreda Portal",
   referrer: "origin-when-cross-origin",
   generator: "Next.js",
   formatDetection: {
@@ -239,8 +239,8 @@ const jsonLd = {
     {
       "@type": "GovernmentOrganization",
       "@id": `${SITE_URL}/#organization`,
-      name: "Amhara Saint Woreda Administration",
-      alternateName: ["Sayint Woreda", "Sint Woreda", "Amhara Sayint Woreda", "Amhara Sint Woreda"],
+      name: "Amhara Sayint Woreda Administration",
+      alternateName: ["Sayint Woreda", "Sint Woreda", "Amhara Sayint Woreda", "Amhara Sayint Woreda"],
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",
@@ -250,7 +250,7 @@ const jsonLd = {
       },
       image: OG_IMAGE,
       description:
-        "Official government administration for Amhara Sint Woreda, South Wollo Zone, Amhara Region, Ethiopia. Serving 144,972 residents across 37 kebeles.",
+        "Official government administration for Amhara Sayint Woreda, South Wollo Zone, Amhara Region, Ethiopia. Serving 144,972 residents across 37 kebeles.",
       address: {
         "@type": "PostalAddress",
         addressLocality: "Ajibar",
@@ -259,10 +259,10 @@ const jsonLd = {
       },
       areaServed: {
         "@type": "AdministrativeArea",
-        name: "Amhara Sint Woreda",
+        name: "Amhara Sayint Woreda",
         geo: {
           "@type": "GeoShape",
-          description: "Amhara Sint Woreda, South Wollo Zone, Amhara Region, Ethiopia",
+          description: "Amhara Sayint Woreda, South Wollo Zone, Amhara Region, Ethiopia",
         },
       },
       contactPoint: [
@@ -290,9 +290,9 @@ const jsonLd = {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       url: SITE_URL,
-      name: "Amhara Saint Woreda Official Portal",
+      name: "Amhara Sayint Woreda Official Portal",
       description:
-        "Official government portal for Amhara Saint Woreda — news, vacancies, bids, services, and community information.",
+        "Official government portal for Amhara Sayint Woreda — news, vacancies, bids, services, and community information.",
       publisher: { "@id": `${SITE_URL}/#organization` },
       potentialAction: {
         "@type": "SearchAction",
@@ -308,11 +308,11 @@ const jsonLd = {
       "@type": "WebPage",
       "@id": `${SITE_URL}/#webpage`,
       url: SITE_URL,
-      name: "Amhara Sint Woreda | Official Government Portal",
+      name: "Amhara Sayint Woreda | Official Government Portal",
       isPartOf: { "@id": `${SITE_URL}/#website` },
       about: { "@id": `${SITE_URL}/#organization` },
       description:
-        "Official government portal for Amhara Sint Woreda, South Wollo Zone, Amhara Region, Ethiopia.",
+        "Official government portal for Amhara Sayint Woreda, South Wollo Zone, Amhara Region, Ethiopia.",
       breadcrumb: {
         "@type": "BreadcrumbList",
         itemListElement: [
@@ -338,10 +338,10 @@ const jsonLd = {
     },
     {
       "@type": "Place",
-      name: "Amhara Sint Woreda",
+      name: "Amhara Sayint Woreda",
       alternateName: ["Sayint Woreda", "Sint Woreda", "Amhara Sayint", "Mehal Sayint"],
       description:
-        "Amhara Sint Woreda is located in South Wollo Zone, Amhara Region, Ethiopia. It covers 1,437 km² and has a population of 144,972 people across 37 kebeles. The woreda is home to Tadbaba Maryam monastery, Mount Tabor (4,247m), and the spectacular Blue Nile canyon.",
+        "Amhara Sayint Woreda is located in South Wollo Zone, Amhara Region, Ethiopia. It covers 1,437 km² and has a population of 144,972 people across 37 kebeles. The woreda is home to Tadbaba Maryam monastery, Mount Tabor (4,247m), and the spectacular Blue Nile canyon.",
       geo: {
         "@type": "GeoCoordinates",
         latitude: 10.95,
@@ -358,7 +358,7 @@ const jsonLd = {
       name: "Tadbaba Maryam Monastery",
       alternateName: ["Tadbabe Maryam", "Debre Tsige Tadbaba Maryam", "Tadbaba Mary"],
       description:
-        "One of the most historically significant Ethiopian Orthodox monasteries in Ethiopia, founded during the reign of Emperor Menelik I. Located 28 km from Ajibar town in Amhara Sint Woreda, South Wollo Zone. Houses sacred relics, ancient manuscripts, and royal crowns. The monastery played a key role in the Battle of Wayna Daga (1543).",
+        "One of the most historically significant Ethiopian Orthodox monasteries in Ethiopia, founded during the reign of Emperor Menelik I. Located 28 km from Ajibar town in Amhara Sayint Woreda, South Wollo Zone. Houses sacred relics, ancient manuscripts, and royal crowns. The monastery played a key role in the Battle of Wayna Daga (1543).",
       geo: {
         "@type": "GeoCoordinates",
         latitude: 11.114074,
@@ -372,7 +372,7 @@ const jsonLd = {
       },
       containedInPlace: {
         "@type": "AdministrativeArea",
-        name: "Amhara Sint Woreda, South Wollo Zone, Ethiopia",
+        name: "Amhara Sayint Woreda, South Wollo Zone, Ethiopia",
       },
       url: SITE_URL,
       image: "https://sfile.chatglm.cn/images-ppt/10cf906e32cf.jpg",
@@ -382,10 +382,10 @@ const jsonLd = {
       mainEntity: [
         {
           "@type": "Question",
-          name: "Where is Amhara Sint (Sayint) Woreda located?",
+          name: "Where is Amhara Sayint (Sayint) Woreda located?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Amhara Sint Woreda (also called Sayint Woreda) is located in South Wollo Zone, Amhara Region, Ethiopia. The woreda capital is Ajibar town. It covers 1,437 km² and borders the Blue Nile (Abay) canyon to the west.",
+            text: "Amhara Sayint Woreda (also called Sayint Woreda) is located in South Wollo Zone, Amhara Region, Ethiopia. The woreda capital is Ajibar town. It covers 1,437 km² and borders the Blue Nile (Abay) canyon to the west.",
           },
         },
         {
@@ -393,15 +393,15 @@ const jsonLd = {
           name: "What is Tadbaba Maryam?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Tadbaba Maryam (also spelled Tadbabe Maryam) is a famous Ethiopian Orthodox monastery in Amhara Sint Woreda, South Wollo, Ethiopia. It was founded during the reign of Emperor Menelik I and is one of the most historically important monasteries in Ethiopia, housing ancient manuscripts and royal crowns.",
+            text: "Tadbaba Maryam (also spelled Tadbabe Maryam) is a famous Ethiopian Orthodox monastery in Amhara Sayint Woreda, South Wollo, Ethiopia. It was founded during the reign of Emperor Menelik I and is one of the most historically important monasteries in Ethiopia, housing ancient manuscripts and royal crowns.",
           },
         },
         {
           "@type": "Question",
-          name: "What is the population of Amhara Sint Woreda?",
+          name: "What is the population of Amhara Sayint Woreda?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Amhara Sint Woreda has a population of 144,972 people across 37 kebeles (CSA 2007 census). 99.96% are Amhara (Amharic speaking) and 98% practice Ethiopian Orthodox Tewahedo Christianity.",
+            text: "Amhara Sayint Woreda has a population of 144,972 people across 37 kebeles (CSA 2007 census). 99.96% are Amhara (Amharic speaking) and 98% practice Ethiopian Orthodox Tewahedo Christianity.",
           },
         },
         {
@@ -409,15 +409,15 @@ const jsonLd = {
           name: "What is the highest mountain in South Wollo Zone?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Mount Tabor (Tabor Terara) at 4,247 meters above sea level is the highest peak in South Wollo Zone. It lies on the border of Amhara Sint Woreda and Legambo Woreda, approximately 170 km east of Dessie.",
+            text: "Mount Tabor (Tabor Terara) at 4,247 meters above sea level is the highest peak in South Wollo Zone. It lies on the border of Amhara Sayint Woreda and Legambo Woreda, approximately 170 km east of Dessie.",
           },
         },
         {
           "@type": "Question",
-          name: "How can I find job vacancies in Amhara Sint Woreda?",
+          name: "How can I find job vacancies in Amhara Sayint Woreda?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Current job vacancies and government employment opportunities in Amhara Sint Woreda are published on this official portal. Visit the Vacancy section at amhara-sint-woreda.onrender.com for all open positions.",
+            text: "Current job vacancies and government employment opportunities in Amhara Sayint Woreda are published on this official portal. Visit the Vacancy section at amhara-sint-woreda.onrender.com for all open positions.",
           },
         },
       ],
@@ -444,7 +444,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://sfile.chatglm.cn" />
         {/* Geo meta tags */}
         <meta name="geo.region" content="ET-AM" />
-        <meta name="geo.placename" content="Amhara Sint Woreda, South Wollo, Ethiopia" />
+        <meta name="geo.placename" content="Amhara Sayint Woreda, South Wollo, Ethiopia" />
         <meta name="geo.position" content="10.95;38.93" />
         <meta name="ICBM" content="10.95, 38.93" />
         {/* Language */}
