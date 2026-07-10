@@ -22,6 +22,7 @@ ENV NODE_OPTIONS=--max-old-space-size=512
 
 RUN npx next build
 RUN cp -r .next/static .next/standalone/.next/ && cp -r public .next/standalone/
+
 # ── Stage 3: Production runner ────────────────────────────────
 FROM node:22-alpine AS runner
 WORKDIR /app
@@ -34,16 +35,14 @@ ENV HOSTNAME=0.0.0.0
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Copy standalone build
+# Copy standalone Next.js build
 COPY --from=builder /app/.next/standalone ./
 
-# Copy prisma schema + client for runtime migrations
-COPY --from=builder /app/prisma ./prisma
+# Copy Prisma client (generated, no CLI needed)
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
-COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
 
-# Copy data (JSON content files — news, bids, vacancies etc.)
+# Copy data files (JSON content)
 COPY --from=builder /app/data ./data
 
 # Copy migration script
@@ -55,4 +54,5 @@ USER nextjs
 
 EXPOSE 10000
 
+# Run DB setup then start server
 CMD ["node", "migrate.js"]
