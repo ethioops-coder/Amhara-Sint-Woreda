@@ -24,6 +24,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import CookieConsentBanner from "@/components/cookie-consent";
 import VisitorCounter from "@/components/visitor-counter";
+import SubscribeBanner from "@/components/subscribe-banner";
 
 /* ─── Types ────────────────────────────────────────────────── */
 type PageId =
@@ -3467,6 +3468,7 @@ export default function Home() {
         <PageContent currentPage={currentPage} onNavigate={setCurrentPage} />
       </main>
       <Footer onNavigate={setCurrentPage} />
+      <SubscribeBanner />
       <VisitorCounter />
       <CookieConsentBanner />
       <ScrollToTop />
