@@ -2731,7 +2731,35 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
               <div className="prose prose-sm max-w-none text-[#0B3D2E]/70 leading-relaxed">
                 <p className="text-base text-[#0B3D2E]/80 font-medium mb-4">{selectedNews.summary}</p>
                 {selectedNews.content && selectedNews.content !== selectedNews.summary && (
-                  <p className="text-sm leading-relaxed">{selectedNews.content}</p>
+                  <div className="text-sm leading-relaxed whitespace-pre-line">{selectedNews.content}</div>
+                )}
+                {/* Tags */}
+                {selectedNews.tags && selectedNews.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {selectedNews.tags.map((tag: string) => (
+                      <span key={tag} className="bg-emerald-50 text-emerald-700 text-xs font-bold px-2.5 py-1 rounded-full border border-emerald-200">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {/* Photo gallery */}
+                {selectedNews.photos && selectedNews.photos.length > 0 && (
+                  <div className="mt-5">
+                    <h4 className="text-sm font-bold text-[#0B3D2E] mb-3 flex items-center gap-2">
+                      <Camera className="w-4 h-4" /> Photo Gallery ({selectedNews.photos.length} photos)
+                    </h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      {selectedNews.photos.map((photo: {url: string; caption: string}, i: number) => (
+                        <div key={i} className="group relative rounded-xl overflow-hidden aspect-square shadow-sm hover:shadow-lg transition-all">
+                          <img src={photo.url} alt={photo.caption} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onError={(e) => { (e.target as HTMLImageElement).src = 'https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg'; }} />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-2">
+                            <p className="text-white text-[10px] leading-tight">{photo.caption}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
               {/* Share & like */}

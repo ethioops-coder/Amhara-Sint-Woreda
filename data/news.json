@@ -1,5 +1,30 @@
 [
   {
+    "id": "news-green-legacy-2026",
+    "title": "🌿 #GreenLegacy — Ajibar: Seedling Transport Operations Underway in Amhara Sayint Woreda",
+    "summary": "Operations to transport seedlings for the Green Legacy program are currently underway in Amhara Sayint Woreda, South Wollo Zone. Hundreds of community members — women and youth — are actively participating in loading, carrying, and distributing millions of seedlings across the woreda's kebeles.",
+    "content": "Ajibar, July 10, 2026 (Amhara Sayint Woreda Communication Office) — Operations to transport seedlings for the Green Legacy program are currently underway in Amhara Sayint Woreda, South Wollo Zone.\n\nHundreds of community members — including women, youth, and government staff — are actively involved in the massive seedling transportation effort. Seedlings of various native and economically valuable tree species have been carefully raised in local nurseries and are now being distributed to planting sites across all kebeles of the woreda.\n\nThe Green Legacy Initiative, launched by Prime Minister Abiy Ahmed, aims to restore Ethiopia's forests and green cover. Amhara Sayint Woreda is fully committed to achieving its planting targets this season, with nurseries producing millions of seedlings of indigenous species including Juniper, Wanza, Zigba, and various fruit trees.\n\nLocal women's groups have been at the forefront of the nursery work — tending seedlings for months before this critical transportation phase. Their dedication has been recognized by woreda leadership as essential to the program's success.\n\n'Every seedling we plant today is a gift to the next generation,' said the Woreda Administrator during a morning mobilization event at the main nursery site in Ajibar.\n\nThe woreda is targeting the planting of over 2 million trees this rainy season alone, contributing to the national Green Legacy goal of planting billions of trees annually across Ethiopia.",
+    "category": "Environment",
+    "author": "Amhara Sayint Woreda Communication Office",
+    "imageUrl": "https://sfile.chatglm.cn/images-ppt/e31dc4b12d41.jpg",
+    "photos": [
+      { "url": "https://sfile.chatglm.cn/images-ppt/e31dc4b12d41.jpg", "caption": "Community members carrying seedling crates at the Ajibar nursery site" },
+      { "url": "https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg", "caption": "Rows of healthy seedlings ready for transport across Amhara Sayint Woreda" },
+      { "url": "https://sfile.chatglm.cn/images-ppt/279feef8509d.jpg", "caption": "Women workers loading seedling baskets at dawn" },
+      { "url": "https://sfile.chatglm.cn/images-ppt/30fee1e622be.jpg", "caption": "Native tree seedlings in nursery bags — ready for planting" },
+      { "url": "https://sfile.chatglm.cn/images-ppt/4781a70c681c.jpg", "caption": "Youth volunteers joining the Green Legacy transport effort" },
+      { "url": "https://sfile.chatglm.cn/images-ppt/56336ff1a645.jpg", "caption": "Long rows of thriving seedlings stretch across the Ajibar nursery" }
+    ],
+    "tags": ["GreenLegacy", "Environment", "Ajibar", "TreePlanting", "AmharaSayint"],
+    "featured": true,
+    "status": "published",
+    "date": "2026-07-10",
+    "createdAt": "2026-07-10T06:00:00Z",
+    "views": 284,
+    "initialLikes": 142,
+    "initialComments": 37
+  },
+  {
     "id": "news-1",
     "title": "New Primary School Construction Completed in Gonder Ber Kebele",
     "summary": "A new 8-classroom primary school has been completed and handed over to the community, serving over 400 students from the surrounding areas.",
