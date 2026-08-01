@@ -25,6 +25,8 @@ import { Badge } from "@/components/ui/badge";
 import CookieConsentBanner from "@/components/cookie-consent";
 import VisitorCounter from "@/components/visitor-counter";
 import SubscribeBanner from "@/components/subscribe-banner";
+import { WoredaStatistics } from "@/components/woreda-statistics";
+import { InternationalNewsFeed } from "@/components/international-news-feed";
 import {
   TopInfoBar,
   CitizenServicesSection,
@@ -1548,7 +1550,7 @@ function AboutOverviewPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
       <div className="space-y-8 max-w-4xl mx-auto">
         <ContentCard>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><Globe className="w-6 h-6 text-[#EAB308]" /> About Amhara Sayint Woreda</h2>
-          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Amhara Sayint Woreda is an administrative district in the South Wollo Zone of the Amhara Regional State, Ethiopia. Covering approximately 1,245 square kilometers, it is home to an estimated 142,350 people across 22 kebeles. The administration is headquartered in the town of Amhara Sayint.</p>
+          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Amhara Sayint Woreda is an administrative district in the South Wollo Zone of the Amhara Regional State, Ethiopia. Covering approximately 1,437 square kilometers, it is home to an estimated 214,056 people across 37 kebeles. The administration is headquartered in the town of Ajibar. The woreda is bordered by the dramatic Blue Nile canyon to the west and features majestic highland peaks such as Mount Tabor (4,247m).</p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">The woreda operates under Ethiopia's federal governance structure, with administrative layers including the woreda council, executive committee, and kebele-level administrations responsible for delivering public services and managing development programs.</p>
         </ContentCard>
         <div className="grid md:grid-cols-2 gap-6">
@@ -3643,10 +3645,10 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
         <>
           <DidYouKnowBar />
           <HeroSlider />
-          <HeroStatsSection />
+          <WoredaStatistics />
           <CitizenServicesSection onNavigate={onNavigate} />
           <VacancyBidsSection onNavigate={onNavigate} />
-          <NewsFeedSection onNavigate={onNavigate} />
+          <InternationalNewsFeed onNavigate={onNavigate} />
           <MayorMessageSection onNavigate={onNavigate} />
           <TVETCollegeSection onNavigate={onNavigate} />
           <ServicesOverviewSection onNavigate={onNavigate} />
