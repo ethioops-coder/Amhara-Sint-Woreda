@@ -25,6 +25,14 @@ import { Badge } from "@/components/ui/badge";
 import CookieConsentBanner from "@/components/cookie-consent";
 import VisitorCounter from "@/components/visitor-counter";
 import SubscribeBanner from "@/components/subscribe-banner";
+import {
+  TopInfoBar,
+  CitizenServicesSection,
+  VacancyBidsSection,
+  MayorMessageSection,
+  FeaturedProjectsSection,
+  EmergencyContactsSection,
+} from "@/components/homepage-sections";
 
 /* ─── Types ────────────────────────────────────────────────── */
 type PageId =
@@ -3636,12 +3644,16 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
           <DidYouKnowBar />
           <HeroSlider />
           <HeroStatsSection />
+          <CitizenServicesSection onNavigate={onNavigate} />
+          <VacancyBidsSection onNavigate={onNavigate} />
           <NewsFeedSection onNavigate={onNavigate} />
+          <MayorMessageSection onNavigate={onNavigate} />
           <TVETCollegeSection onNavigate={onNavigate} />
           <ServicesOverviewSection onNavigate={onNavigate} />
+          <FeaturedProjectsSection onNavigate={onNavigate} />
           <CulturalPlacesSection onNavigate={onNavigate} />
+          <EmergencyContactsSection />
           <GeoMapSection onNavigate={onNavigate} />
-          <ServicesOverview onNavigate={onNavigate} />
         </>
       );
   }
@@ -3700,6 +3712,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState<PageId>("home");
   return (
     <div className="min-h-screen flex flex-col bg-white">
+      <TopInfoBar onNavigate={setCurrentPage} />
       <Header currentPage={currentPage} onNavigate={setCurrentPage} />
       <SocialSidebar />
       <main className="flex-1">
