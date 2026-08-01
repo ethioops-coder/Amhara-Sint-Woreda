@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import { Users, School, HeartPulse, MapPin, Map, Banknote, Tractor, Droplets } from "lucide-react";
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, CartesianGrid } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, CartesianGrid, Cell } from "recharts";
 
 const stats = [
   { label: "Total Population", value: 214056, icon: Users, color: "#10B981" },
@@ -133,7 +133,7 @@ export function WoredaStatistics() {
                   />
                   <Bar dataKey="amount" radius={[0, 8, 8, 0]} barSize={32}>
                     {budgetData.map((entry, index) => (
-                      <cell key={\`cell-\${index}\`} fill={entry.fill} />
+                      <Cell key={\`cell-\${index}\`} fill={entry.fill} />
                     ))}
                   </Bar>
                 </BarChart>
