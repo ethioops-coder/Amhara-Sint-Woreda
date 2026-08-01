@@ -300,40 +300,61 @@ function QuickNavBar({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   );
 }
 
-/* ─── HERO STATS SECTION (Below Slider) — FULL WIDTH COLOR BAR ─── */
+/* ─── HERO STATS SECTION (Below Slider) — PREMIUM REDESIGN ─── */
 const HERO_STATS = [
-  { value: 214056, suffix: "", display: "214,056", label: "Population", icon: Users, color: "#10B981", bg: "bg-emerald-500", hoverBg: "hover:bg-emerald-600" },
-  { value: 37, suffix: "", display: null, label: "Kebeles", icon: MapPin, color: "#6366F1", bg: "bg-indigo-500", hoverBg: "hover:bg-indigo-600" },
-  { value: 106, suffix: "", display: "106", label: "Schools", icon: School, color: "#F59E0B", bg: "bg-amber-500", hoverBg: "hover:bg-amber-600" },
-  { value: 8, suffix: "", display: "8", label: "Health Facilities", icon: HeartPulse, color: "#F43F5E", bg: "bg-rose-500", hoverBg: "hover:bg-rose-600" },
-  { value: 1437, suffix: "", display: "1,437", label: "Area (km\u00B2)", icon: Map, color: "#8B5CF6", bg: "bg-violet-500", hoverBg: "hover:bg-violet-600" },
-  { value: 200, suffix: " M ETB", display: "200M ETB", label: "Annual Budget", icon: Banknote, color: "#06B6D4", bg: "bg-cyan-500", hoverBg: "hover:bg-cyan-600" },
+  { value: 214056, suffix: "", display: "214,056", label: "Population", icon: Users, accent: "#10B981", gradient: "from-emerald-500 to-teal-600", ring: "ring-emerald-400/30" },
+  { value: 37, suffix: "", display: null, label: "Kebeles", icon: MapPin, accent: "#818CF8", gradient: "from-indigo-500 to-violet-600", ring: "ring-indigo-400/30" },
+  { value: 106, suffix: "", display: "106", label: "Schools", icon: School, accent: "#FBBF24", gradient: "from-amber-400 to-orange-500", ring: "ring-amber-400/30" },
+  { value: 8, suffix: "", display: "8", label: "Health Facilities", icon: HeartPulse, accent: "#FB7185", gradient: "from-rose-500 to-pink-600", ring: "ring-rose-400/30" },
+  { value: 1437, suffix: "", display: "1,437", label: "Area (km²)", icon: Map, accent: "#C084FC", gradient: "from-violet-500 to-purple-600", ring: "ring-violet-400/30" },
+  { value: 200, suffix: " M", display: "200 M", label: "Budget (ETB)", icon: Banknote, accent: "#22D3EE", gradient: "from-cyan-500 to-sky-600", ring: "ring-cyan-400/30" },
 ];
 function HeroStatsSection() {
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.05 });
     if (ref.current) o.observe(ref.current);
     return () => o.disconnect();
   }, []);
   return (
-    <section ref={ref} className="w-full">
-      <div className="grid grid-cols-3 md:grid-cols-6">
+    <section ref={ref} className="w-full bg-[#0B3D2E] relative overflow-hidden">
+      {/* Subtle background texture */}
+      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "24px 24px" }} />
+      {/* Top accent line */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#EAB308] to-transparent opacity-60" />
+      <div className="relative grid grid-cols-3 md:grid-cols-6">
         {HERO_STATS.map((s, i) => (
           <div
             key={s.label}
-            className={`${s.bg} ${s.hoverBg} flex flex-col items-center justify-center py-5 md:py-7 px-3 transition-all duration-500 cursor-default group ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"} border-r border-white/20 last:border-r-0`}
-            style={{ transitionDelay: `${i * 80}ms` }}
+            className={`relative flex flex-col items-center justify-center py-6 md:py-8 px-2 md:px-4 cursor-default group
+              transition-all duration-700 ease-out
+              ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
+              border-r border-white/8 last:border-r-0 hover:bg-white/5`}
+            style={{ transitionDelay: `${i * 90}ms` }}
           >
-            <s.icon className="w-5 h-5 md:w-6 md:h-6 text-white/80 mb-1.5 group-hover:scale-110 group-hover:text-white transition-all duration-300" />
-            <div className="text-lg md:text-2xl lg:text-3xl font-black text-white leading-tight group-hover:scale-105 transition-transform duration-300">
-              {s.display || <AnimatedCounter target={s.value} suffix={s.suffix} />}
+            {/* Icon badge */}
+            <div className={`relative w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br ${s.gradient} flex items-center justify-center mb-3 shadow-lg ring-2 ${s.ring} group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
+              <s.icon className="w-5 h-5 md:w-6 md:h-6 text-white drop-shadow" />
             </div>
-            <p className="text-[10px] md:text-xs text-white/70 font-semibold mt-1 text-center uppercase tracking-wide">{s.label}</p>
+            {/* Number */}
+            <div
+              className="text-xl md:text-2xl lg:text-[2rem] font-black leading-none tracking-tight mb-1.5 tabular-nums group-hover:scale-105 transition-transform duration-300"
+              style={{ color: s.accent }}
+            >
+              {s.display ? s.display : <AnimatedCounter target={s.value} suffix={s.suffix} />}
+            </div>
+            {/* Label */}
+            <p className="text-[9px] md:text-[11px] text-white/50 font-semibold uppercase tracking-widest text-center leading-tight group-hover:text-white/80 transition-colors duration-300">
+              {s.label}
+            </p>
+            {/* Bottom accent on hover */}
+            <div className={`absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-gradient-to-r ${s.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
           </div>
         ))}
       </div>
+      {/* Bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/5" />
     </section>
   );
 }
@@ -856,32 +877,44 @@ function TVETCollegeSection({ onNavigate }: { onNavigate: (p: PageId) => void })
   );
 }
 
-/* ─── QUICK STATS (Home) — Compact horizontal row ───────── */
+/* ─── QUICK STATS (Home) — Premium Card Grid ───────────── */
 const KEY_STATS = [
-  { label: "Population", value: 214056, suffix: "", display: "214,056", icon: Users, color: "text-emerald-600", bg: "bg-emerald-50" },
-  { label: "Kebeles", value: 37, suffix: "", display: null, icon: MapPin, color: "text-blue-600", bg: "bg-blue-50" },
-  { label: "Schools", value: 106, suffix: "", display: "106", icon: School, color: "text-amber-600", bg: "bg-amber-50" },
-  { label: "Health Facilities", value: 8, suffix: "", display: "8", icon: HeartPulse, color: "text-rose-600", bg: "bg-rose-50" },
-  { label: "Area (km\u00B2)", value: 1437, suffix: "", display: "1,437", icon: Map, color: "text-purple-600", bg: "bg-purple-50" },
-  { label: "Budget (ETB)", value: 200, suffix: " M", display: "200 M", icon: Banknote, color: "text-teal-600", bg: "bg-teal-50" },
+  { label: "Population", value: 214056, suffix: "", display: "214,056", icon: Users, accent: "#059669", gradient: "from-emerald-500 to-teal-500", light: "bg-emerald-50", border: "border-emerald-100", ring: "#059669" },
+  { label: "Kebeles", value: 37, suffix: "", display: null, icon: MapPin, accent: "#3B82F6", gradient: "from-blue-500 to-indigo-500", light: "bg-blue-50", border: "border-blue-100", ring: "#3B82F6" },
+  { label: "Schools", value: 106, suffix: "", display: "106", icon: School, accent: "#D97706", gradient: "from-amber-400 to-orange-500", light: "bg-amber-50", border: "border-amber-100", ring: "#D97706" },
+  { label: "Health Facilities", value: 8, suffix: "", display: "8", icon: HeartPulse, accent: "#E11D48", gradient: "from-rose-500 to-pink-500", light: "bg-rose-50", border: "border-rose-100", ring: "#E11D48" },
+  { label: "Area (km²)", value: 1437, suffix: "", display: "1,437", icon: Map, accent: "#9333EA", gradient: "from-violet-500 to-purple-500", light: "bg-purple-50", border: "border-purple-100", ring: "#9333EA" },
+  { label: "Budget (ETB)", value: 200, suffix: " M", display: "200 M", icon: Banknote, accent: "#0D9488", gradient: "from-teal-500 to-cyan-500", light: "bg-teal-50", border: "border-teal-100", ring: "#0D9488" },
 ];
 function QuickStats() {
   return (
-    <section id="statistics-section" className="bg-white border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-7 md:py-8">
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-5">
+    <section id="statistics-section" className="bg-gradient-to-b from-white to-gray-50/70 border-b border-gray-100">
+      {/* Section label */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 pt-8 pb-2">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="h-[2px] w-8 rounded-full bg-[#EAB308]" />
+          <span className="text-[11px] font-black text-[#0B3D2E]/40 uppercase tracking-[0.2em]">Woreda at a Glance</span>
+          <div className="h-[2px] flex-1 rounded-full bg-gray-100" />
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4 pb-8">
           {KEY_STATS.map((s, i) => (
-            <AnimatedSection key={s.label} delay={i * 60}>
-              <div className={`${s.bg} rounded-xl p-3 md:p-4 flex items-center gap-3 hover:shadow-md transition-all duration-300 group cursor-default`}>
-                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl ${s.bg} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300`}>
-                  <s.icon className={`w-5 h-5 md:w-6 md:h-6 ${s.color}`} />
+            <AnimatedSection key={s.label} delay={i * 70}>
+              <div className={`${s.light} ${s.border} border rounded-2xl p-4 md:p-5 flex flex-col items-center text-center gap-2.5 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group cursor-default`}>
+                {/* Icon */}
+                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${s.gradient} flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300`}>
+                  <s.icon className="w-5 h-5 text-white" />
                 </div>
-                <div className="min-w-0">
-                  <div className="text-lg md:text-2xl font-extrabold leading-tight" style={{ color: s.color === "text-emerald-600" ? "#059669" : s.color === "text-blue-600" ? "#2563EB" : s.color === "text-amber-600" ? "#D97706" : s.color === "text-rose-600" ? "#E11D48" : s.color === "text-purple-600" ? "#9333EA" : "#0D9488" }}>
-                    {s.display ? s.display : <><AnimatedCounter target={s.value} suffix={s.suffix} /></>}
-                  </div>
-                  <p className="text-[10px] md:text-xs text-gray-500 font-medium truncate">{s.label}</p>
+                {/* Value */}
+                <div
+                  className="text-2xl md:text-3xl font-black leading-none tabular-nums tracking-tight"
+                  style={{ color: s.accent }}
+                >
+                  {s.display ? s.display : <AnimatedCounter target={s.value} suffix={s.suffix} />}
                 </div>
+                {/* Label */}
+                <p className="text-[10px] md:text-[11px] text-gray-500 font-semibold uppercase tracking-wide leading-tight">{s.label}</p>
+                {/* Bottom accent bar */}
+                <div className="w-8 h-[2px] rounded-full opacity-40 group-hover:opacity-80 group-hover:w-14 transition-all duration-300" style={{ backgroundColor: s.accent }} />
               </div>
             </AnimatedSection>
           ))}

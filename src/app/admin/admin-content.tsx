@@ -98,10 +98,10 @@ function DashboardPage({ nav }: { nav: (p: AdminPage) => void }) {
   const barData = MONTHS.map((m, i) => { const key = `2026-${String(i + 1).padStart(2, "0")}`; return { month: m, count: stats.newsByMonth[key] || 0 }; });
 
   const cards = [
-    { label: "Total News", value: stats.totalNews, icon: "📰", bg: "bg-[#0B3D2E]", click: () => nav("news") },
-    { label: "Applications", value: stats.totalApplications || 0, icon: "📋", bg: "bg-blue-50", click: () => nav("applications") },
-    { label: "Messages", value: stats.totalMessages || 0, icon: "💬", bg: "bg-rose-50", click: () => nav("contact-messages") },
-    { label: "Open Bids", value: stats.openBids || 0, icon: "💼", bg: "bg-amber-50", click: () => nav("bids") },
+    { label: "Total News", value: stats.totalNews, icon: "📰", gradient: "from-[#0B3D2E] to-[#145A44]", text: "text-white", sub: "text-white/60", iconBg: "bg-white/15", click: () => nav("news") },
+    { label: "Applications", value: stats.totalApplications || 0, icon: "📋", gradient: "from-blue-50 to-indigo-50", text: "text-blue-800", sub: "text-blue-400", iconBg: "bg-blue-100", click: () => nav("applications") },
+    { label: "Messages", value: stats.totalMessages || 0, icon: "💬", gradient: "from-rose-50 to-pink-50", text: "text-rose-800", sub: "text-rose-400", iconBg: "bg-rose-100", click: () => nav("contact-messages") },
+    { label: "Open Bids", value: stats.openBids || 0, icon: "💼", gradient: "from-amber-50 to-yellow-50", text: "text-amber-800", sub: "text-amber-400", iconBg: "bg-amber-100", click: () => nav("bids") },
   ];
 
   const actions = [
@@ -125,28 +125,40 @@ function DashboardPage({ nav }: { nav: (p: AdminPage) => void }) {
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {cards.map((c) => (
-          <button key={c.label} onClick={c.click} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 text-left">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">{c.label}</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">{c.value}</p>
-              </div>
-              <div className={`w-11 h-11 rounded-xl ${c.bg} flex items-center justify-center text-lg`}>{c.icon}</div>
+          <button key={c.label} onClick={c.click}
+            className={`bg-gradient-to-br ${c.gradient} rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 p-5 text-left group hover:-translate-y-0.5`}>
+            <div className="flex items-start justify-between mb-4">
+              <div className={`w-11 h-11 rounded-xl ${c.iconBg} flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300`}>{c.icon}</div>
+              <span className={`text-xs font-semibold ${c.sub} opacity-0 group-hover:opacity-100 transition-opacity`}>→ View</span>
             </div>
+            <p className={`text-3xl font-black ${c.text} leading-none mb-1.5 tabular-nums`}>{c.value.toLocaleString()}</p>
+            <p className={`text-xs font-semibold uppercase tracking-wider ${c.sub}`}>{c.label}</p>
           </button>
         ))}
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white rounded-xl shadow-sm p-6">
-          <h3 className="text-base font-semibold text-gray-900 flex items-center gap-2">📈 Posts Over Time</h3>
-          <div className="flex items-end gap-2 h-48 mt-4">
-            {barData.map((d) => (
-              <div key={d.month} className="flex-1 flex flex-col items-center gap-1">
-                <span className="text-[10px] text-gray-400 font-medium">{d.count > 0 ? d.count : ""}</span>
-                <div className="w-full rounded-t-md transition-all duration-500 min-h-[4px]" style={{ height: `${Math.max((d.count / maxCount) * 100, 4)}%`, backgroundColor: d.count > 0 ? "#0B3D2E" : "#f3f4f6" }} />
-                <span className="text-[10px] text-gray-400">{d.month}</span>
-              </div>
-            ))}
+        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="text-base font-bold text-gray-900 flex items-center gap-2">
+              <span className="w-2 h-5 rounded-full bg-[#0B3D2E] inline-block" />
+              Posts Over Time
+            </h3>
+            <span className="text-xs text-gray-400 font-medium">2026</span>
+          </div>
+          <div className="flex items-end gap-1.5 h-44 mt-2">
+            {barData.map((d) => {
+              const pct = Math.max((d.count / maxCount) * 100, d.count > 0 ? 8 : 4);
+              return (
+                <div key={d.month} className="flex-1 flex flex-col items-center gap-1 group">
+                  <span className="text-[10px] text-gray-400 font-bold opacity-0 group-hover:opacity-100 transition-opacity">{d.count > 0 ? d.count : ""}</span>
+                  <div className="relative w-full rounded-t-lg transition-all duration-700 min-h-[4px] overflow-hidden"
+                    style={{ height: `${pct}%`, backgroundColor: d.count > 0 ? "#0B3D2E" : "#f3f4f6" }}>
+                    {d.count > 0 && <div className="absolute inset-0 bg-gradient-to-t from-transparent to-white/10 rounded-t-lg" />}
+                  </div>
+                  <span className="text-[9px] text-gray-400 font-medium">{d.month}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="bg-white rounded-xl shadow-sm p-6">
@@ -1454,15 +1466,15 @@ function VisitorsPage() {
       {/* Summary cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
-          { label: "Total Visits", value: total, icon: "👁️", color: "bg-blue-50 text-blue-600 border-blue-100" },
-          { label: "New Visitors", value: logs.filter(l => l.isNew).length, icon: "🆕", color: "bg-green-50 text-green-600 border-green-100" },
-          { label: "Mobile Users", value: logs.filter(l => l.device === "Mobile").length, icon: "📱", color: "bg-purple-50 text-purple-600 border-purple-100" },
-          { label: "Countries", value: new Set(logs.map(l => l.country).filter(c => c !== "Unknown" && c !== "Local")).size, icon: "🌍", color: "bg-amber-50 text-amber-600 border-amber-100" },
+          { label: "Total Visits", value: total, icon: "👁️", gradient: "from-blue-50 to-indigo-50", text: "text-blue-700", border: "border-blue-100" },
+          { label: "New Visitors", value: logs.filter(l => l.isNew).length, icon: "🆕", gradient: "from-emerald-50 to-green-50", text: "text-emerald-700", border: "border-emerald-100" },
+          { label: "Mobile Users", value: logs.filter(l => l.device === "Mobile").length, icon: "📱", gradient: "from-purple-50 to-violet-50", text: "text-purple-700", border: "border-purple-100" },
+          { label: "Countries", value: new Set(logs.map(l => l.country).filter(c => c !== "Unknown" && c !== "Local")).size, icon: "🌍", gradient: "from-amber-50 to-yellow-50", text: "text-amber-700", border: "border-amber-100" },
         ].map(s => (
-          <div key={s.label} className={`rounded-xl border p-4 ${s.color}`}>
-            <div className="text-2xl mb-1">{s.icon}</div>
-            <div className="text-2xl font-black">{s.value}</div>
-            <div className="text-xs font-medium opacity-70">{s.label}</div>
+          <div key={s.label} className={`bg-gradient-to-br ${s.gradient} rounded-2xl border ${s.border} p-5 flex flex-col gap-2`}>
+            <div className="text-2xl">{s.icon}</div>
+            <div className={`text-3xl font-black ${s.text} tabular-nums leading-none`}>{s.value.toLocaleString()}</div>
+            <div className={`text-xs font-semibold uppercase tracking-wide opacity-60 ${s.text}`}>{s.label}</div>
           </div>
         ))}
       </div>
