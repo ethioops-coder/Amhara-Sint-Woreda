@@ -104,7 +104,7 @@ export function WoredaStatistics() {
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E2E8F0" />
                   <XAxis dataKey="year" axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 12}} dy={10} />
-                  <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 12}} tickFormatter={(value) => \`\${(value/1000).toFixed(0)}k\`} />
+                  <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748B', fontSize: 12}} tickFormatter={(value) => `${(value/1000).toFixed(0)}k`} />
                   <Tooltip 
                     contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                     formatter={(value: number) => [value.toLocaleString(), "Population"]}
@@ -129,11 +129,11 @@ export function WoredaStatistics() {
                   <Tooltip 
                     cursor={{fill: '#F8FAFC'}}
                     contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
-                    formatter={(value: number) => [\`\${value}M ETB\`, "Budget"]}
+                    formatter={(value: number) => [`${value}M ETB`, "Budget"]}
                   />
                   <Bar dataKey="amount" radius={[0, 8, 8, 0]} barSize={32}>
                     {budgetData.map((entry, index) => (
-                      <Cell key={\`cell-\${index}\`} fill={entry.fill} />
+                      <Cell key={`cell-${index}`} fill={entry.fill} />
                     ))}
                   </Bar>
                 </BarChart>
