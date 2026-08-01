@@ -34,30 +34,6 @@ const BIDS = [
 ];
 
 export function HomeDashboardSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
-  const [news, setNews] = useState<any[]>([]);
-
-  useEffect(() => {
-    fetch("/admin/api/news")
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) {
-          const published = data.filter((n: any) => n.status === "published").map((n: any) => ({ ...n, image: n.image || n.imageUrl }));
-          if (published.length > 0) { setNews(published); return; }
-        }
-        setNews([
-          { id: "1", title: "Amhara Sayint Launches New Water Supply Project", category: "Water", date: "2026-06-28", image: "https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg" },
-          { id: "2", title: "Annual Agricultural Exhibition a Great Success", category: "Agriculture", date: "2026-06-25", image: "https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg" },
-          { id: "3", title: "New Primary School Inaugurated in Kebele 05", category: "Education", date: "2026-06-20", image: "https://sfile.chatglm.cn/images-ppt/b60b21cb0921.jpg" },
-        ]);
-      })
-      .catch(() => {
-        setNews([
-          { id: "1", title: "Amhara Sayint Launches New Water Supply Project", category: "Water", date: "2026-06-28", image: "https://sfile.chatglm.cn/images-ppt/35f5cc0fa1a7.jpg" },
-          { id: "2", title: "Annual Agricultural Exhibition a Great Success", category: "Agriculture", date: "2026-06-25", image: "https://sfile.chatglm.cn/images-ppt/4f86eab1aa4a.jpg" },
-        ]);
-      });
-  }, []);
-
   return (
     <section className="py-12 md:py-16 bg-gray-50 border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -73,38 +49,9 @@ export function HomeDashboardSection({ onNavigate }: { onNavigate: (p: PageId) =
         </AnimatedSection>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           
-          {/* COLUMN 1: Latest News */}
-          <AnimatedSection delay={100} className="lg:col-span-1">
-            <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-xl shadow-slate-200/50 h-full flex flex-col">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="font-bold text-[#0B3D2E] text-lg flex items-center gap-2">
-                  <Newspaper className="w-5 h-5 text-emerald-600" /> Latest News
-                </h3>
-                <button onClick={() => onNavigate("news-news")} className="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1 transition-colors">
-                  View All <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
-              
-              <div className="flex flex-col gap-5 flex-1">
-                {news.slice(0, 3).map((item) => (
-                  <div key={item.id} className="group cursor-pointer flex gap-4 items-center" onClick={() => onNavigate("news-news")}>
-                    <div className="w-20 h-20 rounded-2xl overflow-hidden shrink-0 shadow-sm">
-                      <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider mb-1 block">{item.category}</span>
-                      <h4 className="font-bold text-slate-800 text-sm leading-tight group-hover:text-emerald-600 transition-colors line-clamp-2 mb-1">{item.title}</h4>
-                      <div className="flex items-center gap-1.5 text-xs text-slate-400">
-                        <Calendar className="w-3 h-3" /> {item.date}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </AnimatedSection>
+
 
           {/* COLUMN 2: Woreda Statistics */}
           <AnimatedSection delay={200} className="lg:col-span-1">

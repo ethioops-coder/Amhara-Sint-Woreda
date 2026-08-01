@@ -28,6 +28,7 @@ import SubscribeBanner from "@/components/subscribe-banner";
 import { WoredaStatistics } from "@/components/woreda-statistics";
 import { InternationalNewsFeed } from "@/components/international-news-feed";
 import { HomeDashboardSection } from "@/components/home-dashboard-section";
+import { PaginatedNewsSection } from "@/components/paginated-news-section";
 import {
   TopInfoBar,
   CitizenServicesSection,
@@ -3647,6 +3648,7 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
           <DidYouKnowBar />
           <HeroSlider />
           <HomeDashboardSection onNavigate={onNavigate} />
+          <PaginatedNewsSection onNavigate={onNavigate} />
           <CitizenServicesSection onNavigate={onNavigate} />
           <MayorMessageSection onNavigate={onNavigate} />
           <TVETCollegeSection onNavigate={onNavigate} />
