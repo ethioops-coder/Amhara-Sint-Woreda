@@ -93,66 +93,60 @@ export function HeroSlider() {
 }
 
 const KEY_STATS = [
-  { icon: School, label: "Primary Schools", value: 47, color: "from-[#059669] to-[#10B981]", bg: "bg-emerald-50" },
-  { icon: School, label: "Secondary Schools", value: 8, color: "from-[#0891B2] to-[#06B6D4]", bg: "bg-cyan-50" },
-  { icon: Stethoscope, label: "Health Centers", value: 5, color: "from-[#DC2626] to-[#EF4444]", bg: "bg-red-50" },
-  { icon: Stethoscope, label: "Health Posts", value: 18, color: "from-[#E11D48] to-[#F43F5E]", bg: "bg-rose-50" },
-  { icon: Droplets, label: "Clean Water Points", value: 64, color: "from-[#0284C7] to-[#0EA5E9]", bg: "bg-sky-50" },
-  { icon: Building2, label: "Kebeles", value: 22, color: "from-[#7C3AED] to-[#8B5CF6]", bg: "bg-violet-50" },
-  { icon: TreePine, label: "Forest Coverage", value: 18, suffix: "%", color: "from-[#16A34A] to-[#22C55E]", bg: "bg-green-50" },
-  { icon: Users, label: "Households", value: 28470, color: "from-[#D97706] to-[#F59E0B]", bg: "bg-amber-50" },
+  { icon: School,      label: "Primary Schools",    value: 47,    bg: "#16A34A", light: "#F0FDF4", borderColor: "#BBF7D0", color: "from-[#059669] to-[#10B981]" },
+  { icon: School,      label: "Secondary Schools",  value: 8,     bg: "#0891B2", light: "#ECFEFF", borderColor: "#A5F3FC", color: "from-[#0891B2] to-[#06B6D4]" },
+  { icon: Stethoscope, label: "Health Centers",     value: 5,     bg: "#DC2626", light: "#FFF1F2", borderColor: "#FECDD3", color: "from-[#DC2626] to-[#EF4444]" },
+  { icon: Stethoscope, label: "Health Posts",       value: 18,    bg: "#E11D48", light: "#FFF1F2", borderColor: "#FECDD3", color: "from-[#E11D48] to-[#F43F5E]" },
+  { icon: Droplets,    label: "Clean Water Points", value: 64,    bg: "#0284C7", light: "#F0F9FF", borderColor: "#BAE6FD", color: "from-[#0284C7] to-[#0EA5E9]" },
+  { icon: Building2,   label: "Kebeles",            value: 22,    bg: "#7C3AED", light: "#FAF5FF", borderColor: "#DDD6FE", color: "from-[#7C3AED] to-[#8B5CF6]" },
+  { icon: TreePine,    label: "Forest Coverage",    value: 18, suffix: "%", bg: "#16A34A", light: "#F0FDF4", borderColor: "#BBF7D0", color: "from-[#16A34A] to-[#22C55E]" },
+  { icon: Users,       label: "Households",         value: 28470, bg: "#D97706", light: "#FFFBEB", borderColor: "#FDE68A", color: "from-[#D97706] to-[#F59E0B]" },
 ];
 
 export function StatisticsSection() {
   return (
-    <section id="statistics-section" className="py-20 md:py-28 bg-[#F0FDF4] relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#0B3D2E]/3 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-[#EAB308]/5 rounded-full blur-3xl -translate-x-1/3 translate-y-1/3" />
-      </div>
+    <section id="statistics-section" className="py-16 md:py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
-        <AnimatedSection className="text-center mb-14">
-          <div className="inline-flex items-center gap-2 bg-[#0B3D2E]/8 border border-[#0B3D2E]/12 rounded-full px-5 py-2 mb-5">
-            <BarChart3 className="w-4 h-4 text-[#0B3D2E]" />
-            <span className="text-[#0B3D2E] text-xs font-black uppercase tracking-[0.18em]">Key Statistics</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-[#0B3D2E] mb-4">
-            Woreda by the <span className="text-[#EAB308] relative">
-              Numbers
-              <svg className="absolute -bottom-1 left-0 w-full" viewBox="0 0 100 6" fill="none" preserveAspectRatio="none" style={{ height: "6px" }}>
-                <path d="M0 5 Q50 0 100 5" stroke="#EAB308" strokeWidth="2.5" fill="none" strokeLinecap="round" opacity="0.6" />
-              </svg>
-            </span>
+        {/* Heading */}
+        <AnimatedSection className="text-center mb-10 md:mb-12">
+          <span className="inline-flex items-center gap-2 bg-[#0B3D2E]/8 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/15 mb-4">
+            <BarChart3 className="w-3.5 h-3.5" /> Key Statistics
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#0B3D2E] mb-3">
+            Woreda by the <span className="text-[#EAB308]">Numbers</span>
           </h2>
-          <p className="text-[#0B3D2E]/55 max-w-2xl mx-auto text-base md:text-lg">
-            A comprehensive overview of Amhara Sayint Woreda&apos;s key development indicators
+          <p className="text-gray-500 max-w-xl mx-auto text-sm md:text-base">
+            A snapshot of Amhara Sayint Woreda's development indicators
           </p>
         </AnimatedSection>
 
-        {/* Stats grid */}
+        {/* Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {KEY_STATS.map((stat, i) => (
             <AnimatedSection key={stat.label} delay={i * 80}>
-              <div className={`${stat.bg} rounded-2xl border border-white/80 shadow-sm hover:shadow-xl transition-all duration-400 hover:-translate-y-1.5 h-full group cursor-default relative overflow-hidden`}>
-                {/* Glow on hover */}
-                <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-br ${stat.color} rounded-2xl`} style={{ opacity: 0 }} />
-                <div className="relative p-5 md:p-6 text-center flex flex-col items-center gap-3">
-                  {/* Icon */}
-                  <div className={`w-13 h-13 md:w-15 md:h-15 w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-all duration-300`}>
-                    <stat.icon className="w-6 h-6 md:w-7 md:h-7 text-white" />
-                  </div>
-                  {/* Number */}
-                  <div className="text-3xl md:text-4xl font-black text-[#0B3D2E] leading-none tabular-nums tracking-tight">
-                    <AnimatedCounter target={stat.value} suffix={stat.suffix || ""} duration={2200} />
-                  </div>
-                  {/* Label */}
-                  <p className="text-[#0B3D2E]/55 text-xs md:text-sm font-semibold leading-snug">{stat.label}</p>
-                  {/* Bottom colored accent */}
-                  <div className={`w-10 h-1 rounded-full bg-gradient-to-r ${stat.color} opacity-40 group-hover:opacity-80 group-hover:w-16 transition-all duration-300`} />
+              <div
+                className="rounded-2xl p-6 md:p-7 flex flex-col items-center text-center gap-4 border hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-default group"
+                style={{ backgroundColor: stat.light, borderColor: stat.borderColor }}
+              >
+                {/* Icon */}
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300"
+                  style={{ backgroundColor: stat.bg }}
+                >
+                  <stat.icon className="w-7 h-7 text-white" />
                 </div>
+
+                {/* Animated number */}
+                <div
+                  className="text-4xl md:text-5xl font-black leading-none tabular-nums"
+                  style={{ color: stat.bg }}
+                >
+                  <AnimatedCounter target={stat.value} suffix={stat.suffix || ""} duration={2200} />
+                </div>
+
+                {/* Label */}
+                <p className="text-sm font-semibold text-gray-500 leading-snug">{stat.label}</p>
               </div>
             </AnimatedSection>
           ))}
@@ -164,45 +158,44 @@ export function StatisticsSection() {
 
 export function QuickStats() {
   return (
-    <section className="py-14 md:py-18 bg-[#0B3D2E] relative overflow-hidden">
-      {/* Dot grid texture */}
-      <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "20px 20px" }} />
-      {/* Gold accent lines */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#EAB308]/60 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#EAB308]/30 to-transparent" />
+    <section className="py-14 md:py-16 bg-[#0B3D2E]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div className="relative max-w-6xl mx-auto px-4">
         {/* Label */}
-        <div className="text-center mb-8 md:mb-10">
-          <span className="inline-block text-[#EAB308]/60 text-[10px] font-black uppercase tracking-[0.3em]">
-            — Core Metrics —
-          </span>
+        <div className="text-center mb-10">
+          <span className="text-[#EAB308]/70 text-xs font-bold uppercase tracking-[0.25em]">Core Metrics</span>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
           {[
-            { label: "Population", value: 142350, suffix: "", icon: Users, accent: "#34D399" },
-            { label: "Area (km²)", value: 1245, suffix: "", icon: Map, accent: "#818CF8" },
-            { label: "Growth Rate", value: 2.8, suffix: "%", icon: BarChart3, accent: "#FCD34D" },
-            { label: "Kebeles", value: 22, suffix: "", icon: MapPin, accent: "#F9A8D4" },
+            { label: "Population", value: 142350, suffix: "",    icon: Users,     color: "#34D399" },
+            { label: "Area (km²)", value: 1245,   suffix: "",    icon: Map,       color: "#818CF8" },
+            { label: "Growth Rate",value: 2.8,    suffix: "%",   icon: BarChart3, color: "#FCD34D" },
+            { label: "Kebeles",    value: 22,      suffix: "",    icon: MapPin,    color: "#F9A8D4" },
           ].map((s, i) => (
             <AnimatedSection key={s.label} delay={i * 100}>
-              <div className="flex flex-col items-center text-center group cursor-default">
-                {/* Icon ring */}
+              <div className="flex flex-col items-center text-center gap-3 group cursor-default">
+                {/* Icon circle */}
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-4 border-2 border-white/10 group-hover:border-opacity-40 group-hover:scale-110 transition-all duration-300"
-                  style={{ backgroundColor: s.accent + "18", borderColor: s.accent + "30" }}
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center border-2 border-white/10 group-hover:scale-110 transition-transform duration-300"
+                  style={{ backgroundColor: s.color + "20", borderColor: s.color + "40" }}
                 >
-                  <s.icon className="w-6 h-6" style={{ color: s.accent }} />
+                  <s.icon className="w-6 h-6" style={{ color: s.color }} />
                 </div>
+
                 {/* Big number */}
-                <div className="text-3xl md:text-4xl xl:text-5xl font-black leading-none mb-2 tabular-nums" style={{ color: s.accent }}>
+                <div
+                  className="text-4xl md:text-5xl font-black leading-none tabular-nums"
+                  style={{ color: s.color }}
+                >
                   <AnimatedCounter target={s.value} suffix={s.suffix} duration={2000} />
                 </div>
+
                 {/* Divider */}
-                <div className="w-8 h-0.5 rounded-full mb-2 opacity-40" style={{ backgroundColor: s.accent }} />
+                <div className="w-8 h-0.5 rounded-full" style={{ backgroundColor: s.color, opacity: 0.4 }} />
+
                 {/* Label */}
-                <p className="text-white/50 text-sm font-semibold tracking-wide">{s.label}</p>
+                <p className="text-white/55 text-sm font-semibold">{s.label}</p>
               </div>
             </AnimatedSection>
           ))}

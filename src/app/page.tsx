@@ -300,14 +300,14 @@ function QuickNavBar({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   );
 }
 
-/* ─── HERO STATS SECTION (Below Slider) — PREMIUM REDESIGN ─── */
+/* ─── HERO STATS SECTION (Below Slider) ─── */
 const HERO_STATS = [
-  { value: 214056, suffix: "", display: "214,056", label: "Population", icon: Users, accent: "#10B981", gradient: "from-emerald-500 to-teal-600", ring: "ring-emerald-400/30" },
-  { value: 37, suffix: "", display: null, label: "Kebeles", icon: MapPin, accent: "#818CF8", gradient: "from-indigo-500 to-violet-600", ring: "ring-indigo-400/30" },
-  { value: 106, suffix: "", display: "106", label: "Schools", icon: School, accent: "#FBBF24", gradient: "from-amber-400 to-orange-500", ring: "ring-amber-400/30" },
-  { value: 8, suffix: "", display: "8", label: "Health Facilities", icon: HeartPulse, accent: "#FB7185", gradient: "from-rose-500 to-pink-600", ring: "ring-rose-400/30" },
-  { value: 1437, suffix: "", display: "1,437", label: "Area (km²)", icon: Map, accent: "#C084FC", gradient: "from-violet-500 to-purple-600", ring: "ring-violet-400/30" },
-  { value: 200, suffix: " M", display: "200 M", label: "Budget (ETB)", icon: Banknote, accent: "#22D3EE", gradient: "from-cyan-500 to-sky-600", ring: "ring-cyan-400/30" },
+  { value: 214056, display: "214,056", label: "Population",       icon: Users,      bg: "#16A34A", light: "#DCFCE7" },
+  { value: 37,     display: "37",      label: "Kebeles",          icon: MapPin,     bg: "#2563EB", light: "#DBEAFE" },
+  { value: 106,    display: "106",     label: "Schools",          icon: School,     bg: "#D97706", light: "#FEF3C7" },
+  { value: 8,      display: "8",       label: "Health Facilities", icon: HeartPulse, bg: "#DC2626", light: "#FEE2E2" },
+  { value: 1437,   display: "1,437",   label: "Area km²",         icon: Map,        bg: "#7C3AED", light: "#EDE9FE" },
+  { value: 200,    display: "200 M",   label: "Budget (ETB)",     icon: Banknote,   bg: "#0891B2", light: "#CFFAFE" },
 ];
 function HeroStatsSection() {
   const [visible, setVisible] = useState(false);
@@ -318,43 +318,42 @@ function HeroStatsSection() {
     return () => o.disconnect();
   }, []);
   return (
-    <section ref={ref} className="w-full bg-[#0B3D2E] relative overflow-hidden">
-      {/* Subtle background texture */}
-      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)", backgroundSize: "24px 24px" }} />
-      {/* Top accent line */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#EAB308] to-transparent opacity-60" />
-      <div className="relative grid grid-cols-3 md:grid-cols-6">
-        {HERO_STATS.map((s, i) => (
-          <div
-            key={s.label}
-            className={`relative flex flex-col items-center justify-center py-6 md:py-8 px-2 md:px-4 cursor-default group
-              transition-all duration-700 ease-out
-              ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}
-              border-r border-white/8 last:border-r-0 hover:bg-white/5`}
-            style={{ transitionDelay: `${i * 90}ms` }}
-          >
-            {/* Icon badge */}
-            <div className={`relative w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-gradient-to-br ${s.gradient} flex items-center justify-center mb-3 shadow-lg ring-2 ${s.ring} group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
-              <s.icon className="w-5 h-5 md:w-6 md:h-6 text-white drop-shadow" />
-            </div>
-            {/* Number */}
+    <section ref={ref} className="w-full bg-white border-b border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-5">
+          {HERO_STATS.map((s, i) => (
             <div
-              className="text-xl md:text-2xl lg:text-[2rem] font-black leading-none tracking-tight mb-1.5 tabular-nums group-hover:scale-105 transition-transform duration-300"
-              style={{ color: s.accent }}
+              key={s.label}
+              className={`rounded-2xl p-4 md:p-5 flex flex-col items-center gap-3 cursor-default group
+                hover:shadow-xl hover:-translate-y-1 transition-all duration-300
+                ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+              style={{
+                backgroundColor: s.light,
+                transitionDelay: `${i * 80}ms`,
+              }}
             >
-              {s.display ? s.display : <AnimatedCounter target={s.value} suffix={s.suffix} />}
+              {/* Colored icon circle */}
+              <div
+                className="w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300 shrink-0"
+                style={{ backgroundColor: s.bg }}
+              >
+                <s.icon className="w-6 h-6 md:w-7 md:h-7 text-white" />
+              </div>
+              {/* Number */}
+              <div
+                className="text-2xl md:text-3xl font-black leading-none tabular-nums"
+                style={{ color: s.bg }}
+              >
+                {s.display}
+              </div>
+              {/* Label */}
+              <p className="text-[10px] md:text-xs font-semibold text-gray-500 uppercase tracking-wider text-center leading-tight">
+                {s.label}
+              </p>
             </div>
-            {/* Label */}
-            <p className="text-[9px] md:text-[11px] text-white/50 font-semibold uppercase tracking-widest text-center leading-tight group-hover:text-white/80 transition-colors duration-300">
-              {s.label}
-            </p>
-            {/* Bottom accent on hover */}
-            <div className={`absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-gradient-to-r ${s.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/5" />
     </section>
   );
 }
@@ -877,44 +876,64 @@ function TVETCollegeSection({ onNavigate }: { onNavigate: (p: PageId) => void })
   );
 }
 
-/* ─── QUICK STATS (Home) — Premium Card Grid ───────────── */
+/* ─── QUICK STATS (Home) ─── */
 const KEY_STATS = [
-  { label: "Population", value: 214056, suffix: "", display: "214,056", icon: Users, accent: "#059669", gradient: "from-emerald-500 to-teal-500", light: "bg-emerald-50", border: "border-emerald-100", ring: "#059669" },
-  { label: "Kebeles", value: 37, suffix: "", display: null, icon: MapPin, accent: "#3B82F6", gradient: "from-blue-500 to-indigo-500", light: "bg-blue-50", border: "border-blue-100", ring: "#3B82F6" },
-  { label: "Schools", value: 106, suffix: "", display: "106", icon: School, accent: "#D97706", gradient: "from-amber-400 to-orange-500", light: "bg-amber-50", border: "border-amber-100", ring: "#D97706" },
-  { label: "Health Facilities", value: 8, suffix: "", display: "8", icon: HeartPulse, accent: "#E11D48", gradient: "from-rose-500 to-pink-500", light: "bg-rose-50", border: "border-rose-100", ring: "#E11D48" },
-  { label: "Area (km²)", value: 1437, suffix: "", display: "1,437", icon: Map, accent: "#9333EA", gradient: "from-violet-500 to-purple-500", light: "bg-purple-50", border: "border-purple-100", ring: "#9333EA" },
-  { label: "Budget (ETB)", value: 200, suffix: " M", display: "200 M", icon: Banknote, accent: "#0D9488", gradient: "from-teal-500 to-cyan-500", light: "bg-teal-50", border: "border-teal-100", ring: "#0D9488" },
+  { label: "Population",       value: 214056, display: "214,056", icon: Users,      bg: "#16A34A", light: "#F0FDF4", border: "#BBF7D0" },
+  { label: "Kebeles",          value: 37,     display: "37",      icon: MapPin,     bg: "#2563EB", light: "#EFF6FF", border: "#BFDBFE" },
+  { label: "Schools",          value: 106,    display: "106",     icon: School,     bg: "#D97706", light: "#FFFBEB", border: "#FDE68A" },
+  { label: "Health Facilities",value: 8,      display: "8",       icon: HeartPulse, bg: "#DC2626", light: "#FFF1F2", border: "#FECDD3" },
+  { label: "Area (km²)",       value: 1437,   display: "1,437",   icon: Map,        bg: "#7C3AED", light: "#FAF5FF", border: "#DDD6FE" },
+  { label: "Budget (ETB)",     value: 200,    display: "200 M",   icon: Banknote,   bg: "#0891B2", light: "#ECFEFF", border: "#A5F3FC" },
 ];
 function QuickStats() {
   return (
-    <section id="statistics-section" className="bg-gradient-to-b from-white to-gray-50/70 border-b border-gray-100">
-      {/* Section label */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 pt-8 pb-2">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="h-[2px] w-8 rounded-full bg-[#EAB308]" />
-          <span className="text-[11px] font-black text-[#0B3D2E]/40 uppercase tracking-[0.2em]">Woreda at a Glance</span>
-          <div className="h-[2px] flex-1 rounded-full bg-gray-100" />
+    <section id="statistics-section" className="bg-gray-50 py-10 md:py-14 border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Section heading */}
+        <div className="text-center mb-8 md:mb-10">
+          <span className="inline-flex items-center gap-2 bg-[#0B3D2E]/8 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/15 mb-3">
+            <BarChart3 className="w-3.5 h-3.5" /> Woreda at a Glance
+          </span>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-[#0B3D2E]">
+            Key <span className="text-[#EAB308]">Statistics</span>
+          </h2>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 md:gap-4 pb-8">
+
+        {/* Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
           {KEY_STATS.map((s, i) => (
             <AnimatedSection key={s.label} delay={i * 70}>
-              <div className={`${s.light} ${s.border} border rounded-2xl p-4 md:p-5 flex flex-col items-center text-center gap-2.5 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 group cursor-default`}>
+              <div
+                className="rounded-2xl p-5 md:p-6 flex flex-col items-center text-center gap-3 border hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default group"
+                style={{ backgroundColor: s.light, borderColor: s.border }}
+              >
                 {/* Icon */}
-                <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${s.gradient} flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300`}>
-                  <s.icon className="w-5 h-5 text-white" />
-                </div>
-                {/* Value */}
                 <div
-                  className="text-2xl md:text-3xl font-black leading-none tabular-nums tracking-tight"
-                  style={{ color: s.accent }}
+                  className="w-12 h-12 rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300"
+                  style={{ backgroundColor: s.bg }}
                 >
-                  {s.display ? s.display : <AnimatedCounter target={s.value} suffix={s.suffix} />}
+                  <s.icon className="w-6 h-6 text-white" />
                 </div>
+
+                {/* Number */}
+                <div
+                  className="text-3xl md:text-4xl font-black leading-none tabular-nums"
+                  style={{ color: s.bg }}
+                >
+                  {s.display}
+                </div>
+
                 {/* Label */}
-                <p className="text-[10px] md:text-[11px] text-gray-500 font-semibold uppercase tracking-wide leading-tight">{s.label}</p>
-                {/* Bottom accent bar */}
-                <div className="w-8 h-[2px] rounded-full opacity-40 group-hover:opacity-80 group-hover:w-14 transition-all duration-300" style={{ backgroundColor: s.accent }} />
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide leading-tight">
+                  {s.label}
+                </p>
+
+                {/* Bottom bar */}
+                <div
+                  className="h-1 w-8 rounded-full group-hover:w-12 transition-all duration-300"
+                  style={{ backgroundColor: s.bg, opacity: 0.3 }}
+                />
               </div>
             </AnimatedSection>
           ))}
