@@ -3274,26 +3274,27 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
             <DidYouKnowBar />
             <HeroSlider />
           </div>
-                    {/* News and Services Side-by-Side (Moved to First Section) */}
-          <section className="py-10 bg-gray-50 border-t border-gray-100 relative">
-            <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-                
-                {/* Services Side (Left) */}
-                <div className="w-full">
-                  <CitizenServicesSection onNavigate={onNavigate} />
-                </div>
+                    {/* Services Section (Full Width) */}
+          <CitizenServicesSection onNavigate={onNavigate} />
 
-                {/* News Side (Right) */}
+          {/* News and Vacancy Side-by-Side */}
+          <section className="py-10 bg-white relative">
+            <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                
+                {/* News Side (Left) */}
                 <div className="w-full">
                   <PaginatedNewsSection onNavigate={onNavigate} />
+                </div>
+                
+                {/* Vacancy/Bids Side (Right) */}
+                <div className="w-full">
+                  <HomeDashboardSection onNavigate={onNavigate} />
                 </div>
                 
               </div>
             </div>
           </section>
-
-          <HomeDashboardSection onNavigate={onNavigate} />
           
           <DetailedStatsSection />
 

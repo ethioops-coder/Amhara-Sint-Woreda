@@ -63,7 +63,7 @@ const mockNews = [
 
 export function PaginatedNewsSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
+  const itemsPerPage = 5;
   
   const totalPages = Math.ceil(mockNews.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -107,13 +107,13 @@ export function PaginatedNewsSection({ onNavigate }: { onNavigate: (p: PageId) =
         </AnimatedSection>
 
         {/* Grid Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-4">
           {visibleNews.map((item, i) => (
             <AnimatedSection key={item.id} delay={i * 100}>
-              <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-xl shadow-gray-200/40 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col group cursor-pointer" onClick={() => onNavigate("news-news")}>
+              <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-xl shadow-gray-200/40 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 flex flex-row items-stretch group cursor-pointer" onClick={() => onNavigate("news-news")}>
                 
                 {/* Image & Badge */}
-                <div className="relative h-48 overflow-hidden">
+                <div className="relative w-1/3 min-h-[140px] overflow-hidden hidden sm:block">
                   <img 
                     src={item.image} 
                     alt={item.title} 
@@ -125,7 +125,7 @@ export function PaginatedNewsSection({ onNavigate }: { onNavigate: (p: PageId) =
                 </div>
 
                 {/* Content */}
-                <div className="p-6 flex flex-col flex-1">
+                <div className="p-4 flex flex-col flex-1 justify-center">
                   <div className="flex items-center gap-4 text-xs font-bold text-gray-400 mb-4">
                     <span className="flex items-center gap-1.5 text-gray-500">
                       <Calendar className="w-3.5 h-3.5 text-[#DC2626]" /> {item.date}

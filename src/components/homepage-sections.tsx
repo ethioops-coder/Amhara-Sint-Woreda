@@ -45,8 +45,8 @@ const CITIZEN_SERVICES = [
 
 export function CitizenServicesSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   return (
-    <div className="w-full h-full">
-      <div className="w-full h-full">
+    <section className="py-12 md:py-16 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection className="text-center mb-6">
           <span className="inline-block bg-[#0B3D2E]/8 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/15 mb-3">
             Government Services
@@ -59,7 +59,7 @@ export function CitizenServicesSection({ onNavigate }: { onNavigate: (p: PageId)
           </p>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {CITIZEN_SERVICES.map((svc, i) => (
             <AnimatedSection key={svc.title} delay={i * 60}>
               <button onClick={() => onNavigate(svc.href)}
