@@ -71,17 +71,21 @@ export function WoredaStatistics() {
         </div>
 
         {/* Top Stat Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-20">
           {stats.map((s, i) => (
-            <div key={i} className="bg-white rounded-2xl p-5 shadow-lg shadow-slate-200/50 border border-slate-100 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 flex flex-col items-center justify-center text-center group">
-              <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4 transition-transform group-hover:scale-110" style={{ backgroundColor: `${s.color}15` }}>
-                <s.icon size={28} style={{ color: s.color }} />
+            <div key={i} className="bg-white/80 backdrop-blur-xl rounded-3xl p-8 shadow-xl shadow-slate-200/40 border border-slate-100/60 hover:-translate-y-2 hover:shadow-2xl transition-all duration-500 flex flex-col items-center justify-center text-center group relative overflow-hidden">
+              {/* Animated subtle background glow */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 bg-gradient-to-br" style={{ backgroundImage: `linear-gradient(to bottom right, transparent, ${s.color})` }} />
+              
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-sm relative" style={{ backgroundColor: `${s.color}15` }}>
+                <s.icon size={32} style={{ color: s.color }} className="relative z-10" />
+                <div className="absolute inset-0 rounded-2xl animate-ping opacity-20" style={{ backgroundColor: s.color, animationDuration: '3s' }} />
               </div>
-              <h4 className="text-3xl font-black text-slate-800 mb-1">
+              <h4 className="text-5xl font-black mb-3 tracking-tight bg-clip-text text-transparent" style={{ backgroundImage: `linear-gradient(to right, ${s.color}, #1e293b)` }}>
                 <Counter end={s.value} />
                 {s.label.includes("Budget") && "M"}
               </h4>
-              <p className="text-xs font-semibold text-slate-500 uppercase">{s.label}</p>
+              <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">{s.label}</p>
             </div>
           ))}
         </div>
