@@ -107,7 +107,7 @@ export function PaginatedNewsSection({ onNavigate }: { onNavigate: (p: PageId) =
         </AnimatedSection>
 
         {/* Grid Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
           {visibleNews.map((item, i) => (
             <AnimatedSection key={item.id} delay={i * 100}>
               <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-xl shadow-gray-200/40 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col group cursor-pointer" onClick={() => onNavigate("news-news")}>

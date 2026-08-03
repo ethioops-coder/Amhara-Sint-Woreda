@@ -29,6 +29,7 @@ import SubscribeBanner from "@/components/subscribe-banner";
 import { WoredaStatistics } from "@/components/woreda-statistics";
 import { InternationalNewsFeed } from "@/components/international-news-feed";
 import { HomeDashboardSection } from "@/components/home-dashboard-section";
+import { DetailedStatsSection } from "@/components/detailed-stats-section";
 
 import { PaginatedNewsSection } from "@/components/paginated-news-section";
 import { VacancyPage } from "@/components/vacancy-page";
@@ -3274,53 +3275,29 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
             <HeroSlider />
           </div>
                     <HomeDashboardSection onNavigate={onNavigate} />
-          <CitizenServicesSection onNavigate={onNavigate} />
           
-          {/* News and Numerical Figures Side-by-Side */}
-          <section className="py-16 bg-white border-t border-gray-100 relative">
+          
+          <DetailedStatsSection />
+
+          {/* News and Services Side-by-Side */}
+          <section className="py-16 bg-gray-50 border-t border-gray-100 relative">
             <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                 
                 {/* News Side (Left) */}
-                <div className="lg:col-span-8">
+                <div className="w-full">
                   <PaginatedNewsSection onNavigate={onNavigate} />
                 </div>
                 
-                {/* Numerical Figures Side (Right) */}
-                <div className="lg:col-span-4 sticky top-24">
-                  <div className="bg-gradient-to-br from-[#0B3D2E] to-[#145A44] rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
-                    {/* Decorative Background */}
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-[80px] -mr-32 -mt-32 pointer-events-none"></div>
-                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-emerald-900/40 rounded-full blur-[80px] -ml-32 -mb-32 pointer-events-none"></div>
-                    
-                    <div className="relative z-10">
-                      <div className="flex items-center gap-3 mb-8">
-                        <div className="bg-[#EAB308] rounded-xl p-2.5">
-                          <BarChart3 className="w-6 h-6 text-[#0B3D2E]" />
-                        </div>
-                        <h3 className="text-2xl font-black text-white tracking-tight">
-                          Key Figures
-                        </h3>
-                      </div>
-                      
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {HERO_STATS.map((s, i) => (
-                          <div key={i} className="bg-white/10 hover:bg-white/20 transition-all duration-300 rounded-2xl p-5 border border-white/10 flex flex-col items-center text-center group cursor-default">
-                            <s.icon className="w-8 h-8 text-[#EAB308] mb-3 group-hover:scale-110 transition-transform duration-300" strokeWidth={1.5} />
-                            <div className="text-2xl font-black text-white mb-1">
-                              <AnimatedCounter target={s.value} suffix={s.suffix} spaceFormat={true} />
-                            </div>
-                            <div className="text-[10px] font-bold text-white/70 uppercase tracking-widest">{s.label}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                {/* Services Side (Right) */}
+                <div className="w-full">
+                  <CitizenServicesSection onNavigate={onNavigate} />
                 </div>
                 
               </div>
             </div>
           </section>
+
 
           <MayorMessageSection onNavigate={onNavigate} />
           <FeaturedProjectsSection onNavigate={onNavigate} />
