@@ -42,67 +42,22 @@ export function HomeDashboardSection({ onNavigate }: { onNavigate: (p: PageId) =
         <AnimatedSection className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
           <div>
             <span className="inline-block bg-[#0B3D2E]/10 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/20 mb-3">
-              Woreda Dashboard
+              Announcements
             </span>
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#0B3D2E]">
-              At a <span className="text-[#EAB308]">Glance</span>
+              Recent <span className="text-[#EAB308]">Updates</span>
             </h2>
           </div>
         </AnimatedSection>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="max-w-4xl mx-auto">
           
 
 
-          {/* COLUMN 2: Woreda Statistics */}
-          <AnimatedSection delay={200} className="lg:col-span-1">
-            <div className="bg-gradient-to-br from-[#0B3D2E] to-[#145A44] rounded-3xl p-6 border border-[#145A44] shadow-xl h-full flex flex-col relative overflow-hidden">
-              <div className="absolute -top-[20%] -right-[20%] w-[60%] h-[60%] bg-emerald-500/20 rounded-full blur-[80px] pointer-events-none" />
-              
-              <div className="flex items-center justify-between mb-8 relative z-10">
-                <h3 className="font-bold text-white text-lg flex items-center gap-2">
-                  <Users className="w-5 h-5 text-[#EAB308]" /> Key Figures
-                </h3>
-              </div>
-
-              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8 relative z-10">
-                {stats.map((s, i) => (
-                  <div key={i} className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10 flex flex-col items-center justify-center text-center hover:bg-white/20 transition-colors cursor-default">
-                    <s.icon className="w-6 h-6 mb-2" style={{ color: s.color }} />
-                    <span className="text-xl font-black text-white"><AnimatedCounter target={s.value} spaceFormat /></span>
-                    <span className="text-[10px] text-white/70 uppercase tracking-wider font-semibold">{s.label}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Mini sparkline chart for population growth */}
-              <div className="mt-auto relative z-10">
-                <p className="text-xs text-emerald-200 font-semibold mb-2 flex justify-between">
-                  <span>Population Growth</span>
-                  <span>+15% (5y)</span>
-                </p>
-                <div className="h-16 w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={populationData}>
-                      <defs>
-                        <linearGradient id="colorSpark" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#10B981" stopOpacity={0.8}/>
-                          <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
-                      <YAxis domain={['dataMin - 10000', 'dataMax + 10000']} hide />
-                      <Area type="monotone" dataKey="pop" stroke="#10B981" strokeWidth={3} fillOpacity={1} fill="url(#colorSpark)" />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            </div>
-          </AnimatedSection>
-
           {/* COLUMN 3: Vacancies & Bids */}
-          <AnimatedSection delay={300} className="lg:col-span-1">
-            <div className="bg-white rounded-3xl p-6 border border-gray-200 shadow-xl shadow-slate-200/50 h-full flex flex-col gap-6">
+          <AnimatedSection delay={300}>
+            <div className="bg-white rounded-3xl p-6 md:p-8 border border-gray-200 shadow-xl shadow-slate-200/50 flex flex-col md:flex-row gap-8">
               
               {/* Vacancies Sub-section */}
               <div className="flex-1">
@@ -129,7 +84,8 @@ export function HomeDashboardSection({ onNavigate }: { onNavigate: (p: PageId) =
                 </div>
               </div>
 
-              <div className="w-full h-[1px] bg-gray-100" />
+              <div className="hidden md:block w-[1px] bg-gray-100" />
+              <div className="md:hidden w-full h-[1px] bg-gray-100" />
 
               {/* Bids Sub-section */}
               <div className="flex-1">

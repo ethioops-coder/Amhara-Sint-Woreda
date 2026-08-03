@@ -18,11 +18,11 @@ export function AtAGlanceSection() {
     <section className="bg-[#0c402b] py-16 md:py-24">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Title */}
-        <AnimatedSection className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white tracking-wider uppercase">
-            AMHARA SAYINT AT A GLANCE
-          </h2>
+        {/* Title removed to avoid duplication */}
+        <AnimatedSection className="text-center mb-6">
+          <span className="inline-block bg-[#0B3D2E]/10 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/20 mb-3">
+            Key Figures
+          </span>
         </AnimatedSection>
 
         {/* 8 Stats Cards in a single row on desktop */}

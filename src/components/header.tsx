@@ -188,7 +188,7 @@ export default function Header({
               </div>
             </button>
 
-            <nav className="hidden xl:flex items-center gap-2 xl:gap-4 ml-auto">
+            <nav className="hidden xl:flex items-center gap-2 xl:gap-4 mx-auto">
               {NAV_LINKS.map((item) => (
                 <div
                   key={item.label}
