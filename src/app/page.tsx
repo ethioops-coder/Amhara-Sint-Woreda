@@ -29,11 +29,11 @@ import { WoredaStatistics } from "@/components/woreda-statistics";
 import { InternationalNewsFeed } from "@/components/international-news-feed";
 import { HomeDashboardSection } from "@/components/home-dashboard-section";
 import { PaginatedNewsSection } from "@/components/paginated-news-section";
+import { VacancyPage } from "@/components/vacancy-page";
 import {
   TopInfoBar,
   CitizenServicesSection,
   VacancyBidsSection,
-import { VacancyPage } from '@/components/vacancy-page';
   MayorMessageSection,
   FeaturedProjectsSection,
   EmergencyContactsSection,
