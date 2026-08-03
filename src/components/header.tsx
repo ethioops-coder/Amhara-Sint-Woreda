@@ -31,7 +31,8 @@ import {
   Info,
   Settings,
   Bell,
-  Image as ImageIcon
+  ImageIcon,
+  Crown,
 } from "lucide-react";
 
 type ExtendedNavItem = NavItem & { icon?: any };
@@ -51,7 +52,7 @@ export const NAV_LINKS: ExtendedNavItem[] = [
   {
     label: "Government",
     href: "gov-leadership",
-    icon: UserCheck,
+    icon: Crown,
     children: [
       { label: "Leadership", href: "gov-leadership", icon: UserCheck },
       { label: "Administrative Structure", href: "gov-structure", icon: Building },
@@ -186,7 +187,7 @@ export default function Header({
               </div>
             </button>
 
-            <nav className="hidden xl:flex items-center justify-end flex-1 gap-1 xl:gap-2 ml-auto">
+            <nav className="hidden xl:flex items-center gap-2 xl:gap-4 ml-auto">
               {NAV_LINKS.map((item) => (
                 <div
                   key={item.label}
