@@ -42,13 +42,13 @@ const DETAILED_STATS = [
 
 export function DetailedStatsSection() {
   return (
-    <section className="py-20 bg-gradient-to-b from-[#0B3D2E] to-[#145A44] relative overflow-hidden">
+    <section className="py-10 bg-gradient-to-b from-[#0B3D2E] to-[#145A44] relative overflow-hidden">
       {/* Decorative Background */}
       <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}></div>
       <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/20 rounded-full blur-[100px] pointer-events-none"></div>
       
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <AnimatedSection className="text-center mb-16">
+        <AnimatedSection className="text-center mb-6">
           <span className="inline-block bg-white/10 text-emerald-300 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-white/20 mb-3 backdrop-blur-sm">
             Woreda In Numbers
           </span>

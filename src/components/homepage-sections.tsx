@@ -47,7 +47,7 @@ export function CitizenServicesSection({ onNavigate }: { onNavigate: (p: PageId)
   return (
     <div className="w-full h-full">
       <div className="w-full h-full">
-        <AnimatedSection className="text-center mb-10">
+        <AnimatedSection className="text-center mb-6">
           <span className="inline-block bg-[#0B3D2E]/8 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/15 mb-3">
             Government Services
           </span>
@@ -101,9 +101,9 @@ const BIDS = [
 
 export function VacancyBidsSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   return (
-    <section className="py-12 md:py-16 bg-white border-b border-gray-100">
+    <section className="py-8 md:py-10 bg-white border-b border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="text-center mb-10">
+        <AnimatedSection className="text-center mb-6">
           <span className="inline-block bg-[#EAB308]/10 text-[#92400E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#EAB308]/30 mb-3">
             Open Opportunities
           </span>
@@ -187,7 +187,7 @@ export function VacancyBidsSection({ onNavigate }: { onNavigate: (p: PageId) => 
 /* ─── MAYOR'S MESSAGE SECTION ─────────────────────── */
 export function MayorMessageSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-br from-[#0B3D2E] to-[#145A44]">
+    <section className="py-8 md:py-10 bg-gradient-to-br from-[#0B3D2E] to-[#145A44]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <div className="grid lg:grid-cols-2 gap-10 items-center">
@@ -232,9 +232,9 @@ const PROJECTS = [
 
 export function FeaturedProjectsSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   return (
-    <section className="py-12 md:py-16 bg-gray-50">
+    <section className="py-8 md:py-10 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="text-center mb-10">
+        <AnimatedSection className="text-center mb-6">
           <span className="inline-block bg-[#EAB308]/10 text-[#92400E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#EAB308]/30 mb-3">
             Development Projects
           </span>
@@ -280,7 +280,7 @@ export function EmergencyContactsSection() {
   ];
 
   return (
-    <section className="py-10 md:py-12 bg-red-50">
+    <section className="py-10 md:py-8 bg-red-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection className="text-center mb-8">
           <span className="inline-block bg-red-100 text-red-700 text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-red-200 mb-3 flex items-center gap-2 justify-center w-fit mx-auto">

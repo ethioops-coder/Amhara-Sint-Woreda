@@ -81,7 +81,7 @@ export function PaginatedNewsSection({ onNavigate }: { onNavigate: (p: PageId) =
     <div className="w-full h-full">
       <div className="w-full">
         {/* Header Section */}
-        <AnimatedSection className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+        <AnimatedSection className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <div className="bg-[#DC2626] rounded-md p-1">
@@ -150,7 +150,7 @@ export function PaginatedNewsSection({ onNavigate }: { onNavigate: (p: PageId) =
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
-          <div className="mt-12 flex justify-center items-center gap-4">
+          <div className="mt-8 flex justify-center items-center gap-4">
             <button 
               onClick={prevPage}
               disabled={currentPage === 1}

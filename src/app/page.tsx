@@ -689,7 +689,7 @@ function TVETCollegeSection({ onNavigate }: { onNavigate: (p: PageId) => void })
             </div>
 
             <div className="relative z-10 px-6 sm:px-8 lg:px-10 py-8 md:py-10">
-              <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+              <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-8">
                 {/* Image */}
                 <div className="relative shrink-0">
                   <div className="relative">
@@ -790,7 +790,7 @@ function QuickStats() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section heading */}
-        <div className="text-center mb-8 md:mb-10">
+        <div className="text-center mb-8 md:mb-6">
           <span className="inline-flex items-center gap-2 bg-[#0B3D2E]/8 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/15 mb-3">
             <BarChart3 className="w-3.5 h-3.5" /> Woreda at a Glance
           </span>
@@ -1004,7 +1004,7 @@ function CulturalPlacesSection({ onNavigate }: { onNavigate: (p: PageId) => void
   const others = CULTURAL_PLACES.filter(p => !p.featured);
 
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-b from-white via-gray-50/50 to-gray-50 relative overflow-hidden">
+    <section className="py-8 md:py-10 bg-gradient-to-b from-white via-gray-50/50 to-gray-50 relative overflow-hidden">
       {/* Decorative bg */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-100/30 rounded-full blur-3xl" />
@@ -1012,7 +1012,7 @@ function CulturalPlacesSection({ onNavigate }: { onNavigate: (p: PageId) => void
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AnimatedSection>
-          <div className="text-center mb-10">
+          <div className="text-center mb-6">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200/50 rounded-full px-5 py-2 mb-4">
               <Landmark className="w-4 h-4 text-amber-600" />
               <span className="text-amber-800 text-xs font-bold uppercase tracking-[0.15em]">Heritage & Treasures</span>
@@ -1179,7 +1179,7 @@ function CulturalPlacesSection({ onNavigate }: { onNavigate: (p: PageId) => void
 
         {/* Explore more */}
         <AnimatedSection delay={400}>
-          <div className="text-center mt-10">
+          <div className="text-center mt-6">
             <button onClick={() => onNavigate("about-history")}
               className="group inline-flex items-center gap-2.5 bg-gradient-to-r from-[#0B3D2E] to-[#145A44] hover:from-[#145A44] hover:to-[#0B3D2E] text-white font-bold px-7 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105 text-sm">
               Explore Full History <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -1327,14 +1327,14 @@ function SubPage({ onNavigate, title, breadcrumb, badge, badgeColor, children }:
 
   return (
     <div className="min-h-screen pt-[92px] md:pt-[110px]">
-      <div className="bg-gradient-to-r from-[#0B3D2E] via-[#145A44] to-[#0B3D2E] py-12 md:py-16">
+      <div className="bg-gradient-to-r from-[#0B3D2E] via-[#145A44] to-[#0B3D2E] py-8 md:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-white/50 text-sm mb-2">Home / {breadcrumb}</p>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-4">{title}</h1>
           <Badge className={`${badgeColor || "bg-[#EAB308]/20 text-[#EAB308] border-[#EAB308]/30"} text-sm font-medium`}>{badge}</Badge>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 flex flex-col lg:flex-row gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10 flex flex-col lg:flex-row gap-8">
         <div className="flex-1 min-w-0">{children}</div>
         <div className="w-full lg:w-72 shrink-0">
           <div className="lg:hidden mb-4">
@@ -2787,7 +2787,7 @@ function GalleryPage() {
 
   return (
     <div className="min-h-screen pt-[92px] md:pt-[110px]">
-      <div className="bg-gradient-to-r from-[#0B3D2E] via-[#145A44] to-[#0B3D2E] py-12 md:py-16">
+      <div className="bg-gradient-to-r from-[#0B3D2E] via-[#145A44] to-[#0B3D2E] py-8 md:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-white/50 text-sm mb-2">Home / Gallery</p>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-4">Photo Gallery</h1>
@@ -2936,7 +2936,7 @@ function ContactPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
             </h2>
 
             {formStatus === "success" ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center gap-3">
+              <div className="flex flex-col items-center justify-center py-8 text-center gap-3">
                 <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center">
                   <CheckCircle2 className="w-8 h-8 text-emerald-600" />
                 </div>
@@ -3280,9 +3280,9 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
           <DetailedStatsSection />
 
           {/* News and Services Side-by-Side */}
-          <section className="py-16 bg-gray-50 border-t border-gray-100 relative">
+          <section className="py-10 bg-gray-50 border-t border-gray-100 relative">
             <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
                 
                 {/* News Side (Left) */}
                 <div className="w-full">

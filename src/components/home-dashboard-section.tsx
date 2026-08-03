@@ -37,9 +37,9 @@ const BIDS = [
 
 export function HomeDashboardSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   return (
-    <section className="py-12 md:py-16 bg-gray-50 border-t border-gray-100">
+    <section className="py-8 md:py-10 bg-gray-50 border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+        <AnimatedSection className="mb-6 flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
           <div>
             <span className="inline-block bg-[#0B3D2E]/10 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/20 mb-3">
               Announcements
