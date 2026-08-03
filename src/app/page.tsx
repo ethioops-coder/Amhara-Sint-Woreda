@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import Header from "@/components/header";
 import {
   Users, School, Building2, MapPin, TreePine, Droplets,
   Home as HomeIcon, ChevronLeft, ChevronRight, ChevronDown, BarChart3, TrendingUp,
@@ -163,124 +164,6 @@ const SLIDES = [
   { image: "https://sfile.chatglm.cn/images-ppt/a842501dc00b.jpg", title: "Education & Youth Empowerment", subtitle: "Amhara Sayint TVET College and preparatory schools preparing the next generation" },
   { image: "https://sfile.chatglm.cn/images-ppt/5d19c0f98d58.jpg", title: "Our Vision", subtitle: "A prosperous, equitable, and self-reliant Amhara Sayint — rooted in tradition, reaching for the future" },
 ];
-
-/* ─── Nav Links ────────────────────────────────────────────── */
-interface NavItem { label: string; href: PageId; children?: { label: string; href: PageId; icon: React.ElementType }[]; }
-const NAV_LINKS: NavItem[] = [
-  { label: "Home", href: "home" },
-  { label: "About", href: "about-overview", children: [
-    { label: "History & Background", href: "about-history", icon: BookOpen },
-    { label: "Overview", href: "about-overview", icon: Globe },
-    { label: "Location & Geography", href: "about-location", icon: MapPin },
-  ]},
-  { label: "Government", href: "gov-leadership", children: [
-    { label: "Leadership", href: "gov-leadership", icon: UserCheck },
-    { label: "Administrative Structure", href: "gov-structure", icon: Building },
-    { label: "Offices & Departments", href: "gov-offices", icon: Shield },
-  ]},
-  { label: "Services", href: "svc-education", children: [
-    { label: "Education", href: "svc-education", icon: GraduationCap },
-    { label: "Health", href: "svc-health", icon: HeartPulse },
-    { label: "Agriculture", href: "svc-agriculture", icon: Tractor },
-    { label: "Trade & Commerce", href: "svc-trade", icon: Store },
-    { label: "Technology", href: "svc-technology", icon: Monitor },
-    { label: "Construction", href: "svc-construction", icon: HardHat },
-    { label: "Transport", href: "svc-transport", icon: Truck },
-    { label: "Water & Sanitation", href: "svc-water", icon: Droplets },
-    { label: "Justice & Security", href: "svc-justice", icon: Scale },
-    { label: "Finance & Revenue", href: "svc-finance", icon: Banknote },
-  ]},
-  { label: "Vacancy", href: "vacancy" },
-  { label: "Announcements", href: "news-announcements", children: [
-    { label: "News", href: "news-news", icon: Newspaper },
-    { label: "Bids & Tenders", href: "bids", icon: Briefcase },
-    { label: "Events", href: "news-announcements", icon: Calendar },
-    { label: "Announcements", href: "news-announcements", icon: Award },
-  ]},
-  { label: "Gallery", href: "gallery" },
-];
-
-/* ─── HEADER ───────────────────────────────────────────────── */
-function Header({ currentPage, onNavigate }: { currentPage: PageId; onNavigate: (p: PageId) => void }) {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const tRef = useRef<NodeJS.Timeout | null>(null);
-  useEffect(() => { const h = () => setScrolled(window.scrollY > 20); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
-  const mE = (l: string) => { if (tRef.current) clearTimeout(tRef.current); setOpenDropdown(l); };
-  const mL = () => { tRef.current = setTimeout(() => setOpenDropdown(null), 200); };
-  const nav = (p: PageId) => { onNavigate(p); setMobileOpen(false); setOpenDropdown(null); window.scrollTo({ top: 0, behavior: "smooth" }); };
-
-  return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#0B3D2E]/95 backdrop-blur-md shadow-lg shadow-black/20" : "bg-gradient-to-r from-[#062B1F] via-[#0B3D2E] to-[#145A44]"}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-[92px] md:h-[110px]">
-          <button onClick={() => nav("home")} className="flex items-center gap-4 group shrink-0">
-            <img src="/logo.png" alt="Amhara Sayint Woreda" className="h-[88px] w-auto rounded-2xl shadow-xl group-hover:scale-105 transition-transform object-contain ring-2 ring-white/20 ring-offset-2 ring-offset-[#0B3D2E]" />
-            <div className="hidden sm:block">
-              <h1 className="text-white font-bold text-xl md:text-2xl leading-tight">Amhara Sayint</h1>
-              <p className="text-[#86EFAC] text-xs md:text-sm font-medium">Woreda Administration</p>
-            </div>
-          </button>
-          <nav className="hidden lg:flex items-center gap-1.5">
-            {NAV_LINKS.map((item) => (
-              <div key={item.label} className="relative" onMouseEnter={() => item.children && mE(item.label)} onMouseLeave={mL}>
-                <button onClick={() => item.children ? setOpenDropdown(openDropdown === item.label ? null : item.label) : nav(item.href)}
-                  className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-[15px] font-semibold transition-all duration-200 ${currentPage === item.href ? "text-[#EAB308] bg-white/10" : "text-white/80 hover:text-white hover:bg-white/10"}`}>
-                  {item.label}{item.children && <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === item.label ? "rotate-180" : ""}`} />}
-                </button>
-                {item.children && openDropdown === item.label && (
-                  <div className="absolute top-full left-0 mt-1 w-64 bg-[#0a3327]/95 backdrop-blur-lg border border-white/15 rounded-2xl shadow-2xl py-2 z-[100]">
-                    {item.children.map((c) => (
-                      <button key={c.href} onClick={() => nav(c.href)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 text-[14px] font-medium transition-all ${currentPage === c.href ? "text-[#EAB308] bg-white/10" : "text-white/70 hover:text-white hover:bg-white/10"}`}>
-                        <c.icon className="w-4 h-4 shrink-0" />{c.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </nav>
-          <div className="flex items-center gap-2">
-            <button onClick={() => nav("contact")} className="hidden md:inline-flex items-center gap-2 bg-[#EAB308] hover:bg-[#CA8A04] text-[#0B3D2E] font-bold text-[15px] px-6 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-105">
-              <Phone className="w-[18px] h-[18px]" /> Contact Us
-            </button>
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-white p-2 hover:bg-white/10 rounded-lg" aria-label="Toggle menu">
-              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-      {mobileOpen && (
-        <div className="lg:hidden bg-[#0B3D2E] border-t border-white/10 shadow-xl max-h-[80vh] overflow-y-auto">
-          <nav className="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-1">
-            {NAV_LINKS.map((item) => (
-              <div key={item.label}>
-                <button onClick={() => item.children ? setOpenDropdown(openDropdown === item.label ? null : item.label) : nav(item.href)}
-                  className="w-full flex items-center justify-between text-white/80 hover:text-white hover:bg-white/10 px-4 py-2.5 rounded-lg text-sm font-medium transition-all">
-                  {item.label}{item.children && <ChevronDown className={`w-4 h-4 transition-transform ${openDropdown === item.label ? "rotate-180" : ""}`} />}
-                </button>
-                {item.children && openDropdown === item.label && (
-                  <div className="ml-4 mt-1 flex flex-col gap-1">
-                    {item.children.map((c) => (
-                      <button key={c.href} onClick={() => nav(c.href)} className={`flex items-center gap-2.5 text-sm px-4 py-2 rounded-lg transition-all ${currentPage === c.href ? "text-[#EAB308] bg-white/10" : "text-white/60 hover:text-white hover:bg-white/5"}`}>
-                        <c.icon className="w-4 h-4" />{c.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-            <button onClick={() => nav("contact")} className="flex items-center justify-center gap-2 bg-[#EAB308] hover:bg-[#CA8A04] text-[#0B3D2E] font-semibold text-sm px-4 py-2.5 rounded-lg mt-3 transition-all">
-              <Phone className="w-4 h-4" /> Contact Us
-            </button>
-          </nav>
-        </div>
-      )}
-    </header>
-  );
-}
 
 /* ─── QUICK NAV BAR (Home) ──────────────────────────────── */
 const QUICK_NAV_ITEMS = [
