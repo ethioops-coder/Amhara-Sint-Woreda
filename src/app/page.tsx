@@ -3382,20 +3382,22 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
     case "submit-cv": return <SubmitCVPage onNavigate={onNavigate} />;
     default:
       return (
-        <>
-          <DidYouKnowBar />
-          <HeroSlider />
+        <div className="flex flex-col gap-16 md:gap-24 pb-24 bg-gray-50/30">
+          <div>
+            <DidYouKnowBar />
+            <HeroSlider />
+          </div>
+          <CitizenServicesSection onNavigate={onNavigate} />
           <HomeDashboardSection onNavigate={onNavigate} />
           <PaginatedNewsSection onNavigate={onNavigate} />
-          <CitizenServicesSection onNavigate={onNavigate} />
           <MayorMessageSection onNavigate={onNavigate} />
+          <FeaturedProjectsSection onNavigate={onNavigate} />
           <TVETCollegeSection onNavigate={onNavigate} />
           <ServicesOverviewSection onNavigate={onNavigate} />
-          <FeaturedProjectsSection onNavigate={onNavigate} />
           <CulturalPlacesSection onNavigate={onNavigate} />
           <EmergencyContactsSection />
           <GeoMapSection onNavigate={onNavigate} />
-        </>
+        </div>
       );
   }
 }
