@@ -78,8 +78,8 @@ export function PaginatedNewsSection({ onNavigate }: { onNavigate: (p: PageId) =
   };
 
   return (
-    <section className="py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="w-full h-full">
+      <div className="w-full">
         {/* Header Section */}
         <AnimatedSection className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div>
@@ -181,6 +181,6 @@ export function PaginatedNewsSection({ onNavigate }: { onNavigate: (p: PageId) =
           </div>
         )}
       </div>
-    </section>
+    
   );
 }
