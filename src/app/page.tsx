@@ -23,6 +23,7 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { BanksSliderSection } from "@/components/banks-slider-section";
 import CookieConsentBanner from "@/components/cookie-consent";
 import VisitorCounter from "@/components/visitor-counter";
 import SubscribeBanner from "@/components/subscribe-banner";
@@ -3298,6 +3299,7 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
           
           <DetailedStatsSection />
 
+          <BanksSliderSection />
 
           <MayorMessageSection onNavigate={onNavigate} />
           <FeaturedProjectsSection onNavigate={onNavigate} />
