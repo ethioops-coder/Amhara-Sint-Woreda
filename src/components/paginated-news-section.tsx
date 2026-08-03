@@ -181,6 +181,6 @@ export function PaginatedNewsSection({ onNavigate }: { onNavigate: (p: PageId) =
           </div>
         )}
       </div>
-    
+    </div>
   );
 }
