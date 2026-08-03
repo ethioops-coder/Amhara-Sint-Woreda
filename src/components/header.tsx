@@ -115,8 +115,8 @@ export default function Header({
           : "bg-gradient-to-r from-[#062B1F] via-[#0B3D2E] to-[#145A44]"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-[68px] md:h-[80px]">
+      <div className="max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-4 lg:gap-8 h-[68px] md:h-[80px]">
           <button
             onClick={() => handleNav("home")}
             className="flex items-center gap-3 group shrink-0"
@@ -136,7 +136,7 @@ export default function Header({
             </div>
           </button>
 
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center justify-center flex-1 gap-1 xl:gap-2 mx-auto">
             {NAV_LINKS.map((item) => (
               <div
                 key={item.label}
@@ -154,10 +154,10 @@ export default function Header({
                       handleNav(item.href);
                     }
                   }}
-                  className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`flex items-center gap-1 px-3 py-2 rounded-lg text-[13px] xl:text-sm font-semibold tracking-wide transition-all duration-200 ${
                     currentPage === item.href
-                      ? "text-[#EAB308] bg-white/10"
-                      : "text-white/80 hover:text-white hover:bg-white/10"
+                      ? "text-[#EAB308] bg-white/10 shadow-sm"
+                      : "text-white/80 hover:text-white hover:bg-white/10 hover:shadow-sm"
                   }`}
                 >
                   {item.label}
