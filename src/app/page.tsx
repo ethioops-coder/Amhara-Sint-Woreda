@@ -60,7 +60,7 @@ interface ApplicationData {
 }
 
 /* ─── Animated Counter ─────────────────────────────────────── */
-function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
+function AnimatedCounter({ target, suffix = "", duration = 2000, spaceFormat = false }: { target: number; suffix?: string; duration?: number; spaceFormat?: boolean }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   const hasAnimated = useRef(false);
@@ -80,7 +80,7 @@ function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: num
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [target, duration]);
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
+  return <span ref={ref}>{spaceFormat ? count.toLocaleString().replace(/,/g, " ") : count.toLocaleString()}{suffix}</span>;
 }
 
 /* ─── Animated Section ──────────────────────────────────────── */
@@ -606,7 +606,7 @@ function TVETCollegeSection({ onNavigate }: { onNavigate: (p: PageId) => void })
                   <stat.icon className="w-6 h-6 text-white" />
                 </div>
                 <div className="text-2xl md:text-3xl font-black mb-1" style={{ color: stat.color }}>
-                  <AnimatedCounter target={stat.value} suffix="+" />
+                  <AnimatedCounter target={stat.value} suffix="+" spaceFormat={true} />
                 </div>
                 <p className="text-gray-500 text-xs font-semibold">{stat.label}</p>
               </div>
@@ -814,10 +814,10 @@ function QuickStats() {
 
                 {/* Number */}
                 <div
-                  className="text-3xl md:text-4xl font-black leading-none tabular-nums"
+                  className="text-4xl md:text-5xl font-black leading-tight tabular-nums drop-shadow-sm transition-all duration-300"
                   style={{ color: s.bg }}
                 >
-                  {s.display}
+                  <AnimatedCounter target={s.value} suffix={s.display.includes("M") ? " M" : ""} spaceFormat={true} />
                 </div>
 
                 {/* Label */}
