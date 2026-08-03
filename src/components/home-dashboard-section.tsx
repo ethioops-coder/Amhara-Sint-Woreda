@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { ArrowRight, Calendar, Heart, Newspaper, Briefcase, FileCheck, Users, Map, MapPin, School, HeartPulse, Banknote, HardHat, Tractor, Wrench } from "lucide-react";
 import type { PageId } from "@/lib/types";
-import { AnimatedSection } from "./animations";
+import { AnimatedSection, AnimatedCounter } from "./animations";
 import { AreaChart, Area, ResponsiveContainer, YAxis } from "recharts";
 
 // Mock Data
@@ -11,6 +11,8 @@ const stats = [
   { label: "Area (km²)", value: 1437, icon: Map, color: "#3B82F6" },
   { label: "Kebeles", value: 37, icon: MapPin, color: "#F59E0B" },
   { label: "Schools", value: 106, icon: School, color: "#6366F1" },
+  { label: "Health Posts", value: 8, icon: HeartPulse, color: "#DC2626" },
+  { label: "Budget (M)", value: 200, icon: Banknote, color: "#0891B2" },
 ];
 
 const populationData = [
@@ -64,11 +66,11 @@ export function HomeDashboardSection({ onNavigate }: { onNavigate: (p: PageId) =
                 </h3>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 mb-8 relative z-10">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-8 relative z-10">
                 {stats.map((s, i) => (
                   <div key={i} className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10 flex flex-col items-center justify-center text-center hover:bg-white/20 transition-colors cursor-default">
                     <s.icon className="w-6 h-6 mb-2" style={{ color: s.color }} />
-                    <span className="text-xl font-black text-white">{s.value.toLocaleString()}</span>
+                    <span className="text-xl font-black text-white"><AnimatedCounter target={s.value} spaceFormat /></span>
                     <span className="text-[10px] text-white/70 uppercase tracking-wider font-semibold">{s.label}</span>
                   </div>
                 ))}

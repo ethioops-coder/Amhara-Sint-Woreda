@@ -3270,8 +3270,8 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
             <DidYouKnowBar />
             <HeroSlider />
           </div>
-          <CitizenServicesSection onNavigate={onNavigate} />
           <HomeDashboardSection onNavigate={onNavigate} />
+          <CitizenServicesSection onNavigate={onNavigate} />
           <PaginatedNewsSection onNavigate={onNavigate} />
           <MayorMessageSection onNavigate={onNavigate} />
           <FeaturedProjectsSection onNavigate={onNavigate} />

@@ -5,10 +5,12 @@ export function AnimatedCounter({
   target,
   suffix = "",
   duration = 2000,
+  spaceFormat = false,
 }: {
   target: number;
   suffix?: string;
   duration?: number;
+  spaceFormat?: boolean;
 }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
