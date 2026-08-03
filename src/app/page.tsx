@@ -33,6 +33,7 @@ import { AtAGlanceSection } from "@/components/at-a-glance-section";
 
 import { PaginatedNewsSection } from "@/components/paginated-news-section";
 import { VacancyPage } from "@/components/vacancy-page";
+import { TourismPage } from "@/components/tourism-page";
 import {
   TopInfoBar,
   CitizenServicesSection,
@@ -44,7 +45,7 @@ import {
 
 /* ─── Types ────────────────────────────────────────────────── */
 type PageId =
-  | "home" | "about-history" | "about-overview" | "about-location"
+  | "home" | "tourism" | "about-history" | "about-overview" | "about-location"
   | "gov-leadership" | "gov-structure" | "gov-offices"
   | "svc-education" | "svc-health" | "svc-agriculture"
   | "svc-transport" | "svc-water" | "svc-justice" | "svc-finance"
@@ -896,7 +897,7 @@ function ServicesOverviewSection({ onNavigate }: { onNavigate: (p: PageId) => vo
 }
 
 /* ─── CULTURAL PLACES (Home) ─────────────────────────────── */
-const CULTURAL_PLACES = [
+export const CULTURAL_PLACES = [
   {
     title: "Tadbaba Maryam Monastery",
     subtitle: "The Tabernacle of Zion — ተድባበ ማርያም",
@@ -3265,6 +3266,7 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
     case "bids": return <BidsPage onNavigate={onNavigate} />;
     case "contact": return <ContactPage onNavigate={onNavigate} />;
     case "submit-cv": return <SubmitCVPage onNavigate={onNavigate} />;
+    case "tourism": return <TourismPage onNavigate={onNavigate} />;
     default:
       return (
         <div className="flex flex-col gap-16 md:gap-24 pb-24 bg-gray-50/30">

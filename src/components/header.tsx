@@ -38,7 +38,8 @@ import {
 type ExtendedNavItem = NavItem & { icon?: any };
 
 export const NAV_LINKS: ExtendedNavItem[] = [
-  { label: "Home", href: "home", icon: HomeIcon },
+    { label: "Home", href: "home", icon: HomeIcon },
+  { label: "Tourism & Heritage", href: "tourism", icon: MapPin },
   {
     label: "About",
     href: "about-overview",
