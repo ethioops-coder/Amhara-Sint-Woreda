@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 import { ArrowLeft, Clock, Building, Briefcase, User, GraduationCap, Send, ThumbsUp, Heart, Share2, Eye, MapPin, Search, ChevronLeft, ChevronRight } from "lucide-react";
 import type { PageId } from "@/lib/types";
 import { Card } from "@/components/ui/card";
-import { ContentCard, AnimatedSection, SubPage } from "./subpages";
+import { ContentCard, SubPage } from "./subpages";
+import { AnimatedSection } from "./animations";
 import { Badge } from "@/components/ui/badge";
 
 interface ApplicationData {
