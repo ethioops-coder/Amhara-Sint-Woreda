@@ -4,7 +4,7 @@ import { Users, School, HeartPulse, MapPin, Map, Banknote, Tractor, Droplets } f
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar, CartesianGrid, Cell } from "recharts";
 
 const stats = [
-  { label: "Total Population", value: 214056, icon: Users, color: "#10B981" },
+  { label: "Total Population", value: 156940, icon: Users, color: "#10B981" },
   { label: "Total Area (km²)", value: 1437, icon: Map, color: "#3B82F6" },
   { label: "Active Kebeles", value: 37, icon: MapPin, color: "#F59E0B" },
   { label: "Educational Institutions", value: 106, icon: School, color: "#6366F1" },
@@ -13,13 +13,11 @@ const stats = [
 ];
 
 const populationData = [
-  { year: "2018", pop: 185000 },
-  { year: "2019", pop: 192000 },
-  { year: "2020", pop: 198000 },
-  { year: "2021", pop: 202000 },
-  { year: "2022", pop: 206000 },
-  { year: "2023", pop: 210000 },
-  { year: "2024", pop: 214056 },
+  { year: "1994", pop: 193616 },
+  { year: "2007", pop: 144972 },
+  { year: "2012", pop: 156940 },
+  { year: "2018", pop: 165000 },
+  { year: "2024", pop: 178000 },
 ];
 
 const budgetData = [

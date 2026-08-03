@@ -140,10 +140,13 @@ export function AboutHistoryPage({ onNavigate }: { onNavigate: (p: PageId) => vo
             <BookOpen className="w-6 h-6 text-[#EAB308]" /> Origins of Amhara Sayint
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            Amhara Sayint is one of the historic woredas in the South Wollo Zone of the Amhara Region, Ethiopia. The name &ldquo;Sayint&rdquo; carries deep historical significance in the local Amharic context, referring to a place of gathering and administration. The woreda was formally established during the imperial era and has since evolved through various administrative reorganizations under the Derg regime and the current federal system.
+            Amhara Sayint (Amharic: ሣይንት) is a historic district in the South Wollo Zone of the Amhara Region. It is named after the historical district of Amhara Sayint which was located in the same area. The major administrative town in the woreda is Ajibar. A neighboring district, Mehal Sayint, was created by separating it from the historic Amhara Sayint woreda.
+          </p>
+          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
+            The woreda is renowned for the ancient monastery of Tadbaba Maryam, which is believed to have been founded during the reign of Emperor Minilik I. Holding the tabot of Tadbaba Mariam, Emperor Gelawdewos famously defeated Imam Ahmad ibn Ibrahim in the Battle of Wayna Daga.
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
-            Throughout its history, Amhara Sayint has been known for its strategic location along trade routes connecting the highlands to the lowlands. The area has witnessed significant historical events, including resistance movements and community-led development initiatives that have shaped the character of the woreda.
+            Amhara Sayint also holds great historical importance as the birthplace of Atitegeb Wondbewossen, the mother of the modernizing Ethiopian Emperor, Tewodros II.
           </p>
         </ContentCard>
         <ContentCard delay={100}>
@@ -151,10 +154,10 @@ export function AboutHistoryPage({ onNavigate }: { onNavigate: (p: PageId) => vo
             <Landmark className="w-6 h-6 text-[#EAB308]" /> Cultural Heritage
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            The woreda is home to a rich cultural heritage that includes traditional Ethiopian Orthodox Christian practices, unique musical traditions, and vibrant festival celebrations. The community maintains strong ties to customary dispute resolution mechanisms and communal labor traditions such as &ldquo;Debo&rdquo; and &ldquo;Idir.&rdquo;
+            The woreda is home to a rich cultural heritage that centers heavily around traditional Ethiopian Orthodox Christian practices, with 98% of the population identifying as Orthodox Tewahedo. The community maintains strong ties to customary dispute resolution mechanisms and communal labor traditions such as &ldquo;Debo&rdquo; and &ldquo;Idir.&rdquo;
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
-            Local crafts, including pottery, weaving, and blacksmithing, continue to be practiced and passed down through generations. The woreda&apos;s cultural identity is further enriched by its connection to the broader Amhara cultural sphere while maintaining its own unique local traditions and practices.
+            Local crafts, including pottery, weaving, and blacksmithing, continue to be practiced and passed down through generations. The woreda&apos;s cultural identity is further enriched by its connection to the broader Amhara cultural sphere while maintaining its own unique local traditions.
           </p>
         </ContentCard>
       </div>
@@ -172,10 +175,13 @@ export function AboutOverviewPage({ onNavigate }: { onNavigate: (p: PageId) => v
             <Globe className="w-6 h-6 text-[#EAB308]" /> About Amhara Sayint Woreda
           </h2>
           <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
-            Amhara Sayint Woreda is an administrative district located in the South Wollo Zone of the Amhara Regional State, Ethiopia. Covering an area of approximately 1,245 square kilometers, the woreda is home to an estimated population of 142,350 people spread across 22 kebeles (local administrative units). The woreda administration is headquartered in the town of Amhara Sayint.
+            Amhara Sayint Woreda is an administrative district located in the South Wollo Zone of the Amhara Regional State, Ethiopia. Covering an area of 1,437.30 square kilometers, the woreda is home to an estimated population of over 156,940 people. 
+          </p>
+          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">
+            The woreda boasts an incredibly diverse geography. Its altitude ranges from 500 metres (1,600 ft) above sea level at the bottom of the Blue Nile (Abay) canyon to 4,247 metres (13,934 ft) at Mount Tabor, which is the highest point in the entire South Wollo Zone. The Abay River is crossable at the Daga ford, connecting the woreda with Enbise Sar Midir in East Gojjam.
           </p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">
-            The woreda operates under the federal governance structure of Ethiopia, with administrative layers including the woreda council, executive committee, and kebele-level administrations. The local government is responsible for delivering public services, managing development programs, and maintaining law and order within its jurisdiction.
+            Geographically, Sayint is bordered on the south by Debre Sina and Mehal Sayint, on the west by the Blue Nile (separating it from East Gojjam Zone), on the northwest by the Bashilo River (separating it from South Gondar Zone), on the north by Magdala, on the east by Tenta, and on the southeast by Legambo.
           </p>
         </ContentCard>
         <div className="grid md:grid-cols-2 gap-6">
