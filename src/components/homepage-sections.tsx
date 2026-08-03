@@ -82,7 +82,7 @@ export function CitizenServicesSection({ onNavigate }: { onNavigate: (p: PageId)
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
