@@ -292,7 +292,7 @@ function HeroSlider() {
   useEffect(() => { start(); return () => { if (tRef.current) clearInterval(tRef.current); }; }, [start]);
   const goTo = (i: number) => { setCurrent(i); start(); };
   return (
-    <section className="relative h-[60vh] min-h-[380px] max-h-[600px] overflow-hidden">
+    <section className="relative h-full min-h-[400px] w-full overflow-hidden">
       {SLIDES.map((slide, i) => (
         <div key={i} className="absolute inset-0 transition-opacity duration-1000" style={{ opacity: i === current ? 1 : 0 }}>
           <img src={slide.image} alt={slide.title} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).src = 'https://sfile.chatglm.cn/images-ppt/e2eed6eb06d5.jpg'; }} />

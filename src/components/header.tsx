@@ -39,7 +39,6 @@ type ExtendedNavItem = NavItem & { icon?: any };
 
 export const NAV_LINKS: ExtendedNavItem[] = [
     { label: "Home", href: "home", icon: HomeIcon },
-  { label: "Tourism & Heritage", href: "tourism", icon: MapPin },
   {
     label: "About",
     href: "about-overview",
@@ -60,6 +59,7 @@ export const NAV_LINKS: ExtendedNavItem[] = [
       { label: "Offices & Departments", href: "gov-offices", icon: Shield },
     ],
   },
+  { label: "Tourism & Heritage", href: "tourism", icon: MapPin },
   {
     label: "Services",
     href: "svc-education",

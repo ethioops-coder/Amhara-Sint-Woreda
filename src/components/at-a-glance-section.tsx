@@ -18,33 +18,6 @@ export function AtAGlanceSection() {
     <section className="bg-[#0c402b] py-16 md:py-24">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Title removed to avoid duplication */}
-        <AnimatedSection className="text-center mb-6">
-          <span className="inline-block bg-[#0B3D2E]/10 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/20 mb-3">
-            Key Figures
-          </span>
-        </AnimatedSection>
-
-        {/* 8 Stats Cards in a single row on desktop */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 md:gap-4 mb-16">
-          {KEY_STATS.map((s, i) => (
-            <AnimatedSection key={s.label} delay={i * 50} className="flex">
-              <div className="relative w-full bg-[#17533c] rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-lg hover:-translate-y-1 transition-transform duration-300 group overflow-hidden border-l-4 border-[#eab308]">
-                {/* Subtle gradient overlay mimicking the left glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#eab308]/20 to-transparent opacity-50 pointer-events-none" />
-                
-                <s.icon className="w-5 h-5 text-[#eab308] mb-4 relative z-10 font-light" strokeWidth={1.5} />
-                <div className="text-xl sm:text-2xl font-black text-white mb-2 leading-none whitespace-nowrap relative z-10">
-                  <AnimatedCounter target={s.value} suffix={s.suffix} spaceFormat={true} />
-                </div>
-                <div className="text-[10px] font-medium text-white/70 uppercase tracking-widest relative z-10">
-                  {s.label}
-                </div>
-              </div>
-            </AnimatedSection>
-          ))}
-        </div>
-
         {/* Side-by-Side Information */}
         <AnimatedSection delay={200}>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
