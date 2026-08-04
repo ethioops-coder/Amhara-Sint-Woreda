@@ -6,15 +6,15 @@ import { AnimatedSection } from "./animations";
 const BANKS = [
   {
     name: "Abay Bank",
-    logoUrl: "/banks/abay.png",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Abay_Bank_logo.png/320px-Abay_Bank_logo.png",
   },
   {
     name: "Bank of Abyssinia",
-    logoUrl: "/banks/boa.png",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Bank_of_Abyssinia_logo.png/320px-Bank_of_Abyssinia_logo.png",
   },
   {
     name: "Commercial Bank of Ethiopia",
-    logoUrl: "/banks/cbe.png",
+    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Commercial_Bank_of_Ethiopia_logo.png/320px-Commercial_Bank_of_Ethiopia_logo.png",
   },
 ];
 
