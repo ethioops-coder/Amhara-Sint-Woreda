@@ -210,7 +210,7 @@ export function MayorMessageSection({ onNavigate }: { onNavigate: (p: PageId) =>
             <div className="grid grid-cols-2 gap-4 md:gap-6 mt-8 lg:mt-0">
               {/* Woreda Administrator */}
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 aspect-[3/4] group">
-                <img src="https://placehold.co/400x500/0B3D2E/ffffff?text=Administrator+Mock" alt="Woreda Administrator" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <img src="/team/admin.jpg" alt="Woreda Administrator" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
                   <p className="text-white font-bold text-sm md:text-lg">Administrator Name</p>
@@ -220,7 +220,7 @@ export function MayorMessageSection({ onNavigate }: { onNavigate: (p: PageId) =>
 
               {/* Team Lead */}
               <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 aspect-[3/4] mt-8 group">
-                <img src="https://placehold.co/400x500/145A44/ffffff?text=Team+Lead+Mock" alt="Team Lead" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <img src="/team/lead.jpg" alt="Team Lead" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
                   <p className="text-white font-bold text-sm md:text-lg">Team Lead Name</p>
