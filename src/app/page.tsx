@@ -1677,9 +1677,9 @@ function AboutLocationPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
 /* ─── GOVERNMENT: Leadership (ORG CHART STYLE) ────────── */
 function GovLeadershipPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   const woredaLeader = {
-    name: "Ato Dereje Getachew", title: "Woreda Administrator",
+    name: "Ato Getachew Workneh", title: "Woreda Administrator",
     phone: "+251 33 440 1001", email: "admin@amharasint.gov.et",
-    avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo",
+    avatar: "/team/admin.jpg",
     desc: "Chief Administrator of Amhara Sayint Woreda, leading development initiatives and coordinating all government departments.",
     deptLabel: "Woreda Administration", deptColor: "#059669",
   };
@@ -1899,7 +1899,7 @@ function GovStructurePage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
 /* ─── GOVERNMENT: Offices ───────────────────────────────── */
 function GovOfficesPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   const offices = [
-    { name: "Woreda Administrator's Office", head: "Ato Dereje Getachew", staff: 12, icon: UserCheck, color: "#0B3D2E" },
+    { name: "Woreda Administrator's Office", head: "Ato Getachew Workneh", staff: 12, icon: UserCheck, color: "#0B3D2E" },
     { name: "Education Office", head: "W/ro Tigist Mekonnen", staff: 45, icon: GraduationCap, color: "#1D4ED8" },
     { name: "Health Office", head: "Dr. Alemayehu Bekele", staff: 38, icon: HeartPulse, color: "#DC2626" },
     { name: "Agriculture Office", head: "Ato Fikadu Hailu", staff: 52, icon: Tractor, color: "#16A34A" },

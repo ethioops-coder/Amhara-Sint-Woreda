@@ -213,7 +213,7 @@ export function MayorMessageSection({ onNavigate }: { onNavigate: (p: PageId) =>
                 <img src="/team/admin.jpg" alt="Woreda Administrator" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
-                  <p className="text-white font-bold text-sm md:text-lg">Administrator Name</p>
+                  <p className="text-white font-bold text-sm md:text-lg">Ato Getachew Workneh</p>
                   <p className="text-[#EAB308] text-xs md:text-sm font-medium">Woreda Administrator</p>
                 </div>
               </div>
