@@ -3,18 +3,24 @@
 import React from "react";
 import { AnimatedSection } from "./animations";
 
+const CBE_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="transparent"/><circle cx="100" cy="100" r="70" fill="%238a2be2"/><text x="100" y="115" font-family="Arial" font-size="40" font-weight="bold" fill="%23ffffff" text-anchor="middle">CBE</text><text x="190" y="110" font-family="Arial" font-size="30" font-weight="bold" fill="%23333333">Commercial Bank</text></svg>`;
+
+const BOA_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="transparent"/><circle cx="100" cy="100" r="70" fill="%23ffd700"/><text x="100" y="115" font-family="Arial" font-size="40" font-weight="bold" fill="%23000000" text-anchor="middle">BoA</text><text x="190" y="110" font-family="Arial" font-size="30" font-weight="bold" fill="%23333333">Bank of Abyssinia</text></svg>`;
+
+const ABAY_SVG = `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200"><rect width="400" height="200" fill="transparent"/><rect x="40" y="30" width="100" height="140" fill="%230B3D2E"/><text x="90" y="110" font-family="Arial" font-size="40" font-weight="bold" fill="%23ffffff" text-anchor="middle">AB</text><text x="160" y="110" font-family="Arial" font-size="30" font-weight="bold" fill="%23333333">Abay Bank</text></svg>`;
+
 const BANKS = [
   {
     name: "Abay Bank",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Abay_Bank_logo.png/320px-Abay_Bank_logo.png",
+    logoUrl: ABAY_SVG,
   },
   {
     name: "Bank of Abyssinia",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Bank_of_Abyssinia_logo.png/320px-Bank_of_Abyssinia_logo.png",
+    logoUrl: BOA_SVG,
   },
   {
     name: "Commercial Bank of Ethiopia",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Commercial_Bank_of_Ethiopia_logo.png/320px-Commercial_Bank_of_Ethiopia_logo.png",
+    logoUrl: CBE_SVG,
   },
 ];
 
@@ -37,12 +43,12 @@ export function BanksSliderSection() {
 
         <div className="flex w-fit animate-marquee">
           {marqueeItems.map((bank, i) => (
-            <div key={i} className="flex-shrink-0 mx-10 md:mx-16 flex items-center justify-center w-32 md:w-40 h-16 md:h-20">
+            <div key={i} className="flex-shrink-0 mx-8 md:mx-12 flex items-center justify-center w-24 md:w-32 h-12 md:h-16">
               <img 
                 src={bank.logoUrl} 
                 alt={bank.name} 
                 title={bank.name}
-                className="max-h-full max-w-full object-contain grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-500 hover:scale-105 cursor-pointer"
+                className="max-h-full max-w-full object-contain grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500 hover:scale-105 cursor-pointer"
               />
             </div>
           ))}
