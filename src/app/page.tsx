@@ -3270,42 +3270,69 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
     case "tourism": return <TourismPage onNavigate={onNavigate} />;
     default:
       return (
-        <div className="flex flex-col gap-16 md:gap-24 pb-24 bg-gray-50/30">
+        <div className="flex flex-col gap-6 md:gap-10 pb-12 bg-gray-50/30">
           <div>
             <DidYouKnowBar />
             <HeroSlider />
           </div>
-                    {/* Services Section (Full Width) */}
-          <CitizenServicesSection onNavigate={onNavigate} />
+          
+          {/* Services Section (Full Width) */}
+          <AnimatedSection>
+            <CitizenServicesSection onNavigate={onNavigate} />
+          </AnimatedSection>
 
           {/* News and Vacancy Side-by-Side */}
-          <section className="py-10 bg-white relative">
-            <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                
-                {/* News Side (Left) */}
-                <div className="w-full">
-                  <PaginatedNewsSection onNavigate={onNavigate} />
+          <AnimatedSection>
+            <section className="py-6 md:py-8 bg-white relative">
+              <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                  
+                  {/* News Side (Left) */}
+                  <div className="w-full">
+                    <PaginatedNewsSection onNavigate={onNavigate} />
+                  </div>
+                  
+                  {/* Vacancy/Bids Side (Right) */}
+                  <div className="w-full">
+                    <HomeDashboardSection onNavigate={onNavigate} />
+                  </div>
+                  
                 </div>
-                
-                {/* Vacancy/Bids Side (Right) */}
-                <div className="w-full">
-                  <HomeDashboardSection onNavigate={onNavigate} />
-                </div>
-                
               </div>
-            </div>
-          </section>
+            </section>
+          </AnimatedSection>
           
-          <DetailedStatsSection />
+          <AnimatedSection>
+            <DetailedStatsSection />
+          </AnimatedSection>
 
-          <MayorMessageSection onNavigate={onNavigate} />
-          <FeaturedProjectsSection onNavigate={onNavigate} />
-          <TVETCollegeSection onNavigate={onNavigate} />
-          <ServicesOverviewSection onNavigate={onNavigate} />
-          <CulturalPlacesSection onNavigate={onNavigate} />
-          <EmergencyContactsSection />
-          <GeoMapSection onNavigate={onNavigate} />
+          <AnimatedSection>
+            <MayorMessageSection onNavigate={onNavigate} />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <FeaturedProjectsSection onNavigate={onNavigate} />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <TVETCollegeSection onNavigate={onNavigate} />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <ServicesOverviewSection onNavigate={onNavigate} />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <CulturalPlacesSection onNavigate={onNavigate} />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <EmergencyContactsSection />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <GeoMapSection onNavigate={onNavigate} />
+          </AnimatedSection>
         </div>
       );
   }

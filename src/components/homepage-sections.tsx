@@ -45,7 +45,7 @@ const CITIZEN_SERVICES = [
 
 export function CitizenServicesSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   return (
-    <section className="py-12 md:py-16 bg-gray-50">
+    <section className="py-12 md:py-10 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection className="text-center mb-6">
           <span className="inline-block bg-[#0B3D2E]/8 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/15 mb-3">
@@ -187,7 +187,7 @@ export function VacancyBidsSection({ onNavigate }: { onNavigate: (p: PageId) => 
 /* ─── MAYOR'S MESSAGE SECTION ─────────────────────── */
 export function MayorMessageSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   return (
-    <section className="py-8 md:py-16 bg-gradient-to-br from-[#0B3D2E] to-[#145A44]">
+    <section className="py-8 md:py-10 bg-gradient-to-br from-[#0B3D2E] to-[#145A44]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <div className="grid lg:grid-cols-2 gap-10 items-center">
