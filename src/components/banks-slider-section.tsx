@@ -28,20 +28,20 @@ export function BanksSliderSection() {
   const marqueeItems = [...BANKS, ...BANKS, ...BANKS];
 
   return (
-    <section className="py-12 bg-white border-y border-gray-100 overflow-hidden">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+    <section className="py-4 bg-white border-y border-gray-50 overflow-hidden">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 mb-2">
         <AnimatedSection className="text-left">
-          <h2 className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-[0.2em]">
-            Financial Institutions in Amhara Sayint
+          <h2 className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-[0.1em]">
+            Financial Partners
           </h2>
         </AnimatedSection>
       </div>
       
-      <div className="relative w-full overflow-hidden bg-white py-4 flex items-center justify-start">
-        <div className="absolute left-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+      <div className="relative w-full overflow-hidden bg-white py-2 flex items-center justify-start">
+        <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
 
-        <div className="flex w-fit animate-marquee">
+        <div className="flex w-max animate-marquee">
           {marqueeItems.map((bank, i) => (
             <div key={i} className="flex-shrink-0 mx-8 md:mx-12 flex items-center justify-center w-24 md:w-32 h-12 md:h-16">
               <img 
