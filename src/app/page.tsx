@@ -3299,8 +3299,6 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
           
           <DetailedStatsSection />
 
-          <BanksSliderSection />
-
           <MayorMessageSection onNavigate={onNavigate} />
           <FeaturedProjectsSection onNavigate={onNavigate} />
           <TVETCollegeSection onNavigate={onNavigate} />

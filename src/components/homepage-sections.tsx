@@ -187,7 +187,7 @@ export function VacancyBidsSection({ onNavigate }: { onNavigate: (p: PageId) => 
 /* ─── MAYOR'S MESSAGE SECTION ─────────────────────── */
 export function MayorMessageSection({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   return (
-    <section className="py-8 md:py-10 bg-gradient-to-br from-[#0B3D2E] to-[#145A44]">
+    <section className="py-8 md:py-16 bg-gradient-to-br from-[#0B3D2E] to-[#145A44]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatedSection>
           <div className="grid lg:grid-cols-2 gap-10 items-center">
@@ -196,25 +196,39 @@ export function MayorMessageSection({ onNavigate }: { onNavigate: (p: PageId) =>
                 From the Administration
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold mb-4 leading-tight">
-                A Message From<br />The <span className="text-[#EAB308]">Woreda Administrator</span>
+                A Message From<br />The <span className="text-[#EAB308]">Woreda Leadership</span>
               </h2>
-              <p className="text-white/70 text-sm leading-relaxed mb-5">
-                &ldquo;Dear citizens of Amhara Sayint, it is my great honor to welcome you to our woreda's official digital platform. As we embrace the digital age, our administration is committed to bringing government services closer to you. We are working tirelessly to transform Amhara Sayint into a model woreda that delivers efficient, transparent, and citizen-centric services. Together, we are building an Amhara Sayint that future generations will be proud of.&rdquo;
+              <p className="text-white/70 text-sm md:text-base leading-relaxed mb-6">
+                &ldquo;Dear citizens of Amhara Sayint, it is our great honor to welcome you to our woreda's official digital platform. As we embrace the digital age, our administration is committed to bringing government services closer to you. We are working tirelessly to transform Amhara Sayint into a model woreda that delivers efficient, transparent, and citizen-centric services. Together, we are building an Amhara Sayint that future generations will be proud of.&rdquo;
               </p>
               <button onClick={() => onNavigate("gov-leadership")}
                 className="inline-flex items-center gap-2 bg-[#EAB308] hover:bg-[#CA8A04] text-[#0B3D2E] font-bold text-sm px-6 py-3 rounded-xl transition-all shadow-lg hover:shadow-xl">
                 View Leadership &amp; Structure <ArrowRight className="w-4 h-4" />
               </button>
             </div>
-            <div className="relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20">
-                <img src="/logo.png" alt="Woreda Administrator" className="w-full h-full object-cover" />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-5">
-                  <p className="text-white font-bold text-lg">Hon. Administrator</p>
-                  <p className="text-white/70 text-sm">Woreda Administrator</p>
+            
+            <div className="grid grid-cols-2 gap-4 md:gap-6 mt-8 lg:mt-0">
+              {/* Woreda Administrator */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 aspect-[3/4] group">
+                <img src="https://placehold.co/400x500/0B3D2E/ffffff?text=Administrator+Mock" alt="Woreda Administrator" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                  <p className="text-white font-bold text-sm md:text-lg">Administrator Name</p>
+                  <p className="text-[#EAB308] text-xs md:text-sm font-medium">Woreda Administrator</p>
+                </div>
+              </div>
+
+              {/* Team Lead */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 aspect-[3/4] mt-8 group">
+                <img src="https://placehold.co/400x500/145A44/ffffff?text=Team+Lead+Mock" alt="Team Lead" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-5">
+                  <p className="text-white font-bold text-sm md:text-lg">Team Lead Name</p>
+                  <p className="text-[#EAB308] text-xs md:text-sm font-medium">Project Team Lead</p>
                 </div>
               </div>
             </div>
+            
           </div>
         </AnimatedSection>
       </div>
