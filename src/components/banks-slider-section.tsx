@@ -5,24 +5,16 @@ import { AnimatedSection } from "./animations";
 
 const BANKS = [
   {
-    name: "Commercial Bank of Ethiopia",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Commercial_Bank_of_Ethiopia_logo.png",
+    name: "Abay Bank",
+    logoUrl: "/banks/abay.png",
   },
   {
     name: "Bank of Abyssinia",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/e/e0/Bank_of_Abyssinia_logo.svg/1200px-Bank_of_Abyssinia_logo.svg.png",
+    logoUrl: "/banks/boa.png",
   },
   {
-    name: "Abay Bank",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/3/36/Abay_Bank_logo.png",
-  },
-  {
-    name: "Dashen Bank",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Dashen_Bank_logo.png",
-  },
-  {
-    name: "Awash Bank",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/2/22/Awash_Bank_logo.png",
+    name: "Commercial Bank of Ethiopia",
+    logoUrl: "/banks/cbe.png",
   },
 ];
 
@@ -32,14 +24,14 @@ export function BanksSliderSection() {
   return (
     <section className="py-12 bg-white border-y border-gray-100 overflow-hidden">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <AnimatedSection className="text-center">
+        <AnimatedSection className="text-left">
           <h2 className="text-xs md:text-sm font-bold text-gray-400 uppercase tracking-[0.2em]">
             Financial Institutions in Amhara Sayint
           </h2>
         </AnimatedSection>
       </div>
       
-      <div className="relative w-full overflow-hidden bg-white py-4 flex items-center max-w-5xl mx-auto">
+      <div className="relative w-full overflow-hidden bg-white py-4 flex items-center justify-start">
         <div className="absolute left-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
         <div className="absolute right-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
 
