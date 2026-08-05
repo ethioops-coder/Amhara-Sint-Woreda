@@ -99,9 +99,9 @@ export function SubPage({
   children: React.ReactNode;
 }) {
   return (
-    <div className="pt-24 pb-16">
+    <div className="pt-16 md:pt-24 pb-12 md:pb-16">
       {/* Page Header */}
-      <div className="bg-gradient-to-r from-[#0B3D2E] via-[#145A44] to-[#0B3D2E] py-12 md:py-16">
+      <div className="bg-gradient-to-r from-[#0B3D2E] via-[#145A44] to-[#0B3D2E] py-8 md:py-16 mt-4 md:mt-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-white/50 text-sm mb-2">Home / {breadcrumb}</p>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-4">{title}</h1>
@@ -109,7 +109,7 @@ export function SubPage({
         </div>
       </div>
       {/* Content with Sidebar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 flex flex-col lg:flex-row gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-16 flex flex-col lg:flex-row gap-8">
         <div className="flex-1 min-w-0">{children}</div>
         <div className="w-full lg:w-72 shrink-0">
           <Sidebar onNavigate={onNavigate} />
@@ -124,7 +124,7 @@ export function ContentCard({ children, delay = 0 }: { children: React.ReactNode
   return (
     <AnimatedSection delay={delay}>
       <Card className="bg-white border-0 shadow-md hover:shadow-lg transition-all duration-300">
-        <CardContent className="p-6 md:p-8">{children}</CardContent>
+        <CardContent className="p-4 sm:p-6 md:p-8">{children}</CardContent>
       </Card>
     </AnimatedSection>
   );

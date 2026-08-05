@@ -37,7 +37,7 @@ export function HeroSlider() {
   return (
     <section className="relative h-[100vh] min-h-[600px] max-h-[900px] overflow-hidden">
       {/* Left Side Social Media Bar */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 z-30 flex flex-col gap-3 pl-3 md:pl-5">
+      <div className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-30 flex-col gap-3 pl-3 md:pl-5">
         {[
           { icon: Facebook, url: "https://facebook.com/AmharaSayint", color: "bg-[#1877F2] hover:bg-[#1565C0]", label: "Facebook" },
           { icon: Youtube, url: "https://youtube.com/@AmharaSayint", color: "bg-[#FF0000] hover:bg-[#CC0000]", label: "YouTube" },

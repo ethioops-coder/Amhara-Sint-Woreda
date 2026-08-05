@@ -177,12 +177,11 @@ export default function Header({
                 alt="Amhara Sayint Logo"
                 className="h-[44px] md:h-[52px] w-auto object-contain transition-transform group-hover:scale-105"
               />
-              <div className="hidden sm:block text-left leading-tight">
-                <span className="text-[#0B3D2E] font-extrabold text-base md:text-lg tracking-wide uppercase">
+              <div className="block text-left leading-tight">
+                <span className="text-[#0B3D2E] font-extrabold text-[0.8rem] sm:text-base md:text-lg tracking-wide uppercase leading-none block mb-0.5">
                   Amhara Sayint
                 </span>
-                <br />
-                <span className="text-[0.6rem] tracking-[0.1em] text-gray-500 uppercase font-semibold">
+                <span className="text-[0.5rem] sm:text-[0.6rem] tracking-[0.05em] sm:tracking-[0.1em] text-gray-500 uppercase font-semibold leading-none block">
                   Woreda Administration
                 </span>
               </div>
