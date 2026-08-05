@@ -20,7 +20,9 @@ export async function GET() {
     const members = await db.cabinetMember.findMany({
       orderBy: { order: 'asc' },
     })
-    return NextResponse.json(members)
+    return NextResponse.json(members, {
+      headers: { 'Cache-Control': 's-maxage=120, stale-while-revalidate=600' }
+    })
   } catch (error) {
     console.error('CabinetMembers GET error:', error)
     return NextResponse.json({ error: 'Failed to fetch cabinet members' }, { status: 500 })

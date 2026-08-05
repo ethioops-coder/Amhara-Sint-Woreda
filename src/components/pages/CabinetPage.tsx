@@ -54,7 +54,10 @@ export default function CabinetPage() {
 
   const defaultCabinetMembers = isAm ? DEFAULT_CABINET_AM : DEFAULT_CABINET_EN
 
-  const { data: dbData } = useSWR('/api/admin/cabinet-members', fetcherArray);
+  const { data: dbData } = useSWR('/api/public/cabinet', fetcherArray, {
+    revalidateOnFocus: false,
+    dedupingInterval: 120000,
+  });
 
   const cabinetMembers = useMemo(() => {
     if (dbData && dbData.length > 0) {

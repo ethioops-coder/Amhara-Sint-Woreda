@@ -314,12 +314,12 @@ const cityOfficials = [
 ]
 
 const cabinetMembers = [
-  { name: 'Ato Abebe Kebede', role: 'Head of Finance', photo: '/official-deputy.png' },
-  { name: 'W/ro Hiwot Alemu', role: 'Head of Education', photo: '/official-speaker.png' },
-  { name: 'Ato Dawit Assefa', role: 'Head of Infrastructure', photo: '/official-manager.png' },
-  { name: 'W/ro Mekdes Tadesse', role: 'Head of Health', photo: '/mayor-photo.png' },
-  { name: 'Ato Tadesse Girma', role: 'Head of Trade', photo: '/official-deputy.png' },
-  { name: 'W/ro Selamawit Bekele', role: 'Head of Social Affairs', photo: '/official-speaker.png' },
+  { name: 'Ato Abebe Kebede', role: 'Head of Finance', photo: '/official_abebe.svg' },
+  { name: 'W/ro Hiwot Alemu', role: 'Head of Education', photo: '/official_hiwot.svg' },
+  { name: 'Ato Dawit Assefa', role: 'Head of Infrastructure', photo: '/official_dawit.svg' },
+  { name: 'W/ro Mekdes Tadesse', role: 'Head of Health', photo: '/official_mekdes.svg' },
+  { name: 'Ato Tadesse Girma', role: 'Head of Trade', photo: '/official_tadesse.svg' },
+  { name: 'W/ro Selamawit Bekele', role: 'Head of Social Affairs', photo: '/official_selamawit.svg' },
 ]
 
 const staticHomeNews = [
@@ -407,10 +407,10 @@ export default function HomePage() {
   const isAm = lang === 'am'
   const { toast } = useToast()
 
-  const { data: dbNews } = useSWR('/api/admin/news', fetcherArray)
-  const { data: dbHeroSlides } = useSWR('/api/admin/sliders?sliderType=hero', fetcherArray)
-  const { data: dbPromoSlides } = useSWR('/api/admin/sliders?sliderType=promo', fetcherArray)
-  const { data: dbProjects } = useSWR('/api/admin/projects', fetcherArray)
+  const { data: dbNews } = useSWR('/api/admin/news', fetcherArray, { revalidateOnFocus: false, dedupingInterval: 60000 })
+  const { data: dbHeroSlides } = useSWR('/api/admin/sliders?sliderType=hero', fetcherArray, { revalidateOnFocus: false, dedupingInterval: 60000 })
+  const { data: dbPromoSlides } = useSWR('/api/admin/sliders?sliderType=promo', fetcherArray, { revalidateOnFocus: false, dedupingInterval: 60000 })
+  const { data: dbProjects } = useSWR('/api/admin/projects', fetcherArray, { revalidateOnFocus: false, dedupingInterval: 60000 })
 
   const homeNews = useMemo(() => {
     if (dbNews && dbNews.length > 0) {

@@ -26,8 +26,12 @@ export async function GET() {
   try {
     const articles = await db.newsArticle.findMany({
       orderBy: { createdAt: 'desc' },
+      take: 50,
+      where: { approvalStatus: 'approved' },
     })
-    return NextResponse.json(articles)
+    return NextResponse.json(articles, {
+      headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=300' }
+    })
   } catch (error) {
     console.error('Admin News GET error:', error)
     return NextResponse.json({ error: 'Failed to fetch news' }, { status: 500 })

@@ -17,7 +17,9 @@ export async function GET() {
         createdAt: true,
       },
     })
-    return NextResponse.json(bids)
+    return NextResponse.json(bids, {
+      headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=300' }
+    })
   } catch (error) {
     console.error('Public bids GET error:', error)
     return NextResponse.json([], { status: 200 })

@@ -283,57 +283,40 @@ export default function MayorPage() {
   const [selectedOrg, setSelectedOrg] = useState<{ title: string; bio: string; photo: string; name: string; role?: string; email?: string; phone?: string; social?: any } | null>(null)
 
   useEffect(() => {
-    // Fetch site images (page-level photos managed from admin)
-    fetch('/api/admin/site-images')
-      .then(r => r.json())
-      .then((data: { key: string; url: string }[]) => {
-        if (Array.isArray(data)) {
-          const map: Record<string, string> = {}
-          data.forEach(d => { map[d.key] = d.url })
-          setSiteImages(map)
+    // Single fetch for all mayor page data
+    Promise.all([
+      fetch('/api/admin/site-images').then(r => r.ok ? r.json() : []).catch(() => []),
+      fetch('/api/public/cabinet').then(r => r.ok ? r.json() : []).catch(() => []),
+      fetch('/api/admin/news?take=3').then(r => r.ok ? r.json() : []).catch(() => []),
+    ]).then(([siteImgsData, cabinetData, newsData]) => {
+      // Site images
+      if (Array.isArray(siteImgsData)) {
+        const map: Record<string, string> = {}
+        siteImgsData.forEach((d: any) => { map[d.key] = d.url })
+        setSiteImages(map)
+      }
+      // Cabinet
+      if (Array.isArray(cabinetData) && cabinetData.length > 0) {
+        setDbCabinet(cabinetData)
+        const mayor = cabinetData.find((m: DbCabinetMember) =>
+          m.title?.toLowerCase().includes('mayor') || m.order === 0
+        )
+        if (mayor) {
+          setDbMayorInfo({ name: mayor.name, photo: mayor.photo || '/mayor-photo.png', title: mayor.title })
         }
-      })
-      .catch(() => {})
-
-    // Fetch cabinet members
-    fetch('/api/admin/cabinet-members')
-      .then(r => r.json())
-      .then((data: DbCabinetMember[]) => {
-        if (Array.isArray(data) && data.length > 0) {
-          setDbCabinet(data)
-          // Detect mayor from title/department
-          const mayor = data.find(m =>
-            m.title?.toLowerCase().includes('mayor') || m.department?.toLowerCase().includes('mayor') || m.order === 1
-          )
-          if (mayor) {
-            setDbMayorInfo({
-              name: mayor.name,
-              photo: mayor.photo || '/mayor-photo.png',
-              title: mayor.title,
-            })
-          }
-        }
-      })
-      .catch(() => { })
-
-    // Fetch news for speeches
-    fetch('/api/admin/news')
-      .then(r => r.json())
-      .then((data: any[]) => {
-        if (Array.isArray(data) && data.length > 0) {
-          // Filter or just take the latest 3 for speeches
-          const latest = data.slice(0, 3).map(news => ({
-            title: news.title,
-            date: new Date(news.createdAt).toLocaleDateString(),
-            icon: FileText
-          }))
-          setDbSpeeches(latest)
-        }
-      })
-      .catch(() => { })
+      }
+      // Speeches from news
+      if (Array.isArray(newsData) && newsData.length > 0) {
+        setDbSpeeches(newsData.slice(0, 3).map((news: any) => ({
+          title: news.title,
+          date: new Date(news.createdAt).toLocaleDateString(),
+          icon: FileText,
+        })))
+      }
+    })
   }, [])
 
-  // Use DB data if available, fallback to hardcoded have aded  ADDDD VXCVCV
+  // Use DB data if available, fallback to hardcoded
   const displayCabinet = dbCabinet.length > 0 ? dbCabinet : cabinetMembers
   const mayorName = dbMayorInfo?.name || mayorInfo.name
   const mayorPhoto = siteImages['mayor-photo'] || dbMayorInfo?.photo || mayorInfo.photo

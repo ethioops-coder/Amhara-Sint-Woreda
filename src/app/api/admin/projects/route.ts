@@ -17,8 +17,14 @@ const projectSchema = z.object({
 
 export async function GET() {
   try {
-    const projects = await db.project.findMany({ orderBy: { createdAt: 'desc' } })
-    return NextResponse.json(projects)
+    const projects = await db.project.findMany({
+      orderBy: { createdAt: 'desc' },
+      take: 50,
+      where: { approvalStatus: 'approved' },
+    })
+    return NextResponse.json(projects, {
+      headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=300' }
+    })
   } catch (error) {
     console.error('Projects GET error:', error)
     return NextResponse.json({ error: 'Failed to fetch projects' }, { status: 500 })

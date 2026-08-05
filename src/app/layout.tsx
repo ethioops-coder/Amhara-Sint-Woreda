@@ -1,26 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "next-themes";
 import { LangProvider } from "@/lib/LangContext";
 import CookieConsent from "@/components/CookieConsent";
-import Script from "next/script";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Chatbot from "@/components/layout/Chatbot";
 import GoogleTranslate from "@/components/GoogleTranslate";
-// import VisitorCounter from "@/components/VisitorCounter";
 import { db } from "@/lib/db";
+import { unstable_cache } from "next/cache";
 
+// Only load Geist Sans — drop Geist Mono (not used for body text)
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
 });
 
 const siteUrl = "https://dessiecity.gov.et";
@@ -188,6 +184,49 @@ export const viewport: Viewport = {
 import { cookies } from "next/headers";
 import type { Lang } from "@/lib/i18n";
 
+// Cache nav items for 5 minutes — avoids a DB round-trip on every page load
+const getNavItems = unstable_cache(
+  async () => {
+    try {
+      const all = await db.menuItem.findMany({ orderBy: { order: 'asc' } });
+      const parents = all.filter((i: any) => !i.parentId && i.isVisible);
+      if (parents.length === 0) return null;
+      return parents.map((parent: any) => ({
+        id: parent.pageId || 'home',
+        label: parent.label,
+        children: all
+          .filter((c: any) => c.parentId === parent.id && c.isVisible)
+          .map((child: any) => ({
+            id: child.pageId || 'home',
+            label: child.label,
+            items: all
+              .filter((sub: any) => sub.parentId === child.id && sub.isVisible)
+              .map((sub: any) => ({ id: sub.pageId || 'home', label: sub.label }))
+          }))
+      }));
+    } catch { return null; }
+  },
+  ['nav-items'],
+  { revalidate: 300 } // 5 minutes
+);
+
+const DEFAULT_NAV = [
+  { id: 'home', label: 'HOME' },
+  { id: 'about', label: 'ABOUT' },
+  {
+    id: 'mayor', label: 'MAYOR',
+    children: [
+      { id: 'mayor', label: "Mayor's Profile" },
+      { id: 'structure', label: 'Structure' },
+      { id: 'cabinet', label: 'Cabinet Members' },
+      { id: 'smart-city', label: 'Smart City' }
+    ]
+  },
+  { id: 'services', label: 'SERVICES' },
+  { id: 'news', label: 'News & Media' },
+  { id: 'contact', label: 'CONTACT' }
+];
+
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -196,55 +235,20 @@ export default async function RootLayout({
   const langCookie = cookieStore.get("dessie_lang")?.value;
   const initialLang: Lang = (langCookie === "am" || langCookie === "en") ? langCookie : "en";
 
-  let navItems = [];
-  try {
-    const all = await db.menuItem.findMany({ orderBy: { order: 'asc' } });
-    const parents = all.filter((i: any) => !i.parentId && i.isVisible);
-    navItems = parents.map((parent: any) => ({
-      id: parent.pageId || 'home',
-      label: parent.label,
-      children: all
-        .filter((c: any) => c.parentId === parent.id && c.isVisible)
-        .map((child: any) => ({
-          id: child.pageId || 'home',
-          label: child.label,
-          items: all
-            .filter((sub: any) => sub.parentId === child.id && sub.isVisible)
-            .map((sub: any) => ({ id: sub.pageId || 'home', label: sub.label }))
-        }))
-    }));
-  } catch (error) {
-    console.error("Failed to fetch nav items for layout:", error);
-  }
-  
-  // Fallback to defaults if DB fails or is empty
-  if (navItems.length === 0) {
-    navItems = [
-      { id: 'home', label: 'HOME' },
-      { id: 'about', label: 'ABOUT' },
-      { 
-        id: 'mayor', 
-        label: 'MAYOR',
-        children: [
-          { id: 'mayor', label: "Mayor's Profile" },
-          { id: 'structure', label: 'Structure' },
-          { id: 'cabinet', label: 'Cabinet Members' },
-          { id: 'smart-city', label: 'Smart City' }
-        ]
-      },
-      { id: 'services', label: 'SERVICES' },
-      { id: 'news', label: 'News & Media' },
-      { id: 'contact', label: 'CONTACT' }
-    ];
-  }
+  const navItems = (await getNavItems()) ?? DEFAULT_NAV;
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Noto Sans Ethiopic — preloaded for reliable Amharic text rendering in nav and all pages */}
+        {/* Noto Sans Ethiopic — async (non-blocking) for Amharic text */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;600;700&display=swap"
+          rel="stylesheet"
+          media="print"
+          // @ts-ignore — onLoad trick for async font loading
+          onLoad="this.media='all'"
+        />
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
@@ -374,7 +378,7 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${geistSans.variable} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <LangProvider initialLang={initialLang}>
             <div className="min-h-screen flex flex-col">
