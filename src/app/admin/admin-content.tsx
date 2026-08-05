@@ -62,7 +62,7 @@ function Sidebar({ page, nav, onLogout }: { page: AdminPage; nav: (p: AdminPage)
             <img src="/logo.png" alt="AS" className="w-9 h-9 rounded-lg shadow-md ring-1 ring-white/20 object-contain" />
             <div>
               <div className="text-white font-bold text-sm leading-tight">Admin Panel</div>
-              <div className="text-[#86EFAC] text-[10px] font-medium">Amhara Sint</div>
+              <div className="text-[#86EFAC] text-[10px] font-medium">Amhara Sayint</div>
             </div>
           </button>
           <button onClick={() => { const s = document.getElementById("admin-sidebar"); const o = document.getElementById("sidebar-overlay"); if (s) s.classList.add("-translate-x-full"); if (o) o.classList.add("hidden"); }} className="lg:hidden text-white/60 hover:text-white p-1">✕</button>
@@ -844,7 +844,7 @@ function ApplicationsPage() {
 
   useEffect(() => {
     try {
-      const d = localStorage.getItem("amharasint_applications");
+      const d = localStorage.getItem("amharasayint_applications");
       setApps(d ? JSON.parse(d) : []);
     } catch { setApps([]); }
     setLoading(false);
@@ -853,14 +853,14 @@ function ApplicationsPage() {
   const updateStatus = (id: string, status: string) => {
     const updated = apps.map(a => a.id === id ? { ...a, status } : a);
     setApps(updated);
-    localStorage.setItem("amharasint_applications", JSON.stringify(updated));
+    localStorage.setItem("amharasayint_applications", JSON.stringify(updated));
   };
 
   const deleteApp = (id: string) => {
     if (!confirm("Delete this application?")) return;
     const updated = apps.filter(a => a.id !== id);
     setApps(updated);
-    localStorage.setItem("amharasint_applications", JSON.stringify(updated));
+    localStorage.setItem("amharasayint_applications", JSON.stringify(updated));
     if (selected?.id === id) setSelected(null);
   };
 
@@ -982,7 +982,7 @@ function SettingsPage() {
       <div className="bg-white rounded-xl shadow-sm p-6">
         <h3 className="text-base font-semibold text-gray-900 mb-4">System Information</h3>
         <div className="space-y-4">
-          {[["Application", "Amhara Sint Woreda Portal"], ["Version", "1.0.0"], ["Framework", "Next.js 16"], ["Storage", "JSON File Storage"]].map(([k, v]) => (
+          {[["Application", "Amhara Sayint Woreda Portal"], ["Version", "1.0.0"], ["Framework", "Next.js 16"], ["Storage", "JSON File Storage"]].map(([k, v]) => (
             <div key={k} className="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
               <span className="text-sm text-gray-600">{k}</span>
               <span className="text-sm font-medium text-gray-900">{v}</span>
@@ -1589,7 +1589,7 @@ export default function AdminPage() {
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
             </button>
             <div>
-              <h2 className="text-sm font-semibold text-gray-900">Amhara Sint Woreda</h2>
+              <h2 className="text-sm font-semibold text-gray-900">Amhara Sayint Woreda</h2>
               <p className="text-xs text-gray-400">Administration Panel</p>
             </div>
           </div>

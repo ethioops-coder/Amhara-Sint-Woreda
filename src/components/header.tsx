@@ -134,7 +134,7 @@ export default function Header({
             </span>
             <span className="flex items-center gap-1.5 text-white/80">
               <Mail className="w-3.5 h-3.5" />
-              <span>info@amharasint.gov.et</span>
+              <span>info@amharasayint.gov.et</span>
             </span>
           </div>
           <div className="flex items-center gap-3">
@@ -174,12 +174,12 @@ export default function Header({
             >
               <img
                 src="/logo.png"
-                alt="Amhara Sint Logo"
+                alt="Amhara Sayint Logo"
                 className="h-[44px] md:h-[52px] w-auto object-contain transition-transform group-hover:scale-105"
               />
               <div className="hidden sm:block text-left leading-tight">
                 <span className="text-[#0B3D2E] font-extrabold text-base md:text-lg tracking-wide uppercase">
-                  Amhara Sint
+                  Amhara Sayint
                 </span>
                 <br />
                 <span className="text-[0.6rem] tracking-[0.1em] text-gray-500 uppercase font-semibold">

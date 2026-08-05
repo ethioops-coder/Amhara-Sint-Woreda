@@ -117,7 +117,7 @@ export default function SeoContent() {
         <br />
         Phone: +251 33 440 1000
         <br />
-        Email: info@amharasint.gov.et
+        Email: info@amharasayint.gov.et
       </address>
     </section>
   );

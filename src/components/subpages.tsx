@@ -20,13 +20,13 @@ export function Sidebar({ onNavigate }: { onNavigate: (p: PageId) => void }) {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
   const socialLinks = [
-    { label: "Facebook", icon: Facebook, url: "https://facebook.com/AmharaSint", color: "hover:bg-[#1877F2] hover:text-white" },
-    { label: "YouTube", icon: Youtube, url: "https://youtube.com/@AmharaSint", color: "hover:bg-[#FF0000] hover:text-white" },
+    { label: "Facebook", icon: Facebook, url: "https://facebook.com/AmharaSayint", color: "hover:bg-[#1877F2] hover:text-white" },
+    { label: "YouTube", icon: Youtube, url: "https://youtube.com/@AmharaSayint", color: "hover:bg-[#FF0000] hover:text-white" },
     { label: "LinkedIn", icon: Linkedin, url: "https://www.linkedin.com/in/meseret-akalu-76363121b/", color: "hover:bg-[#0A66C2] hover:text-white" },
-    { label: "GitHub", icon: Github, url: "https://github.com/AmharaSint", color: "hover:bg-[#333] hover:text-white" },
-    { label: "Instagram", icon: Instagram, url: "https://instagram.com/AmharaSint", color: "hover:bg-[#E4405F] hover:text-white" },
-    { label: "Twitter / X", icon: Twitter, url: "https://twitter.com/AmharaSint", color: "hover:bg-[#1DA1F2] hover:text-white" },
-    { label: "Telegram", icon: ExternalLink, url: "https://t.me/AmharaSint", color: "hover:bg-[#0088CC] hover:text-white" },
+    { label: "GitHub", icon: Github, url: "https://github.com/AmharaSayint", color: "hover:bg-[#333] hover:text-white" },
+    { label: "Instagram", icon: Instagram, url: "https://instagram.com/AmharaSayint", color: "hover:bg-[#E4405F] hover:text-white" },
+    { label: "Twitter / X", icon: Twitter, url: "https://twitter.com/AmharaSayint", color: "hover:bg-[#1DA1F2] hover:text-white" },
+    { label: "Telegram", icon: ExternalLink, url: "https://t.me/AmharaSayint", color: "hover:bg-[#0088CC] hover:text-white" },
   ];
   return (
     <aside className="space-y-6">
@@ -843,7 +843,7 @@ export function VacancyPage({ onNavigate }: { onNavigate: (p: PageId) => void })
         <ContentCard delay={400}>
           <div className="bg-[#F0FDF4] rounded-xl p-6 text-center">
             <h3 className="font-bold text-[#0B3D2E] mb-2">How to Apply</h3>
-            <p className="text-[#0B3D2E]/60 text-sm">Click &quot;Apply Now&quot; on any vacancy above to submit your application online. You can also submit in person at the Woreda Administration Office, Amhara Sayint Town, or email: info@amharasint.gov.et</p>
+            <p className="text-[#0B3D2E]/60 text-sm">Click &quot;Apply Now&quot; on any vacancy above to submit your application online. You can also submit in person at the Woreda Administration Office, Amhara Sayint Town, or email: info@amharasayint.gov.et</p>
           </div>
         </ContentCard>
       </div>
@@ -890,7 +890,7 @@ export function ContactPage({ onNavigate }: { onNavigate: (p: PageId) => void })
           {[
             { title: "Office Location", detail: "Amhara Sayint Town\nSouth Wollo Zone\nAmhara Region, Ethiopia", icon: MapPinned, color: "from-[#0B3D2E] to-[#10B981]" },
             { title: "Phone", detail: "+251 33 XXX XXXX\n\nOffice Hours:\nMon-Fri, 8:00 AM - 5:00 PM", icon: Phone, color: "from-[#EAB308] to-[#F59E0B]" },
-            { title: "Email", detail: "info@amharasint.gov.et\n\nFor general inquiries\nand service requests", icon: Mail, color: "from-[#DC2626] to-[#EF4444]" },
+            { title: "Email", detail: "info@amharasayint.gov.et\n\nFor general inquiries\nand service requests", icon: Mail, color: "from-[#DC2626] to-[#EF4444]" },
           ].map((c, i) => (
             <ContentCard key={c.title} delay={i * 100}>
               <div className="text-center">

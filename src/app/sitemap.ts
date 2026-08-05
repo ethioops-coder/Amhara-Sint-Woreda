@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-const BASE_URL = "https://amhara-sint-woreda.onrender.com";
+const BASE_URL = "https://amhara-sayint-woreda.onrender.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

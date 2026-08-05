@@ -18,7 +18,7 @@ export function TopInfoBar({ onNavigate }: { onNavigate: (p: PageId) => void }) 
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-[#EAB308]" />Ajibar Town, South Wollo Zone, Amhara</span>
             <span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-[#EAB308]" />+251 33 XXX XXXX</span>
-            <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-[#EAB308]" />info@amharasint.gov.et</span>
+            <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-[#EAB308]" />info@amharasayint.gov.et</span>
             <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5 text-[#EAB308]" />Mon–Fri: 8:30 AM – 5:30 PM</span>
           </div>
           <button onClick={() => onNavigate("contact")}

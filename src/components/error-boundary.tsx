@@ -30,7 +30,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
       return (
         <div className="min-h-screen flex items-center justify-center bg-[#0B3D2E] px-4">
           <div className="text-center max-w-md">
-            <img src="/logo.png" alt="Amhara Sint Woreda" className="w-20 h-20 mx-auto mb-6 rounded-2xl" />
+            <img src="/logo.png" alt="Amhara Sayint Woreda" className="w-20 h-20 mx-auto mb-6 rounded-2xl" />
             <h1 className="text-2xl font-bold text-white mb-3">Something went wrong</h1>
             <p className="text-white/60 mb-6 text-sm">
               The page encountered an error. Please try refreshing.

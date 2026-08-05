@@ -39,13 +39,13 @@ export function HeroSlider() {
       {/* Left Side Social Media Bar */}
       <div className="absolute left-0 top-1/2 -translate-y-1/2 z-30 flex flex-col gap-3 pl-3 md:pl-5">
         {[
-          { icon: Facebook, url: "https://facebook.com/AmharaSint", color: "bg-[#1877F2] hover:bg-[#1565C0]", label: "Facebook" },
-          { icon: Youtube, url: "https://youtube.com/@AmharaSint", color: "bg-[#FF0000] hover:bg-[#CC0000]", label: "YouTube" },
+          { icon: Facebook, url: "https://facebook.com/AmharaSayint", color: "bg-[#1877F2] hover:bg-[#1565C0]", label: "Facebook" },
+          { icon: Youtube, url: "https://youtube.com/@AmharaSayint", color: "bg-[#FF0000] hover:bg-[#CC0000]", label: "YouTube" },
           { icon: Linkedin, url: "https://www.linkedin.com/in/meseret-akalu-76363121b/", color: "bg-[#0A66C2] hover:bg-[#084F97]", label: "LinkedIn" },
-          { icon: Github, url: "https://github.com/AmharaSint", color: "bg-[#333] hover:bg-[#24292F]", label: "GitHub" },
-          { icon: Instagram, url: "https://instagram.com/AmharaSint", color: "bg-[#E4405F] hover:bg-[#C13584]", label: "Instagram" },
-          { icon: Twitter, url: "https://twitter.com/AmharaSint", color: "bg-[#1DA1F2] hover:bg-[#0D8BD9]", label: "Twitter/X" },
-          { icon: ExternalLink, url: "https://t.me/AmharaSint", color: "bg-[#0088CC] hover:bg-[#006699]", label: "Telegram" },
+          { icon: Github, url: "https://github.com/AmharaSayint", color: "bg-[#333] hover:bg-[#24292F]", label: "GitHub" },
+          { icon: Instagram, url: "https://instagram.com/AmharaSayint", color: "bg-[#E4405F] hover:bg-[#C13584]", label: "Instagram" },
+          { icon: Twitter, url: "https://twitter.com/AmharaSayint", color: "bg-[#1DA1F2] hover:bg-[#0D8BD9]", label: "Twitter/X" },
+          { icon: ExternalLink, url: "https://t.me/AmharaSayint", color: "bg-[#0088CC] hover:bg-[#006699]", label: "Telegram" },
         ].map((social, idx) => (
           <a
             key={social.label}

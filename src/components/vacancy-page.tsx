@@ -155,14 +155,14 @@ export function VacancyPage({ onNavigate }: { onNavigate: (p: PageId) => void })
         }));
         setVacancies(enhanced);
       } else {
-        try { const v = localStorage.getItem("amharasint_vacancies"); if (v) { setVacancies(JSON.parse(v)); return; } } catch {}
+        try { const v = localStorage.getItem("amharasayint_vacancies"); if (v) { setVacancies(JSON.parse(v)); return; } } catch {}
         setVacancies(DEFAULT_VACANCIES);
       }
     }).catch(() => {
-      try { const v = localStorage.getItem("amharasint_vacancies"); if (v) setVacancies(JSON.parse(v)); else setVacancies(DEFAULT_VACANCIES); } catch { setVacancies(DEFAULT_VACANCIES); }
+      try { const v = localStorage.getItem("amharasayint_vacancies"); if (v) setVacancies(JSON.parse(v)); else setVacancies(DEFAULT_VACANCIES); } catch { setVacancies(DEFAULT_VACANCIES); }
     });
     // Load application count
-    try { const a = localStorage.getItem("amharasint_applications"); if (a) setApplications(JSON.parse(a)); } catch {}
+    try { const a = localStorage.getItem("amharasayint_applications"); if (a) setApplications(JSON.parse(a)); } catch {}
   }, []);
 
   const uploadFile = async (file: File): Promise<string | null> => {
@@ -222,7 +222,7 @@ export function VacancyPage({ onNavigate }: { onNavigate: (p: PageId) => void })
 
       try {
         const all = [...applications, data];
-        localStorage.setItem("amharasint_applications", JSON.stringify(all));
+        localStorage.setItem("amharasayint_applications", JSON.stringify(all));
         setApplications(all);
       } catch {}
 

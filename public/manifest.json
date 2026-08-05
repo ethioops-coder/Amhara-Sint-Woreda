@@ -1,7 +1,7 @@
 {
-  "name": "Amhara Sint Woreda — Official Portal",
-  "short_name": "Amhara Sint",
-  "description": "Official government portal for Amhara Sint Woreda, South Wollo Zone, Amhara Region, Ethiopia.",
+  "name": "Amhara Sayint Woreda — Official Portal",
+  "short_name": "Amhara Sayint",
+  "description": "Official government portal for Amhara Sayint Woreda, South Wollo Zone, Amhara Region, Ethiopia.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0B3D2E",
@@ -41,7 +41,7 @@
       "src": "https://sfile.chatglm.cn/images-ppt/d57be5c1e89d.jpg",
       "sizes": "1200x630",
       "type": "image/jpeg",
-      "label": "Amhara Sint Woreda Homepage"
+      "label": "Amhara Sayint Woreda Homepage"
     }
   ]
 }

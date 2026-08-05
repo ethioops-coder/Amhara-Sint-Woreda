@@ -1,0 +1,20 @@
+import re
+f = open('src/app/page.tsx', 'r', encoding='utf-8')
+content = f.read()
+f.close()
+content = content.replace('Ato Dereje Getachew', 'Ato Getachew Workneh')
+content = content.replace('Administrator Name', 'Ato Getachew Workneh')
+# Also update avatar for him
+content = re.sub(r'name: "Ato Getachew Workneh", title: "Woreda Administrator",.*?avatar: "[^"]+"', 'name: "Ato Getachew Workneh", title: "Woreda Administrator",\n    phone: "+251 33 440 1001", email: "admin@amharasint.gov.et",\n    avatar: "/team/admin.jpg"', content, flags=re.DOTALL)
+f = open('src/app/page.tsx', 'w', encoding='utf-8')
+f.write(content)
+f.close()
+
+f2 = open('src/components/homepage-sections.tsx', 'r', encoding='utf-8')
+c2 = f2.read()
+f2.close()
+c2 = c2.replace('Administrator Name', 'Ato Getachew Workneh')
+f2 = open('src/components/homepage-sections.tsx', 'w', encoding='utf-8')
+f2.write(c2)
+f2.close()
+print('Done')

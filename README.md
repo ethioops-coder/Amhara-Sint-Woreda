@@ -1,6 +1,6 @@
-# Amhara Sint Woreda — Official Portal
+# Amhara Sayint Woreda — Official Portal
 
-Official government portal for **Amhara Sint Woreda**, South Wollo Zone, Amhara Region, Ethiopia.
+Official government portal for **Amhara Sayint Woreda**, South Wollo Zone, Amhara Region, Ethiopia.
 
 ## Tech Stack
 
@@ -18,7 +18,7 @@ Official government portal for **Amhara Sint Woreda**, South Wollo Zone, Amhara 
 ```bash
 git add .
 git commit -m "Ready for Railway deployment"
-git remote add origin https://github.com/YOUR_USERNAME/amhara-sint-woreda.git
+git remote add origin https://github.com/YOUR_USERNAME/amhara-sayint-woreda.git
 git push -u origin main
 ```
 
@@ -42,7 +42,7 @@ In Railway dashboard → your service → **Variables**, add:
 
 ### Step 4 — Get Your URL
 
-Railway assigns a domain like `amhara-sint-xxx.railway.app`.  
+Railway assigns a domain like `amhara-sayint-xxx.railway.app`.  
 Go to **Settings → Networking → Generate Domain**.
 
 ---
