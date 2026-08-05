@@ -10,6 +10,20 @@ import { useLang } from '@/lib/LangContext';
 export default function CabinetPage() {
   const { lang } = useLang();
   const isAm = lang === 'am';
+  const [heroImage, setHeroImage] = useState('/smart-meeting-room.jpg')
+
+  // Fetch page-level hero image from admin
+  React.useEffect(() => {
+    fetch('/api/admin/site-images')
+      .then(r => r.json())
+      .then((data: { key: string; url: string }[]) => {
+        if (Array.isArray(data)) {
+          const hero = data.find(d => d.key === 'cabinet-hero')
+          if (hero?.url) setHeroImage(hero.url)
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   const defaultCabinetMembers = [
     {
@@ -93,7 +107,7 @@ export default function CabinetPage() {
       <section className="relative h-[40vh] min-h-[350px] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="/smart-meeting-room.jpg" 
+            src={heroImage}
             alt="Dessie Cabinet" 
             className="w-full h-full object-cover brightness-[0.3]"
           />

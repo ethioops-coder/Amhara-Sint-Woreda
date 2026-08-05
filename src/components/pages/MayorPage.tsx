@@ -278,10 +278,23 @@ export default function MayorPage() {
   const [dbCabinet, setDbCabinet] = useState<DbCabinetMember[]>([])
   const [dbMayorInfo, setDbMayorInfo] = useState<{ name: string; photo: string; title: string } | null>(null)
   const [dbSpeeches, setDbSpeeches] = useState<{ title: string; date: string; icon: any }[]>([])
+  const [siteImages, setSiteImages] = useState<Record<string, string>>({})
   const [selectedMember, setSelectedMember] = useState<any | null>(null)
   const [selectedOrg, setSelectedOrg] = useState<{ title: string; bio: string; photo: string; name: string; role?: string; email?: string; phone?: string; social?: any } | null>(null)
 
   useEffect(() => {
+    // Fetch site images (page-level photos managed from admin)
+    fetch('/api/admin/site-images')
+      .then(r => r.json())
+      .then((data: { key: string; url: string }[]) => {
+        if (Array.isArray(data)) {
+          const map: Record<string, string> = {}
+          data.forEach(d => { map[d.key] = d.url })
+          setSiteImages(map)
+        }
+      })
+      .catch(() => {})
+
     // Fetch cabinet members
     fetch('/api/admin/cabinet-members')
       .then(r => r.json())
@@ -323,7 +336,8 @@ export default function MayorPage() {
   // Use DB data if available, fallback to hardcoded have aded  ADDDD VXCVCV
   const displayCabinet = dbCabinet.length > 0 ? dbCabinet : cabinetMembers
   const mayorName = dbMayorInfo?.name || mayorInfo.name
-  const mayorPhoto = dbMayorInfo?.photo || mayorInfo.photo
+  const mayorPhoto = siteImages['mayor-photo'] || dbMayorInfo?.photo || mayorInfo.photo
+  const deputyPhoto = siteImages['deputy-photo'] || siteImages['official-deputy'] || deputyInfo.photo
 
   const displaySpeeches = dbSpeeches.length > 0 ? dbSpeeches : speeches
 
@@ -405,7 +419,7 @@ export default function MayorPage() {
                 {/* Photo */}
                 <div className="md:col-span-2 bg-gradient-to-b from-[#1a6b3c] to-[#2d8a4e] p-8 flex flex-col items-center justify-center">
                   <div className="relative">
-                    <img src={deputyInfo.photo} alt={deputyInfo.name} className="w-40 h-52 md:w-48 md:h-60 rounded-2xl object-cover object-top shadow-2xl border-2 border-white/20" />
+                    <img src={deputyPhoto} alt={deputyInfo.name} className="w-40 h-52 md:w-48 md:h-60 rounded-2xl object-cover object-top shadow-2xl border-2 border-white/20" />
                     <div className="absolute -bottom-3 -right-3 bg-white text-[#1a6b3c] rounded-xl px-3 py-1.5 shadow-lg flex items-center gap-1.5">
                       <UserCog className="w-3.5 h-3.5" />
                       <span className="text-[9px] font-bold tracking-wider">DEPUTY</span>
@@ -482,7 +496,7 @@ export default function MayorPage() {
                 {pageMembers.map((member: any, idx) => {
                   const Icon = member.icon || Users
                   const cardColor = member.color || '#1a6b3c'
-                  const photoSrc = member.photo || '/official-deputy.png'
+                  const photoSrc = member.photo || siteImages[`official-${member.title?.toLowerCase().replace(/\s+/g,'-')}`] || '/official-deputy.png'
                   const socialData = member.social || (member.socialLinks ? (() => { try { return JSON.parse(member.socialLinks) } catch { return {} } })() : {})
                   const emailDisplay = member.email ? String(member.email).split('@')[0] : ''
                   const phoneDisplay = member.phone ? String(member.phone).split(' ').slice(-1)[0] : ''
@@ -638,7 +652,7 @@ export default function MayorPage() {
           {selectedMember && (
             <>
               <div className="bg-gradient-to-r from-[#0d4a28] to-[#1a6b3c] p-6 flex flex-col sm:flex-row items-center gap-5">
-                <img src={selectedMember.photo || '/official-deputy.png'} alt={selectedMember.name} className="w-24 h-24 rounded-2xl object-cover object-top shadow-xl border-2 border-white/20" />
+                <img src={selectedMember.photo || siteImages['official-deputy'] || '/official-deputy.png'} alt={selectedMember.name} className="w-24 h-24 rounded-2xl object-cover object-top shadow-xl border-2 border-white/20" />
                 <div className="text-center sm:text-left">
                   <h3 className="text-xl font-bold text-white">{selectedMember.name}</h3>
                   <p className="text-[#c8a415] text-sm font-semibold mt-1">{selectedMember.title}</p>

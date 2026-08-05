@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -23,7 +23,7 @@ import {
   XCircle, Clock, LogOut, Menu, Loader2, Plus, Pencil, Trash2,
   Shield, User, Mail, Phone, MessageSquare, AlertTriangle, Eye,
   ChevronDown, Search, RefreshCw, Building2, FolderOpen, Bell,
-  Users, Settings, Star, MapPin,
+  Users, Settings, Star, MapPin, Upload, ImageIcon,
 } from 'lucide-react'
 
 /* ========================= TYPES ========================= */
@@ -106,7 +106,7 @@ interface Stats {
   recentServiceRequests: { id: string; name: string; serviceType: string; status: string; createdAt: string }[]
 }
 
-type ActiveSection = 'dashboard' | 'news' | 'vacancies' | 'bids' | 'approvals' | 'audit' | 'hotels' | 'projects' | 'announcements' | 'cabinet' | 'contacts' | 'service-requests' | 'settings' | 'users' | 'sliders' | 'menu'
+type ActiveSection = 'dashboard' | 'news' | 'vacancies' | 'bids' | 'approvals' | 'audit' | 'hotels' | 'projects' | 'announcements' | 'cabinet' | 'contacts' | 'service-requests' | 'settings' | 'users' | 'sliders' | 'menu' | 'site-images'
 
 /* ========================= MAIN COMPONENT ========================= */
 export default function AdminPanel() {
@@ -256,6 +256,7 @@ export default function AdminPanel() {
     { id: 'sliders', label: 'Hero Sliders', icon: <Star className="h-4 w-4" />, group: 'Content' },
     { id: 'menu', label: 'Menu Items', icon: <Menu className="h-4 w-4" />, group: 'Content' },
     { id: 'cabinet', label: 'Cabinet Members', icon: <Users className="h-4 w-4" />, group: 'People' },
+    { id: 'site-images', label: 'Page Images', icon: <ImageIcon className="h-4 w-4" />, group: 'People' },
     { id: 'contacts', label: 'Contact Messages', icon: <Mail className="h-4 w-4" />, group: 'Inbox' },
     { id: 'service-requests', label: 'Service Requests', icon: <MessageSquare className="h-4 w-4" />, group: 'Inbox' },
     { id: 'approvals', label: 'Approval Queue', icon: <CheckCircle2 className="h-4 w-4" />, group: 'Admin' },
@@ -377,6 +378,7 @@ export default function AdminPanel() {
           {activeSection === 'hotels' && <SimpleSection model="hotels" label="Hotel" isChecker={isChecker} fields={['name','location','rating','priceRange','description','phone','email','image']} />}
           {activeSection === 'cabinet' && <SimpleSection model="cabinet-members" label="Cabinet Member" isChecker={isChecker} fields={['name','title','department','bio','email','phone','photo']} />}
           {activeSection === 'sliders' && <SimpleSection model="sliders" label="Slider Image" isChecker={isChecker} fields={['title','subtitle','image','sliderType','tag','link']} />}
+          {activeSection === 'site-images' && <SiteImagesSection />}
           {activeSection === 'menu' && <MenuSection isChecker={isChecker} />}
           {activeSection === 'contacts' && <InboxSection model="contacts" label="Contact Messages" />}
           {activeSection === 'service-requests' && <InboxSection model="service-requests" label="Service Requests" />}
@@ -1534,20 +1536,43 @@ function SimpleSection({ model, label, isChecker, fields }: { model: string; lab
                 ) : (f === 'photo' || f === 'image') ? (
                   <div className="space-y-2">
                     {form[f] && (
-                      <div className="relative w-24 h-24 rounded-lg overflow-hidden border border-[#e2e8e0]">
+                      <div className="relative w-full h-36 rounded-lg overflow-hidden border border-gray-200 bg-gray-50 group">
                         <img src={form[f]} alt="preview" className="w-full h-full object-cover" onError={e => { (e.currentTarget as HTMLImageElement).src = '/dessie-logo.png' }} />
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                          <label className="px-3 py-1.5 bg-white text-xs font-semibold rounded-full text-gray-800 hover:bg-gray-100 flex items-center gap-1.5 cursor-pointer">
+                            <Upload className="w-3 h-3" /> Change
+                            <input type="file" accept="image/*" className="hidden" onChange={async e => {
+                              const file = e.target.files?.[0]; if (!file) return
+                              const fd = new FormData(); fd.append('file', file)
+                              const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+                              const data = await res.json()
+                              if (data.url) setForm(p => ({ ...p, [f]: data.url }))
+                              e.target.value = ''
+                            }} />
+                          </label>
+                          <button type="button" onClick={() => setForm(p => ({ ...p, [f]: '' }))}
+                            className="px-3 py-1.5 bg-red-500 text-xs font-semibold rounded-full text-white hover:bg-red-600 flex items-center gap-1.5">
+                            <XCircle className="w-3 h-3" /> Remove
+                          </button>
+                        </div>
                       </div>
                     )}
-                    <Input value={form[f] || ''} onChange={e => setForm(p => ({ ...p, [f]: e.target.value }))} placeholder="Enter image URL (e.g. /mayor-photo.png)" />
-                    <div className="flex flex-wrap gap-1.5">
-                      <p className="w-full text-[10px] text-muted-foreground font-semibold uppercase">Quick select:</p>
-                      {['/mayor-photo.png','/official-logo.png','/dessie-city-hall.png','/dessie-smart-center.png','/dessie-service-center.png','/news-meeting.png','/news-smart-city.png','/news-health.png','/news-culture.png','/heritage-landscape.png'].map(img => (
-                        <button key={img} type="button" onClick={() => setForm(p => ({ ...p, [f]: img }))}
-                          className={`w-10 h-10 rounded overflow-hidden border-2 transition-all ${form[f] === img ? 'border-[#0d4a28] scale-110' : 'border-transparent opacity-60 hover:opacity-100'}`}>
-                          <img src={img} alt="" className="w-full h-full object-cover" onError={e => { (e.currentTarget as HTMLImageElement).style.display='none' }} />
-                        </button>
-                      ))}
-                    </div>
+                    {!form[f] && (
+                      <label className="w-full h-36 rounded-lg border-2 border-dashed border-gray-200 hover:border-[#0d4a28]/50 flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-50 transition-colors">
+                        <ImageIcon className="w-8 h-8 text-gray-300" />
+                        <p className="text-xs text-gray-400"><span className="font-semibold text-[#0d4a28]">Click to upload</span> or enter URL below</p>
+                        <p className="text-[10px] text-gray-300">PNG, JPG, WEBP up to 5MB</p>
+                        <input type="file" accept="image/*" className="hidden" onChange={async e => {
+                          const file = e.target.files?.[0]; if (!file) return
+                          const fd = new FormData(); fd.append('file', file)
+                          const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+                          const data = await res.json()
+                          if (data.url) setForm(p => ({ ...p, [f]: data.url }))
+                          e.target.value = ''
+                        }} />
+                      </label>
+                    )}
+                    <Input value={form[f] || ''} onChange={e => setForm(p => ({ ...p, [f]: e.target.value }))} placeholder="Or paste image URL (e.g. /mayor-photo.png)" className="text-xs h-8" />
                   </div>
                 ) : (
                   <Input value={form[f] || ''} onChange={e => setForm(p => ({ ...p, [f]: e.target.value }))} placeholder={f} />
@@ -1983,6 +2008,177 @@ function MenuSection({ isChecker }: { isChecker: boolean }) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+    </div>
+  )
+}
+
+/* ========================= SITE IMAGES SECTION ========================= */
+// Page-level hero images that can be changed from admin without touching code
+
+const SITE_IMAGE_SLOTS = [
+  { key: 'mayor-photo', label: 'Mayor Photo', hint: 'Main photo shown on Mayor profile & homepage' },
+  { key: 'deputy-photo', label: 'Deputy Mayor Photo', hint: 'Deputy Mayor profile photo' },
+  { key: 'cabinet-hero', label: 'Cabinet Page Hero', hint: 'Background image for the Cabinet page header' },
+  { key: 'mayor-hero', label: 'Mayor Page Hero', hint: 'Background image for the Mayor page header' },
+  { key: 'about-hero', label: 'About Page Hero', hint: 'Background image for the About page header' },
+  { key: 'home-hero-1', label: 'Home Slider 1', hint: 'First hero slider image on the homepage' },
+  { key: 'home-hero-2', label: 'Home Slider 2', hint: 'Second hero slider image on the homepage' },
+  { key: 'home-hero-3', label: 'Home Slider 3', hint: 'Third hero slider image on the homepage' },
+  { key: 'contact-hero', label: 'Contact Page Hero', hint: 'Background image for the Contact page header' },
+  { key: 'services-hero', label: 'Services Page Hero', hint: 'Background image for the Services page header' },
+  { key: 'news-default', label: 'Default News Image', hint: 'Fallback image for news articles without a photo' },
+  { key: 'official-deputy', label: 'Official Deputy Photo', hint: 'Photo used for Deputy across org chart' },
+  { key: 'official-speaker', label: 'City Council Speaker Photo', hint: 'Speaker profile photo' },
+  { key: 'official-manager', label: 'City Manager Photo', hint: 'City Manager profile photo' },
+]
+
+function SiteImagesSection() {
+  const { toast } = useToast()
+  const [images, setImages] = useState<Record<string, string>>({})
+  const [saving, setSaving] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [pendingUploads, setPendingUploads] = useState<Record<string, File | null>>({})
+  const fileRefs = useRef<Record<string, HTMLInputElement | null>>({})
+
+  useEffect(() => {
+    fetch('/api/admin/site-images')
+      .then(r => r.json())
+      .then((data: { key: string; url: string }[]) => {
+        const map: Record<string, string> = {}
+        if (Array.isArray(data)) data.forEach(d => { map[d.key] = d.url })
+        // Defaults from /public
+        if (!map['mayor-photo']) map['mayor-photo'] = '/mayor-photo.png'
+        if (!map['deputy-photo']) map['deputy-photo'] = '/official-deputy.png'
+        if (!map['official-deputy']) map['official-deputy'] = '/official-deputy.png'
+        if (!map['official-speaker']) map['official-speaker'] = '/official-speaker.png'
+        if (!map['official-manager']) map['official-manager'] = '/official-manager.png'
+        setImages(map)
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false))
+  }, [])
+
+  const uploadAndSave = async (key: string, file: File) => {
+    setSaving(key)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      const upRes = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const upData = await upRes.json()
+      if (!upRes.ok) { toast({ title: 'Upload failed', description: upData.error, variant: 'destructive' }); return }
+
+      const saveRes = await fetch(`/api/admin/site-images?key=${key}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: upData.url, label: SITE_IMAGE_SLOTS.find(s => s.key === key)?.label || key }),
+      })
+      if (saveRes.ok) {
+        setImages(p => ({ ...p, [key]: upData.url }))
+        setPendingUploads(p => ({ ...p, [key]: null }))
+        toast({ title: 'Image updated', description: `"${SITE_IMAGE_SLOTS.find(s => s.key === key)?.label}" updated successfully` })
+      }
+    } catch {
+      toast({ title: 'Error', variant: 'destructive' })
+    } finally {
+      setSaving(null)
+    }
+  }
+
+  const saveUrl = async (key: string, url: string) => {
+    setSaving(key)
+    try {
+      const res = await fetch(`/api/admin/site-images?key=${key}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url, label: SITE_IMAGE_SLOTS.find(s => s.key === key)?.label || key }),
+      })
+      if (res.ok) {
+        setImages(p => ({ ...p, [key]: url }))
+        toast({ title: 'Image updated' })
+      }
+    } catch {
+      toast({ title: 'Error', variant: 'destructive' })
+    } finally {
+      setSaving(null)
+    }
+  }
+
+  if (loading) return <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">{Array.from({length:6}).map((_,i)=><Card key={i} className="h-64 border-0 shadow-sm"><div className="h-full bg-gray-200 animate-pulse rounded-lg"/></Card>)}</div>
+
+  return (
+    <div className="space-y-4">
+      <p className="text-sm text-muted-foreground">Manage all page-level and official photos. Changes reflect immediately on the live site.</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {SITE_IMAGE_SLOTS.map(slot => {
+          const currentUrl = images[slot.key] || ''
+          const isSaving = saving === slot.key
+          return (
+            <Card key={slot.key} className="border-0 shadow-sm overflow-hidden">
+              <CardContent className="p-4 space-y-3">
+                <div>
+                  <p className="font-semibold text-sm text-[#0d4a28]">{slot.label}</p>
+                  <p className="text-[11px] text-gray-400 mt-0.5">{slot.hint}</p>
+                </div>
+
+                {/* Preview */}
+                <div className="relative w-full h-32 rounded-lg overflow-hidden border border-gray-100 bg-gray-50 group">
+                  {currentUrl ? (
+                    <>
+                      <img src={currentUrl} alt={slot.label} className="w-full h-full object-cover"
+                        onError={e => { (e.currentTarget as HTMLImageElement).src = '/dessie-logo.png' }} />
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <label className="px-3 py-1.5 bg-white text-xs font-semibold rounded-full cursor-pointer flex items-center gap-1.5 hover:bg-gray-100">
+                          <Upload className="w-3 h-3" /> Replace
+                          <input type="file" accept="image/*" className="hidden" onChange={e => {
+                            const f = e.target.files?.[0]; if (f) uploadAndSave(slot.key, f); e.target.value = ''
+                          }} />
+                        </label>
+                      </div>
+                    </>
+                  ) : (
+                    <label className="w-full h-full flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-100 transition-colors">
+                      <ImageIcon className="w-8 h-8 text-gray-300" />
+                      <p className="text-xs text-gray-400"><span className="text-[#0d4a28] font-semibold">Click to upload</span></p>
+                      <input type="file" accept="image/*" className="hidden" onChange={e => {
+                        const f = e.target.files?.[0]; if (f) uploadAndSave(slot.key, f); e.target.value = ''
+                      }} />
+                    </label>
+                  )}
+                  {isSaving && (
+                    <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
+                      <Loader2 className="w-6 h-6 animate-spin text-[#0d4a28]" />
+                    </div>
+                  )}
+                </div>
+
+                {/* URL input */}
+                <div className="flex gap-1.5">
+                  <Input
+                    value={currentUrl}
+                    onChange={e => setImages(p => ({ ...p, [slot.key]: e.target.value }))}
+                    placeholder="/path.png or https://..."
+                    className="text-xs h-8 flex-1"
+                  />
+                  <Button size="sm" className="h-8 px-3 text-xs text-white shrink-0" style={{ backgroundColor: '#0d4a28' }}
+                    disabled={isSaving || !currentUrl}
+                    onClick={() => saveUrl(slot.key, currentUrl)}>
+                    {isSaving ? <Loader2 className="w-3 h-3 animate-spin" /> : 'Save'}
+                  </Button>
+                </div>
+
+                {/* Upload button */}
+                <label className="flex items-center gap-2 px-3 py-1.5 border border-dashed border-[#0d4a28]/30 rounded-md cursor-pointer hover:bg-[#0d4a28]/5 transition-colors">
+                  <Upload className="w-3.5 h-3.5 text-[#0d4a28]" />
+                  <span className="text-xs text-[#0d4a28] font-medium">Upload new file</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={e => {
+                    const f = e.target.files?.[0]; if (f) uploadAndSave(slot.key, f); e.target.value = ''
+                  }} />
+                </label>
+              </CardContent>
+            </Card>
+          )
+        })}
+      </div>
     </div>
   )
 }

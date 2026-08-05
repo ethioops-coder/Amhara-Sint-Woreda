@@ -73,6 +73,7 @@ const TABLE: Record<string, string> = {
   bid: 'Bid', project: 'Project', announcement: 'Announcement',
   pageContent: 'PageContent', menuItem: 'MenuItem', sliderImage: 'SliderImage',
   cabinetMember: 'CabinetMember', siteSetting: 'SiteSetting', siteVisit: 'SiteVisit',
+  siteImage: 'SiteImage',
 }
 
 // ─────────────────────────────────────────────────────────────────

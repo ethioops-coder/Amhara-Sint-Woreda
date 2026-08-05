@@ -286,6 +286,15 @@ model SiteSetting {
   updatedAt DateTime @updatedAt
 }
 
+model SiteImage {
+  id          String   @id @default(cuid())
+  key         String   @unique  // e.g. "cabinet-hero", "mayor-hero", "about-hero"
+  url         String
+  label       String   @default("")
+  updatedAt   DateTime @updatedAt
+  updatedBy   String?
+}
+
 model SiteVisit {
   id        String   @id @default(cuid())
   sessionId String
