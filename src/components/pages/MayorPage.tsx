@@ -60,84 +60,84 @@ const deputyInfo = {
 
 const cabinetMembers = [
   {
-    name: 'Ato Abebe Kebede', title: 'Head of Finance & Revenue', icon: Coins, color: '#1a6b3c', photo: '/official-deputy.png',
+    name: 'Ato Abebe Kebede', title: 'Head of Finance & Revenue', icon: Coins, color: '#1a6b3c', photo: '/official_abebe.png',
     email: 'finance@dessiecity.gov.et', phone: '+251 33 111 1001', office: 'Finance Building, 3rd Floor',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Directs municipal revenue collection, budgeting, financial reporting, and audit compliance. 15+ years in public finance management.',
     achievements: ['Increased revenue collection by 35% in 2024', 'Digitized tax payment system', 'Published first citizen budget report']
   },
   {
-    name: 'W/ro Hiwot Alemu', title: 'Head of Education', icon: GraduationCap, color: '#c8a415', photo: '/official-speaker.png',
+    name: 'W/ro Hiwot Alemu', title: 'Head of Education', icon: GraduationCap, color: '#c8a415', photo: '/official_hiwot.png',
     email: 'education@dessiecity.gov.et', phone: '+251 33 111 1002', office: 'Education Bureau, 2nd Floor',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Oversees 45+ schools, educational programs, scholarship initiatives, and adult literacy campaigns across all sub-cities.',
     achievements: ['Built 8 new schools in 2024', 'Launched digital learning program', '100% primary enrollment achieved']
   },
   {
-    name: 'Ato Dawit Assefa', title: 'Head of Infrastructure', icon: HardHat, color: '#1a6b3c', photo: '/official-manager.png',
+    name: 'Ato Dawit Assefa', title: 'Head of Infrastructure', icon: HardHat, color: '#1a6b3c', photo: '/official_dawit.png',
     email: 'infrastructure@dessiecity.gov.et', phone: '+251 33 111 1003', office: 'Infrastructure Office, 1st Floor',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Leads road construction, water systems, public buildings, and urban planning. Managing 200+ staff across multiple project sites.',
     achievements: ['Completed 45km road upgrade', 'Water coverage reached 85%', 'Launched smart infrastructure monitoring']
   },
   {
-    name: 'W/ro Mekdes Tadesse', title: 'Head of Health', icon: Stethoscope, color: '#c8a415', photo: '/mayor-photo.png',
+    name: 'W/ro Mekdes Tadesse', title: 'Head of Health', icon: Stethoscope, color: '#c8a415', photo: '/official_mekdes.png',
     email: 'health@dessiecity.gov.et', phone: '+251 33 111 1004', office: 'Health Bureau, 2nd Floor',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Manages 8 hospitals, 15 health centers, public health programs, clinics, and disease prevention initiatives.',
     achievements: ['Inaugurated 200-bed hospital wing', 'Vaccination rate reached 95%', 'Launched telemedicine pilot program']
   },
   {
-    name: 'Ato Tadesse Girma', title: 'Head of Trade & Industry', icon: Briefcase, color: '#1a6b3c', photo: '/official-deputy.png',
+    name: 'Ato Tadesse Girma', title: 'Head of Trade & Industry', icon: Briefcase, color: '#1a6b3c', photo: '/official_tadesse.png',
     email: 'trade@dessiecity.gov.et', phone: '+251 33 111 1005', office: 'Trade & Industry Office, 1st Floor',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Promotes investment, supports 15,000+ businesses, and manages market regulations and licensing.',
     achievements: ['Attracted ETB 2B new investment', 'Issued 3,000+ business licenses', 'Launched MSME support program']
   },
   {
-    name: 'W/ro Selamawit Bekele', title: 'Head of Social Affairs', icon: HeartHandshake, color: '#c8a415', photo: '/official-speaker.png',
+    name: 'W/ro Selamawit Bekele', title: 'Head of Social Affairs', icon: HeartHandshake, color: '#c8a415', photo: '/official_selamawit.png',
     email: 'social@dessiecity.gov.et', phone: '+251 33 111 1006', office: 'Social Affairs Bureau, 1st Floor',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Manages youth programs, women\'s affairs, disability inclusion, and community development across all sub-cities.',
     achievements: ['Supported 5,000 youth with training', 'Launched women empowerment fund', 'Built 3 community centers']
   },
   {
-    name: 'Ato Yonas Tesfaye', title: 'City Manager', icon: UserCog, color: '#1a6b3c', photo: '/official-manager.png',
+    name: 'Ato Yonas Tesfaye', title: 'City Manager', icon: UserCog, color: '#1a6b3c', photo: '/official_yonas.png',
     email: 'manager@dessiecity.gov.et', phone: '+251 33 111 1007', office: 'City Manager\'s Office, 2nd Floor',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Manages day-to-day city operations, budget implementation of ETB 2.8B, and inter-departmental workflows with 25 staff.',
     achievements: ['Improved service delivery by 40%', 'Digitized 30+ government processes', 'Reduced citizen wait times by 60%']
   },
   {
-    name: 'W/ro Tigist Mekonnen', title: 'City Council Speaker', icon: Landmark, color: '#c8a415', photo: '/official-speaker.png',
+    name: 'W/ro Tigist Mekonnen', title: 'City Council Speaker', icon: Landmark, color: '#c8a415', photo: '/official_tigist.png',
     email: 'council@dessiecity.gov.et', phone: '+251 33 111 1008', office: 'City Council Hall',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Presides over city council sessions with 47 elected members and ensures legislative process integrity and transparency.',
     achievements: ['Passed 28 proclamations', 'Held 48 public hearings', 'Increased citizen participation by 50%']
   },
   {
-    name: 'Ato Fitsum Belete', title: 'Head of Legal Affairs', icon: Scale, color: '#1a6b3c', photo: '/official-deputy.png',
+    name: 'Ato Fitsum Belete', title: 'Head of Legal Affairs', icon: Scale, color: '#1a6b3c', photo: '/official_fitsum.png',
     email: 'legal@dessiecity.gov.et', phone: '+251 33 111 1009', office: 'Legal Affairs, 1st Floor',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Advises on municipal law, land disputes, regulatory compliance, and legislative drafting. 12 years of legal experience.',
     achievements: ['Resolved 500+ land disputes', 'Drafted 15 city regulations', 'Established legal aid clinic']
   },
   {
-    name: 'W/ro Nardos Tadesse', title: 'Head of Urban Planning', icon: Building2, color: '#c8a415', photo: '/official-speaker.png',
+    name: 'W/ro Nardos Tadesse', title: 'Head of Urban Planning', icon: Building2, color: '#c8a415', photo: '/official_nardos.png',
     email: 'planning@dessiecity.gov.et', phone: '+251 33 111 1010', office: 'Planning Bureau, 2nd Floor',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Develops and enforces city master plans, zoning regulations, and land use policies for Dessie\'s 254 km² area.',
     achievements: ['Updated city master plan 2024', 'Zoned 50 hectares for industry', 'Green building code implemented']
   },
   {
-    name: 'Ato Henok Mulugeta', title: 'Head of Transport', icon: Bus, color: '#1a6b3c', photo: '/official-manager.png',
+    name: 'Ato Henok Mulugeta', title: 'Head of Transport', icon: Bus, color: '#1a6b3c', photo: '/official_henok.png',
     email: 'transport@dessiecity.gov.et', phone: '+251 33 111 1011', office: 'Transport Office, Ground Floor',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Manages public transportation network, road maintenance, traffic systems, and parking management.',
     achievements: ['Launched 5 new bus routes', 'Installed 200 traffic signals', 'Road maintenance covered 95%']
   },
   {
-    name: 'W/ro Bethlehem Hailu', title: 'Head of Water & Energy', icon: Zap, color: '#c8a415', photo: '/mayor-photo.png',
+    name: 'W/ro Bethlehem Hailu', title: 'Head of Water & Energy', icon: Zap, color: '#c8a415', photo: '/official_bethlehem.png',
     email: 'water@dessiecity.gov.et', phone: '+251 33 111 1012', office: 'Water & Energy Bureau, 1st Floor',
     social: { facebook: '#', telegram: '#', linkedin: '#' },
     bio: 'Oversees water supply, sanitation, electricity distribution, and renewable energy projects serving 450,000 residents.',
