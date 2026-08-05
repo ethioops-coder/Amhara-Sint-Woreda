@@ -29,6 +29,7 @@ import {
   Star, CloudSun, Droplets, Wind, Sunrise, ArrowRight, Sparkles,
   Clock, Gavel, Navigation, Phone, Building, Mail, Shield, Download, BookOpen, Scale, ClipboardList, Newspaper, Search, User, Share2, CalendarDays
 } from 'lucide-react'
+import QuickNavBar from '@/components/QuickNavBar'
 
 /* ─────────────────── Animated Counter ─────────────────── */
 function AnimatedCounter({ value, suffix = '' }: { value: number; suffix?: string }) {
@@ -803,6 +804,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* ═══════════════════ QUICK NAV BAR ═══════════════════ */}
+      <QuickNavBar />
 
       {/* ═══════════════════ 2. CITIZEN SERVICES & OPPORTUNITIES ═══════════════════ */}
       <section id="services" className="py-8 bg-gradient-to-b from-white to-[#f8faf8]">
