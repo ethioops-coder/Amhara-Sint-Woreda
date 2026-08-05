@@ -103,7 +103,7 @@ async function main() {
       name: 'Samuel Mollalign',
       title: 'City Mayor',
       department: "Mayor's Office",
-      photo: '/cabinet_samuel.png',
+      photo: '/cabinet_samuel.svg',
       bio: 'Samuel Mollalign serves as the Mayor of Dessie City Administration, leading the city toward sustainable urban development, smart governance, and prosperity for all citizens.',
       email: 'mayor@dessiecity.gov.et',
       phone: '+251-33-111-XXXX',

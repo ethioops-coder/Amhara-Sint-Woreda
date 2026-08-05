@@ -1,11 +1,38 @@
 "use client"
 import React from 'react';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import useSWR from 'swr';
 import { fetcherArray } from '@/lib/fetcher';
-import { Users, Mail, Phone, MapPin, Briefcase } from 'lucide-react';
+import { Users, Mail, Phone, Briefcase } from 'lucide-react';
 import { useLang } from '@/lib/LangContext';
+
+// Stable default list — defined outside component to avoid useMemo dependency churn
+const DEFAULT_CABINET_EN = [
+  { name: "Samuel Mollalign",     role: "City Mayor",      department: "Mayor's Office",    image: "/cabinet_samuel.svg",   email: "mayor@dessiecity.gov.et",     phone: "+251-33-111-XXXX" },
+  { name: "Mr. Ashenafi Alemayhu",role: "Deputy Mayor",    department: "Urban Development", image: "/cabinet_ashenafi.png", email: "deputy@dessiecity.gov.et",    phone: "+251-33-111-XXXX" },
+  { name: "Mr. Shemels Getachew", role: "Deputy Mayor",    department: "Urban Development", image: "/cabinet_shemels.png",  email: "urban@dessiecity.gov.et",     phone: "+251-33-111-XXXX" },
+  { name: "Mr. Seid Kassawu",     role: "Cabinet Member",  department: "Education Bureau",  image: "/cabinet_seid.png",     email: "education@dessiecity.gov.et", phone: "+251-33-111-XXXX" },
+  { name: "Dr. Selam Tesfaye",    role: "Cabinet Member",  department: "Health Bureau",     image: "/official_mekdes.svg",  email: "health@dessiecity.gov.et",    phone: "+251-33-111-XXXX" },
+  { name: "Mr. Dawit Bekele",     role: "Cabinet Member",  department: "Trade & Industry",  image: "/official_tadesse.svg", email: "trade@dessiecity.gov.et",     phone: "+251-33-111-XXXX" },
+  { name: "Ms. Makda Yoseph",     role: "Cabinet Member",  department: "Women & Children",  image: "/official_selamawit.svg",email: "women@dessiecity.gov.et",    phone: "+251-33-111-XXXX" },
+]
+const DEFAULT_CABINET_AM = [
+  { name: "ሳሙኤል ሞላልኝ ደሳለ",    role: "የደሴ ከተማ አስተዳደር ተቀዳሚ ምክንቲባ", department: "የከንቲባ ጽ/ቤት",     image: "/cabinet_samuel.svg",    email: "mayor@dessiecity.gov.et",     phone: "+251-33-111-XXXX" },
+  { name: "አቶ አሸናፊ ዓለማየሁ",     role: "ምክትል ከንቲባ",                  department: "የከተማ ልማት",       image: "/cabinet_ashenafi.png",  email: "deputy@dessiecity.gov.et",    phone: "+251-33-111-XXXX" },
+  { name: "አቶ ሽመልስ ጌታቸው",      role: "ምክትል ከንቲባ",                  department: "የከተማ ልማት",       image: "/cabinet_shemels.png",   email: "urban@dessiecity.gov.et",     phone: "+251-33-111-XXXX" },
+  { name: "አቶ ሰይድ ካሳው",        role: "የካቢኔ አባል",                   department: "ትምህርት ቢሮ",       image: "/cabinet_seid.png",      email: "education@dessiecity.gov.et", phone: "+251-33-111-XXXX" },
+  { name: "ዶ/ር ሰላም ተስፋዬ",      role: "የካቢኔ አባል",                   department: "ጤና ጥበቃ",         image: "/official_mekdes.svg",   email: "health@dessiecity.gov.et",    phone: "+251-33-111-XXXX" },
+  { name: "አቶ ዳዊት በቀለ",        role: "የካቢኔ አባል",                   department: "ንግድና ኢንዱስትሪ",    image: "/official_tadesse.svg",  email: "trade@dessiecity.gov.et",     phone: "+251-33-111-XXXX" },
+  { name: "ወ/ሪት ማክዳ ዮሴፍ",      role: "የካቢኔ አባል",                   department: "ሴቶችና ህፃናት",      image: "/official_selamawit.svg",email: "women@dessiecity.gov.et",     phone: "+251-33-111-XXXX" },
+]
+
+// SVG avatar data-URI fallback — shown instantly, no network needed
+function avatarDataUri(name: string) {
+  const initials = name.split(' ').map(w => w[0] || '').join('').substring(0, 2).toUpperCase()
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect width="200" height="200" fill="#0d4a28"/><circle cx="100" cy="85" r="45" fill="#1a6b3c"/><ellipse cx="100" cy="185" rx="65" ry="45" fill="#1a6b3c"/><text x="100" y="96" font-family="Arial,sans-serif" font-size="36" font-weight="700" fill="#c8a415" text-anchor="middle" dominant-baseline="middle">${initials}</text></svg>`
+  return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`
+}
 
 export default function CabinetPage() {
   const { lang } = useLang();
@@ -25,81 +52,27 @@ export default function CabinetPage() {
       .catch(() => {})
   }, [])
 
-  const defaultCabinetMembers = [
-    {
-      name: isAm ? "ሳሙኤል ሞላልኝ ደሳለ" : "Samuel Mollalign",
-      role: isAm ? "የደሴ ከተማ አስተዳደር ተቀዳሚ ምክንቲባ" : "City Mayor",
-      department: isAm ? "የከንቲባ ጽ/ቤት" : "Mayor's Office",
-      image: "/cabinet_samuel.png",
-      email: "mayor@dessiecity.gov.et",
-      phone: "+251-33-111-XXXX"
-    },
-    {
-      name: isAm ? "አቶ አሸናፊ ዓለማየሁ" : "Mr. Ashenafi Alemayhu",
-      role: isAm ? "ምክትል ከንቲባ" : "Deputy Mayor",
-      department: isAm ? "የከተማ ልማት" : "Urban Development",
-      image: "/cabinet_ashenafi.png",
-      email: "deputy@dessiecity.gov.et",
-      phone: "+251-33-111-XXXX"
-    },
-    {
-      name: isAm ? "አቶ ሽመልስ ጌታቸው" : "Mr. Shemels Getachew",
-      role: isAm ? "ምክትል ከንቲባ" : "Deputy Mayor",
-      department: isAm ? "የከተማ ልማት" : "Urban Development",
-      image: "/cabinet_shemels.png",
-      email: "deputy@dessiecity.gov.et",
-      phone: "+251-33-111-XXXX"
-    },
-    {
-      name: isAm ? "አቶ ሰይድ ካሳው" : "Mr. Seid Kassawu",
-      role: isAm ? "የካቢኔ አባል" : "Cabinet Member",
-      department: isAm ? "ትምህርት ቢሮ" : "Education Bureau",
-      image: "/cabinet_seid.png",
-      email: "education@dessiecity.gov.et",
-      phone: "+251-33-111-XXXX"
-    },
-    {
-      name: isAm ? "ዶ/ር ሰላም ተስፋዬ" : "Dr. Selam Tesfaye",
-      role: isAm ? "የካቢኔ አባል" : "Cabinet Member",
-      department: isAm ? "ጤና ጥበቃ" : "Health Bureau",
-      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      email: "health@dessiecity.gov.et",
-      phone: "+251-33-111-XXXX"
-    },
-    {
-      name: isAm ? "አቶ ዳዊት በቀለ" : "Mr. Dawit Bekele",
-      role: isAm ? "የካቢኔ አባል" : "Cabinet Member",
-      department: isAm ? "ንግድና ኢንዱስትሪ" : "Trade & Industry",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      email: "trade@dessiecity.gov.et",
-      phone: "+251-33-111-XXXX"
-    },
-    {
-      name: isAm ? "ወ/ሪት ማክዳ ዮሴፍ" : "Ms. Makda Yoseph",
-      role: isAm ? "የካቢኔ አባል" : "Cabinet Member",
-      department: isAm ? "ሴቶችና ህፃናት" : "Women & Children",
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      email: "women@dessiecity.gov.et",
-      phone: "+251-33-111-XXXX"
-    }
-  ];
+  const defaultCabinetMembers = isAm ? DEFAULT_CABINET_AM : DEFAULT_CABINET_EN
 
   const { data: dbData } = useSWR('/api/admin/cabinet-members', fetcherArray);
 
   const cabinetMembers = useMemo(() => {
     if (dbData && dbData.length > 0) {
-      const mapped = dbData.filter((m: any) => m.approvalStatus === 'approved').map((m: any) => ({
-        name: m.name,
-        role: m.title || m.position,
-        department: m.department || "Cabinet Office",
-        image: m.photo || m.image || "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-        email: m.email || "info@dessiecity.gov.et",
-        phone: m.phone || "+251-33-111-XXXX"
-      }));
-      if (mapped.length > 0) return mapped;
+      const mapped = dbData
+        .filter((m: any) => m.approvalStatus === 'approved')
+        .map((m: any) => ({
+          name: m.name,
+          role: m.title || m.position || 'Cabinet Member',
+          department: m.department || 'Cabinet Office',
+          // Use photo from DB if set, otherwise fall back to a local avatar SVG
+          image: (m.photo && m.photo.trim()) ? m.photo : avatarDataUri(m.name),
+          email: m.email || 'info@dessiecity.gov.et',
+          phone: m.phone || '+251-33-111-XXXX',
+        }))
+      if (mapped.length > 0) return mapped
     }
-    return defaultCabinetMembers;
-  }, [dbData, defaultCabinetMembers]);
+    return defaultCabinetMembers
+  }, [dbData, defaultCabinetMembers])
 
   return (
     <div className="min-h-screen bg-[#f8faf8]">
@@ -165,7 +138,8 @@ export default function CabinetPage() {
                     alt={member.name}
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(member.name) + '&background=0a2e19&color=fff';
+                      e.currentTarget.onerror = null
+                      e.currentTarget.src = avatarDataUri(member.name)
                     }}
                   />
                 </div>
