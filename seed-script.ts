@@ -97,6 +97,61 @@ async function main() {
     })
   }
 
+  // 5. Seed Cabinet Members
+  const cabinetMembers = [
+    {
+      name: 'Samuel Mollalign',
+      title: 'City Mayor',
+      department: "Mayor's Office",
+      photo: '/cabinet_samuel.png',
+      bio: 'Samuel Mollalign serves as the Mayor of Dessie City Administration, leading the city toward sustainable urban development, smart governance, and prosperity for all citizens.',
+      email: 'mayor@dessiecity.gov.et',
+      phone: '+251-33-111-XXXX',
+      order: 0,
+    },
+    {
+      name: 'Mr. Ashenafi Alemayhu',
+      title: 'Deputy Mayor',
+      department: 'Urban Development',
+      photo: '/cabinet_ashenafi.png',
+      bio: 'Oversees urban development and coordinates key city administration initiatives.',
+      email: 'deputy@dessiecity.gov.et',
+      phone: '+251-33-111-XXXX',
+      order: 1,
+    },
+    {
+      name: 'Mr. Shemels Getachew',
+      title: 'Cabinet Member',
+      department: 'Urban Development',
+      photo: '/cabinet_shemels.png',
+      bio: 'Manages urban planning and infrastructure development programs.',
+      email: 'urban@dessiecity.gov.et',
+      phone: '+251-33-111-XXXX',
+      order: 2,
+    },
+    {
+      name: 'Mr. Seid Kassawu',
+      title: 'Cabinet Member',
+      department: 'Education Bureau',
+      photo: '/cabinet_seid.png',
+      bio: 'Leads education reform and digital learning initiatives across the city.',
+      email: 'education@dessiecity.gov.et',
+      phone: '+251-33-111-XXXX',
+      order: 3,
+    },
+  ]
+
+  await db.cabinetMember.deleteMany({})
+  for (const member of cabinetMembers) {
+    await db.cabinetMember.create({
+      data: {
+        ...member,
+        socialLinks: '{}',
+        approvalStatus: 'approved',
+      }
+    })
+  }
+
   console.log('Seeded successfully!')
 }
 

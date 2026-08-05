@@ -13,11 +13,19 @@ export default function CabinetPage() {
 
   const defaultCabinetMembers = [
     {
-      name: isAm ? "አቶ አሸናፊ ዓለማየሁ" : "Mr. Ashenafi Alemayhu",
-      role: isAm ? "የከተማው ከንቲባ" : "City Mayor",
+      name: isAm ? "ሳሙኤል ሞላልኝ ደሳለ" : "Samuel Mollalign",
+      role: isAm ? "የደሴ ከተማ አስተዳደር ተቀዳሚ ምክንቲባ" : "City Mayor",
       department: isAm ? "የከንቲባ ጽ/ቤት" : "Mayor's Office",
-      image: "/cabinet_ashenafi.png",
+      image: "/cabinet_samuel.png",
       email: "mayor@dessiecity.gov.et",
+      phone: "+251-33-111-XXXX"
+    },
+    {
+      name: isAm ? "አቶ አሸናፊ ዓለማየሁ" : "Mr. Ashenafi Alemayhu",
+      role: isAm ? "ምክትል ከንቲባ" : "Deputy Mayor",
+      department: isAm ? "የከተማ ልማት" : "Urban Development",
+      image: "/cabinet_ashenafi.png",
+      email: "deputy@dessiecity.gov.et",
       phone: "+251-33-111-XXXX"
     },
     {
@@ -68,9 +76,9 @@ export default function CabinetPage() {
     if (dbData && dbData.length > 0) {
       const mapped = dbData.filter((m: any) => m.approvalStatus === 'approved').map((m: any) => ({
         name: m.name,
-        role: m.position,
+        role: m.title || m.position,
         department: m.department || "Cabinet Office",
-        image: m.image || "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        image: m.photo || m.image || "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
         email: m.email || "info@dessiecity.gov.et",
         phone: m.phone || "+251-33-111-XXXX"
       }));
