@@ -22,6 +22,8 @@ node_modules
 .DS_Store
 *.pem
 upload/
+# Ignore uploaded files in public but not the upload API route
+/public/uploads/
 *.log
 dev.log
 dev.out.log
