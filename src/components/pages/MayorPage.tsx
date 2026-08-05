@@ -494,40 +494,45 @@ export default function MayorPage() {
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.3, delay: idx * 0.08 }}
                     >
-                      <Card className="h-full border border-[#e2e8e0] hover:shadow-xl transition-all group cursor-pointer hover:-translate-y-1 overflow-hidden" onClick={() => setSelectedMember({ ...member, color: cardColor, photo: photoSrc, social: socialData })}>
-                        {/* Top accent bar */}
-                        <div className="h-1 w-full" style={{ backgroundColor: cardColor }} />
-                        <CardContent className="p-5 flex flex-col items-center text-center">
-                          <div className="relative mb-3">
-                            <img src={photoSrc} alt={member.name} className="w-20 h-20 rounded-full object-cover object-top shadow-md border-[3px] border-white group-hover:border-[#c8a415] transition-all" />
-                            <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-lg flex items-center justify-center text-white shadow-md border-2 border-white" style={{ backgroundColor: cardColor }}>
-                              <Icon className="w-3.5 h-3.5" />
-                            </div>
+                      <Card className="h-full border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 relative rounded-[20px] pt-10 pb-6 px-6 flex flex-col items-center text-center cursor-pointer group" onClick={() => setSelectedMember({ ...member, color: cardColor, photo: photoSrc, social: socialData })}>
+                        {/* Tricolor top border */}
+                        <div className="absolute top-0 left-0 w-full h-2 flex">
+                          <div className="h-full flex-1 bg-[#1a6b3c]" />
+                          <div className="h-full flex-1 bg-[#c8a415]" />
+                          <div className="h-full flex-1 bg-[#c62828]" />
+                        </div>
+
+                        {/* Photo & Badge */}
+                        <div className="relative mb-5">
+                          <div className="w-24 h-24 rounded-full overflow-hidden border-[3px] border-white shadow-md bg-[#0a2e19] flex items-center justify-center transition-transform duration-500 group-hover:scale-105">
+                            <img src={photoSrc} alt={member.name} className="w-full h-full object-cover" onError={(e) => { e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(member.name) + '&background=0a2e19&color=fff' }} />
                           </div>
-                          <h3 className="font-bold text-[#0d4a28] text-sm">{member.name}</h3>
-                          <p className="text-[10px] font-semibold text-[#1a6b3c] mb-2">{member.title}</p>
-                          {/* Brief bio preview */}
-                          <p className="text-[10px] text-[#6b7280] leading-relaxed line-clamp-2 mb-3">{member.bio}</p>
-                          {/* Social icons */}
-                          {Object.keys(socialData).length > 0 && <SocialLinks social={socialData} size="sm" />}
-                          {/* Quick info pills */}
-                          <div className="mt-3 flex items-center gap-1.5 flex-wrap justify-center">
-                            {emailDisplay && (
-                              <span className="inline-flex items-center gap-1 text-[9px] text-muted-foreground bg-[#f0fdf4] rounded-md px-2 py-1">
-                                <Mail className="w-2.5 h-2.5" /> {emailDisplay}
-                              </span>
-                            )}
-                            {phoneDisplay && (
-                              <span className="inline-flex items-center gap-1 text-[9px] text-muted-foreground bg-[#f0fdf4] rounded-md px-2 py-1">
-                                <Phone className="w-2.5 h-2.5" /> {phoneDisplay}
-                              </span>
-                            )}
+                          {/* Department Badge */}
+                          <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full border-2 border-white flex items-center justify-center text-white shadow-sm" style={{ backgroundColor: cardColor }}>
+                            <Icon className="w-4 h-4" />
                           </div>
-                          <div className="mt-3 flex items-center gap-1 text-[10px] text-[#6b7280] group-hover:text-[#1a6b3c] transition-colors">
-                            <span>View full profile</span>
-                            <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                        </div>
+                        
+                        {/* Name & Role Pill */}
+                        <h3 className="text-[1.1rem] font-extrabold text-[#0d4a28] mb-2">{member.name}</h3>
+                        <div className="px-4 py-1.5 rounded-full text-white text-[10px] font-bold mb-4 shadow-sm" style={{ backgroundColor: cardColor }}>
+                          {member.title}
+                        </div>
+                        
+                        {/* Brief bio preview */}
+                        <p className="text-[11px] text-gray-500 leading-relaxed line-clamp-2 mb-6 px-2">{member.bio}</p>
+
+                        {/* Contact Info (Left aligned at bottom) */}
+                        <div className="mt-auto w-full flex flex-col gap-2.5 text-left border-t border-gray-100 pt-4">
+                          <div className="flex items-center gap-3 text-gray-500">
+                            <Phone className="w-3.5 h-3.5 text-[#1a6b3c]" />
+                            <span className="text-[11px] font-medium">{phoneDisplay || '+251 33 111 XXXX'}</span>
                           </div>
-                        </CardContent>
+                          <div className="flex items-center gap-3 text-gray-500">
+                            <Mail className="w-3.5 h-3.5 text-[#1a6b3c]" />
+                            <span className="text-[11px] truncate font-medium">{emailDisplay ? `${emailDisplay}@dessiecity.gov.et` : 'contact@dessiecity.gov.et'}</span>
+                          </div>
+                        </div>
                       </Card>
                     </motion.div>
                   )

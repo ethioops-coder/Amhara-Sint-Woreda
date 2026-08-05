@@ -126,39 +126,55 @@ export default function CabinetPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.1, duration: 0.5 }}
               viewport={{ once: true }}
-              className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300"
+              className="bg-white rounded-[20px] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-300 relative pt-10 pb-6 px-6 flex flex-col items-center text-center group"
             >
-              <div className="relative h-64 overflow-hidden">
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300 z-10" />
-                <img 
-                  src={member.image} 
-                  alt={member.name}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
+              {/* Tricolor top border */}
+              <div className="absolute top-0 left-0 w-full h-2 flex">
+                <div className="h-full flex-1 bg-[#1a6b3c]" />
+                <div className="h-full flex-1 bg-[#c8a415]" />
+                <div className="h-full flex-1 bg-[#c62828]" />
+              </div>
+
+              {/* Photo & Badge */}
+              <div className="relative mb-5">
+                <div className="w-28 h-28 rounded-full overflow-hidden border-[3px] border-white shadow-md bg-[#0a2e19] flex items-center justify-center">
+                  <img 
+                    src={member.image} 
+                    alt={member.name}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://ui-avatars.com/api/?name=' + encodeURIComponent(member.name) + '&background=0a2e19&color=fff';
+                    }}
+                  />
+                </div>
                 {/* Department Badge */}
-                <div className="absolute top-4 left-4 z-20 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm">
-                  <Briefcase className="w-3.5 h-3.5 text-[#1a6b3c]" />
-                  <span className="text-xs font-bold text-[#1a6b3c]">{member.department}</span>
+                <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-[#0d4a28] border-2 border-white flex items-center justify-center text-white shadow-sm">
+                  <Briefcase className="w-4 h-4" />
                 </div>
               </div>
               
-              <div className="p-6">
-                <h3 className="text-2xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                <p className="text-[#c8a415] font-semibold mb-6 uppercase tracking-wide text-sm">{member.role}</p>
-                
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 text-gray-600">
-                    <div className="w-8 h-8 rounded-full bg-[#f0fdf4] flex items-center justify-center shrink-0">
-                      <Mail className="w-4 h-4 text-[#1a6b3c]" />
-                    </div>
-                    <span className="text-sm">{member.email}</span>
-                  </div>
-                  <div className="flex items-center gap-3 text-gray-600">
-                    <div className="w-8 h-8 rounded-full bg-[#f0fdf4] flex items-center justify-center shrink-0">
-                      <Phone className="w-4 h-4 text-[#1a6b3c]" />
-                    </div>
-                    <span className="text-sm">{member.phone}</span>
-                  </div>
+              {/* Name & Role Pill */}
+              <h3 className="text-[1.25rem] font-extrabold text-[#0d4a28] mb-2">{member.name}</h3>
+              <div className="px-4 py-1.5 rounded-full bg-[#1a6b3c] text-white text-xs font-bold mb-4 shadow-sm">
+                {member.role}
+              </div>
+              
+              {/* Bio/Description */}
+              <p className="text-[13px] text-gray-500 leading-relaxed mb-6 px-2">
+                 {isAm 
+                   ? `${member.department}ን በበላይነት ይመራሉ፣ የከተማዋን አስተዳደራዊ ስራዎች ያስተባብራሉ።` 
+                   : `Oversees the ${member.department} and coordinates key initiatives for the city administration.`}
+              </p>
+
+              {/* Contact Info (Left aligned at bottom) */}
+              <div className="mt-auto w-full flex flex-col gap-3 text-left border-t border-gray-100 pt-5">
+                <div className="flex items-center gap-3 text-gray-500">
+                  <Phone className="w-4 h-4 text-[#1a6b3c]" />
+                  <span className="text-[13px] font-medium">{member.phone}</span>
+                </div>
+                <div className="flex items-center gap-3 text-gray-500">
+                  <Mail className="w-4 h-4 text-[#1a6b3c]" />
+                  <span className="text-[13px] truncate font-medium">{member.email}</span>
                 </div>
               </div>
             </motion.div>
