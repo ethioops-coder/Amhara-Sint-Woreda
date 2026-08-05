@@ -72,8 +72,8 @@ export const NAV_LINKS: ExtendedNavItem[] = [
       { label: "Justice & Security", href: "svc-justice", icon: Scale },
       { label: "Finance & Revenue", href: "svc-finance", icon: Banknote },
     ],
-  }
-  { label: "Tourism & Heritage", href: "tourism", icon: MapPin },,
+  },
+  { label: "Tourism & Heritage", href: "tourism", icon: MapPin },
   { label: "Vacancy", href: "vacancy", icon: Briefcase },
   {
     label: "Announcements",
