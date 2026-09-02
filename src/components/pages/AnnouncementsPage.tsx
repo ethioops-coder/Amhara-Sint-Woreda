@@ -1,293 +1,495 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
+import { useState, useEffect, useCallback } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { useLang } from '@/lib/LangContext'
-import { FileText, Calendar, Briefcase, DollarSign, Clock, Building2, Gavel, ChevronRight, AlertTriangle } from 'lucide-react'
+import {
+  FileText, Calendar, Briefcase, DollarSign, Clock, Building2, Gavel,
+  ChevronRight, AlertTriangle, Search, Image as ImageIcon, X, ZoomIn,
+  Newspaper, Bell, Download, Play, ArrowRight, Filter, Grid3X3,
+} from 'lucide-react'
 
 interface AnnouncementsPageProps {
   navigateTo: (page: import('@/lib/types').PageId, extra?: any) => void
 }
 
-// --- Animation Variants ---
-const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
+const fadeInUp = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }
+const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.07 } } }
+
+/* ─── Status Badge ─── */
+function StatusBadge({ status }: { status: string }) {
+  if (status === 'Open') return <Badge className="bg-[#1a6b3c] text-white text-[10px] font-bold">● OPEN</Badge>
+  if (status === 'Closed') return <Badge className="bg-gray-200 text-gray-500 text-[10px] font-bold">● CLOSED</Badge>
+  return <Badge className="bg-[#c8a415] text-white text-[10px] font-bold">● AWARDED</Badge>
 }
 
-const staggerContainer = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
+/* ─── Category color map ─── */
+const catColor: Record<string, string> = {
+  Technology: '#0d4a28', Economy: '#1a6b3c', Finance: '#c8a415',
+  Infrastructure: '#4a6741', Social: '#2d6a4f', Important: '#c62828', General: '#1a6b3c',
 }
 
-// --- News Data ---
-const newsItems = [
-  { id: 'smart-city-launch', title: 'Smart City Initiative Phase II Launch', date: 'Jul 10, 2025', category: 'Technology', excerpt: 'The city administration announces the second phase of the Smart City Initiative, bringing enhanced digital governance, IoT-enabled infrastructure monitoring, and expanded e-services for all residents.' },
-  { id: 'industrial-zone', title: 'New Industrial Zone Approved for Kebele 08', date: 'Jul 8, 2025', category: 'Economy', excerpt: 'City council has approved the establishment of a new industrial zone in Kebele 08, expected to create over 5,000 jobs and attract significant investment to the region.' },
-  { id: 'annual-budget', title: 'Annual Budget FY 2025/26 Released', date: 'Jul 5, 2025', category: 'Finance', excerpt: 'The municipal budget for the upcoming fiscal year has been published, with increased allocations for infrastructure, education, health services, and digital transformation.' },
-  { id: 'road-construction', title: 'Major Road Construction Update', date: 'Jul 2, 2025', category: 'Infrastructure', excerpt: 'Progress report on the ongoing road construction projects across the city, including the Dessie-Woldiya highway expansion now 75% complete.' },
-  { id: 'youth-program', title: 'Youth Employment Program Results', date: 'Jun 28, 2025', category: 'Social', excerpt: 'Over 5,000 youth have benefited from the city employment program, with 3,200 successfully placed in permanent positions across various departments.' },
-  { id: 'digital-services', title: 'Digital Services Platform Expansion', date: 'Jun 25, 2025', category: 'Technology', excerpt: 'Five new government services are now available online through the citizen portal, including business license renewal and property tax payment.' },
+/* ─── Static fallback data ─── */
+const staticNews = [
+  { id: 'smart-city-launch', title: 'Smart City Initiative Phase II Launch', date: 'Jul 10, 2025', category: 'Technology', image: '/news-smart-city.png', excerpt: 'The city administration announces the second phase of the Smart City Initiative, bringing enhanced digital governance, IoT-enabled infrastructure monitoring, and expanded e-services for all residents.' },
+  { id: 'industrial-zone', title: 'New Industrial Zone Approved for Kebele 08', date: 'Jul 8, 2025', category: 'Economy', image: '/news-industry.png', excerpt: 'City council has approved the establishment of a new industrial zone in Kebele 08, expected to create over 5,000 jobs and attract significant investment to the region.' },
+  { id: 'annual-budget', title: 'Annual Budget FY 2025/26 Released', date: 'Jul 5, 2025', category: 'Finance', image: '/news-meeting.png', excerpt: 'The municipal budget for the upcoming fiscal year has been published, with increased allocations for infrastructure, education, health services, and digital transformation.' },
+  { id: 'road-construction', title: 'Major Road Construction Update', date: 'Jul 2, 2025', category: 'Infrastructure', image: '/news-infrastructure.png', excerpt: 'Progress report on the ongoing road construction projects across the city, including the Dessie-Woldiya highway expansion now 75% complete.' },
+  { id: 'youth-program', title: 'Youth Employment Program Results', date: 'Jun 28, 2025', category: 'Social', image: '/news-health.png', excerpt: 'Over 5,000 youth have benefited from the city employment program, with 3,200 successfully placed in permanent positions across various departments.' },
+  { id: 'council-meeting', title: 'City Council Q3 2025 Session Summary', date: 'Jun 25, 2025', category: 'General', image: '/news-council-1.png', excerpt: 'Highlights from the third-quarter city council session including new bylaws, infrastructure approvals, and citizen service upgrades announced.' },
 ]
 
-// --- Vacancy Data ---
-const vacancyItems = [
-  { id: 'v1', title: 'Senior Urban Planner', department: 'Planning & Development', type: 'Full-Time', salary: 'ETB 25,000 - 35,000', deadline: 'Aug 15, 2025', status: 'Open' as const },
-  { id: 'v2', title: 'IT Systems Administrator', department: 'Digital Services', type: 'Full-Time', salary: 'ETB 20,000 - 28,000', deadline: 'Aug 10, 2025', status: 'Open' as const },
-  { id: 'v3', title: 'Civil Engineer', department: 'Infrastructure', type: 'Contract', salary: 'ETB 30,000 - 45,000', deadline: 'Jul 30, 2025', status: 'Open' as const },
-  { id: 'v4', title: 'Public Relations Officer', department: 'Communication', type: 'Full-Time', salary: 'ETB 18,000 - 24,000', deadline: 'Jul 25, 2025', status: 'Closed' as const },
-  { id: 'v5', title: 'Finance Analyst', department: 'Finance', type: 'Full-Time', salary: 'ETB 22,000 - 30,000', deadline: 'Aug 5, 2025', status: 'Open' as const },
+const staticVacancies = [
+  { id: 'v1', title: 'Senior Urban Planner', department: 'Planning & Development', type: 'Full-Time', salary: 'ETB 25,000 – 35,000', deadline: 'Aug 15, 2025', status: 'Open' },
+  { id: 'v2', title: 'IT Systems Administrator', department: 'Digital Services', type: 'Full-Time', salary: 'ETB 20,000 – 28,000', deadline: 'Aug 10, 2025', status: 'Open' },
+  { id: 'v3', title: 'Civil Engineer', department: 'Infrastructure', type: 'Contract', salary: 'ETB 30,000 – 45,000', deadline: 'Jul 30, 2025', status: 'Open' },
+  { id: 'v4', title: 'Public Relations Officer', department: 'Communication', type: 'Full-Time', salary: 'ETB 18,000 – 24,000', deadline: 'Jul 25, 2025', status: 'Closed' },
+  { id: 'v5', title: 'Finance Analyst', department: 'Finance', type: 'Full-Time', salary: 'ETB 22,000 – 30,000', deadline: 'Aug 5, 2025', status: 'Open' },
+  { id: 'v6', title: 'Health Officer', department: 'Health Bureau', type: 'Permanent', salary: 'ETB 18,000 – 26,000', deadline: 'Aug 20, 2025', status: 'Open' },
 ]
 
-// --- Bid Data ---
-const bidItems = [
-  { id: 'b1', title: 'Road Construction — Kebele 05 to 07', reference: 'DCA/PROC/2025/038', category: 'Construction', deadline: 'Aug 20, 2025', budget: 'ETB 45,000,000', status: 'Open' as const },
-  { id: 'b2', title: 'Office Furniture Supply', reference: 'DCA/PROC/2025/039', category: 'Supply', deadline: 'Aug 5, 2025', budget: 'ETB 2,500,000', status: 'Open' as const },
-  { id: 'b3', title: 'IT Equipment Procurement', reference: 'DCA/PROC/2025/040', category: 'Technology', deadline: 'Jul 28, 2025', budget: 'ETB 8,000,000', status: 'Closed' as const },
-  { id: 'b4', title: 'Water Pipeline Extension Project', reference: 'DCA/PROC/2025/041', category: 'Construction', deadline: 'Sep 1, 2025', budget: 'ETB 62,000,000', status: 'Open' as const },
+const staticBids = [
+  { id: 'b1', title: 'Road Construction — Kebele 05 to 07', reference: 'DCA/PROC/2025/038', category: 'Construction', deadline: 'Aug 20, 2025', budget: 'ETB 45,000,000', status: 'Open' },
+  { id: 'b2', title: 'Office Furniture Supply', reference: 'DCA/PROC/2025/039', category: 'Supply', deadline: 'Aug 5, 2025', budget: 'ETB 2,500,000', status: 'Open' },
+  { id: 'b3', title: 'IT Equipment Procurement', reference: 'DCA/PROC/2025/040', category: 'Technology', deadline: 'Jul 28, 2025', budget: 'ETB 8,000,000', status: 'Closed' },
+  { id: 'b4', title: 'Water Pipeline Extension Project', reference: 'DCA/PROC/2025/041', category: 'Construction', deadline: 'Sep 1, 2025', budget: 'ETB 62,000,000', status: 'Open' },
+  { id: 'b5', title: 'Street Lighting Upgrade', reference: 'DCA/PROC/2025/042', category: 'Infrastructure', deadline: 'Aug 25, 2025', budget: 'ETB 18,500,000', status: 'Open' },
+  { id: 'b6', title: 'Waste Management Fleet', reference: 'DCA/PROC/2025/043', category: 'Environment', deadline: 'Sep 10, 2025', budget: 'ETB 30,000,000', status: 'Open' },
 ]
 
-// --- Status Badge Helper ---
-function StatusBadge({ status }: { status: 'Open' | 'Closed' | 'Awarded' }) {
-  if (status === 'Open') {
-    return <Badge className="bg-[#1a6b3c] text-white text-xs font-medium">● OPEN</Badge>
-  }
-  if (status === 'Closed') {
-    return <Badge variant="secondary" className="bg-gray-100 text-gray-500 text-xs font-medium">● CLOSED</Badge>
-  }
-  return <Badge className="bg-[#c8a415] text-white text-xs font-medium">● AWARDED</Badge>
-}
-
-// --- Announcements Data ---
-const staticAnnouncements = [
-  { id: 'a1', title: 'City Council Meeting Next Week', date: 'Jul 20, 2025', category: 'Important', excerpt: 'The monthly city council meeting will be held next Tuesday to discuss the budget.' },
-  { id: 'a2', title: 'Public Holiday Notice', date: 'Jul 15, 2025', category: 'General', excerpt: 'All city offices will be closed on Friday in observance of the national holiday.' },
-  { id: 'a3', title: 'Water Supply Interruption', date: 'Jul 12, 2025', category: 'Important', excerpt: 'Temporary water supply interruption in Kebele 04 and 05 due to maintenance work.' },
+/* ─── Gallery images using existing public assets ─── */
+const galleryImages = [
+  { src: '/dessie-city-hall.png',         caption: 'Dessie City Hall',              tag: 'Government' },
+  { src: '/dessie-city-hall-day.png',     caption: 'City Hall — Day View',          tag: 'Government' },
+  { src: '/dessie-city-hall-night.png',   caption: 'City Hall — Night Illumination',tag: 'Government' },
+  { src: '/dessie-conference-hall.png',   caption: 'Conference Hall',               tag: 'Events' },
+  { src: '/dessie-service-center.png',    caption: 'One-Stop Service Center',       tag: 'Services' },
+  { src: '/dessie-service-counter.png',   caption: 'Service Counter',               tag: 'Services' },
+  { src: '/smart-meeting-room.jpg',       caption: 'Smart Meeting Room',            tag: 'Technology' },
+  { src: '/smart-cctv.png',              caption: 'Security Control Center',        tag: 'Technology' },
+  { src: '/smart-service-center.png',    caption: 'Digital Service Hub',            tag: 'Technology' },
+  { src: '/smart-mesob-building.png',    caption: 'Mesob Smart Complex',            tag: 'Architecture' },
+  { src: '/heritage-church.png',         caption: 'Saint Mary Church',              tag: 'Heritage' },
+  { src: '/heritage-market.png',         caption: 'Historic Dessie Market',         tag: 'Heritage' },
+  { src: '/heritage-landscape.png',      caption: 'Dessie Highland Landscape',      tag: 'Nature' },
+  { src: '/heritage-waterfall.png',      caption: 'Tossa Waterfall',               tag: 'Nature' },
+  { src: '/heritage-memorial.png',       caption: 'Battle Memorial Site',           tag: 'Heritage' },
+  { src: '/heritage-fortress.png',       caption: 'Historic Fortress',              tag: 'Heritage' },
+  { src: '/city-aerial.png',             caption: 'Aerial View of Dessie',          tag: 'City' },
+  { src: '/building-hospital.png',       caption: 'Dessie Referral Hospital',       tag: 'Infrastructure' },
+  { src: '/building-university.png',     caption: 'Wollo University',               tag: 'Education' },
+  { src: '/building-stadium.png',        caption: 'Dessie Stadium',                 tag: 'Sports' },
+  { src: '/building-alamude.png',        caption: 'Alamude Building',               tag: 'Architecture' },
+  { src: '/building-commercial.png',     caption: 'Commercial District',            tag: 'Economy' },
+  { src: '/news-council-1.png',          caption: 'City Council Session',           tag: 'Events' },
+  { src: '/news-council-2.jpg',          caption: 'Council Meeting',                tag: 'Events' },
+  { src: '/news-library-opening.jpg',    caption: 'Library Opening Ceremony',       tag: 'Events' },
+  { src: '/news-ceremony.png',           caption: 'Official Ceremony',              tag: 'Events' },
+  { src: '/project-smart-city.png',      caption: 'Smart City Project',             tag: 'Projects' },
+  { src: '/project-road.png',            caption: 'Road Construction',              tag: 'Projects' },
+  { src: '/project-healthcare.png',      caption: 'Healthcare Project',             tag: 'Projects' },
+  { src: '/team-meeting.png',            caption: 'Administration Team',            tag: 'Government' },
 ]
+
+const galleryTags = ['All', 'Government', 'Events', 'Services', 'Technology', 'Heritage', 'Nature', 'Infrastructure', 'Projects', 'City', 'Architecture', 'Education', 'Sports', 'Economy']
+
+type Tab = 'news' | 'vacancies' | 'bids' | 'gallery'
 
 export default function AnnouncementsPage({ navigateTo }: AnnouncementsPageProps) {
   const { lang } = useLang()
   const isAm = lang === 'am'
+  const [tab, setTab] = useState<Tab>('news')
+  const [search, setSearch] = useState('')
+  const [galleryTag, setGalleryTag] = useState('All')
+  const [lightbox, setLightbox] = useState<number | null>(null)
   const [dbNews, setDbNews] = useState<any[]>([])
-  const [dbAnnouncements, setDbAnnouncements] = useState<any[]>([])
+  const [dbVacancies, setDbVacancies] = useState<any[]>([])
+  const [dbBids, setDbBids] = useState<any[]>([])
 
   useEffect(() => {
-    // Fetch news from DB
-    fetch('/api/admin/news')
-      .then(r => r.ok ? r.json() : [])
-      .then((data: any[]) => {
-        if (data?.length > 0) setDbNews(data.filter(a => a.approvalStatus === 'approved' || a.status === 'published'))
-      }).catch(() => {})
-    // Fetch announcements from DB
-    fetch('/api/admin/announcements')
-      .then(r => r.ok ? r.json() : [])
-      .then((data: any[]) => {
-        if (data?.length > 0) setDbAnnouncements(data.filter(a => a.approvalStatus === 'approved' || a.status === 'active'))
-      }).catch(() => {})
+    fetch('/api/admin/news').then(r => r.ok ? r.json() : []).then((d: any[]) => {
+      if (d?.length) setDbNews(d.filter(a => a.approvalStatus === 'approved' || a.status === 'published'))
+    }).catch(() => {})
+    fetch('/api/vacancies').then(r => r.ok ? r.json() : []).then((d: any[]) => {
+      if (d?.length) setDbVacancies(d)
+    }).catch(() => {})
+    fetch('/api/bids').then(r => r.ok ? r.json() : []).then((d: any[]) => {
+      if (d?.length) setDbBids(d)
+    }).catch(() => {})
   }, [])
 
-  const allNews = dbNews.length > 0 ? dbNews : newsItems
-  const allAnnouncements = dbAnnouncements.length > 0 ? dbAnnouncements.map(a => ({
-    id: a.id, title: a.title, date: a.startDate || a.createdAt || '', category: a.priority === 'high' ? 'Important' : 'General',
-    excerpt: a.content?.substring(0, 150) || ''
-  })) : staticAnnouncements
+  const news = dbNews.length > 0 ? dbNews.map((a: any) => ({
+    id: a.id, title: a.title, date: new Date(a.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+    category: a.category || 'General',
+    image: a.image || '/news-meeting.png',
+    excerpt: a.excerpt || '',
+  })) : staticNews
+
+  const vacancies = dbVacancies.length > 0 ? dbVacancies : staticVacancies
+  const bids = dbBids.length > 0 ? dbBids : staticBids
+
+  const filteredNews = news.filter(n => !search || n.title.toLowerCase().includes(search.toLowerCase()) || n.excerpt.toLowerCase().includes(search.toLowerCase()))
+  const filteredVacancies = vacancies.filter(v => !search || v.title.toLowerCase().includes(search.toLowerCase()))
+  const filteredBids = bids.filter(b => !search || b.title.toLowerCase().includes(search.toLowerCase()))
+  const filteredGallery = galleryImages.filter(g => galleryTag === 'All' || g.tag === galleryTag)
+
+  // Lightbox keyboard nav
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (lightbox === null) return
+      if (e.key === 'Escape') setLightbox(null)
+      if (e.key === 'ArrowRight') setLightbox(i => i !== null ? Math.min(i + 1, filteredGallery.length - 1) : null)
+      if (e.key === 'ArrowLeft') setLightbox(i => i !== null ? Math.max(i - 1, 0) : null)
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [lightbox, filteredGallery.length])
+
+  const featured = filteredNews[0]
+  const restNews = filteredNews.slice(1)
+
+  const tabs: { id: Tab; label: string; labelAm: string; icon: React.ElementType; count?: number }[] = [
+    { id: 'news',      label: 'News & Media',   labelAm: 'ዜናዎች',      icon: Newspaper,  count: news.length },
+    { id: 'vacancies', label: 'Vacancies',       labelAm: 'ክፍት ቦታዎች',  icon: Briefcase,  count: vacancies.filter(v => v.status === 'Open').length },
+    { id: 'bids',      label: 'Bids & Tenders',  labelAm: 'ጨረታዎች',     icon: Gavel,      count: bids.filter(b => b.status === 'Open').length },
+    { id: 'gallery',   label: 'Photo Gallery',   labelAm: 'ፎቶ ጋለሪ',    icon: Grid3X3,    count: galleryImages.length },
+  ]
 
   return (
-    <div className="min-h-screen">
-      {/* Page Banner */}
-      <section className="bg-[#0d4a28] py-10 px-4">
-        <div className="max-w-7xl mx-auto text-center">
+    <div className="min-h-screen bg-[#f8faf8]">
+
+      {/* ═══ HERO BANNER ═══ */}
+      <section className="relative bg-[#0d4a28] overflow-hidden">
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0)', backgroundSize: '28px 28px' }} />
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0d4a28]/80 to-transparent" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 py-12 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <h1 className="text-4xl md:text-5xl font-extrabold text-white uppercase tracking-wider gov-heading-display">{isAm ? 'ማስታወቂያዎች' : 'Announcements'}</h1>
-            <p className="mt-4 text-green-200 text-lg">{isAm ? 'ዜናዎች፣ ክፍት የስራ ቦታዎችና ጨረታዎች ከደሴ ከተማ አስተዳደር' : 'News, vacancies, and procurement opportunities from Dessie City Administration'}</p>
-            <nav className="mt-3 text-green-300/70 text-sm">
-              <span className="cursor-pointer hover:text-white transition-colors" onClick={() => navigateTo('home')}>Home</span>
-              <span className="mx-2">/</span>
-              <span className="text-white font-medium">Announcements</span>
-            </nav>
+            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-4 py-1.5 mb-4">
+              <Bell className="w-3.5 h-3.5 text-[#c8a415]" />
+              <span className="text-white text-xs font-bold tracking-widest uppercase">{isAm ? 'ዜናና ሚዲያ' : 'News & Media Center'}</span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-3">
+              {isAm ? 'ማስታወቂያዎችና ዜናዎች' : 'Announcements & News'}
+            </h1>
+            <p className="text-white/70 text-base max-w-xl mx-auto">
+              {isAm ? 'ከደሴ ከተማ አስተዳደር የሚወጡ ዜናዎች፣ ክፍት ቦታዎችና ጨረታዎች' : 'Official news, vacancies, tenders, and media from Dessie City Administration'}
+            </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Tab Navigation */}
-      <div className="bg-white border-b border-border sticky top-16 z-30">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Tabs defaultValue="news" className="w-full">
-            <TabsList className="h-auto p-1 bg-[#f0f4f0] rounded-lg">
-              <TabsTrigger value="news" className="data-[state=active]:bg-[#1a6b3c] data-[state=active]:text-white px-6 py-2.5 text-sm font-semibold uppercase tracking-wider rounded-md transition-all">
-                {isAm ? 'ዜናዎች' : 'News & Media'}
-              </TabsTrigger>
-              <TabsTrigger value="vacancies" className="data-[state=active]:bg-[#1a6b3c] data-[state=active]:text-white px-6 py-2.5 text-sm font-semibold uppercase tracking-wider rounded-md transition-all">
-                {isAm ? 'ክፍት ቦታዎች' : 'Vacancies'}
-              </TabsTrigger>
-              <TabsTrigger
-                value="bids"
-                className="data-[state=active]:bg-[#1a6b3c] data-[state=active]:text-white px-6 py-2.5 text-sm font-semibold uppercase tracking-wider rounded-md transition-all"
-              >
-                Bids &amp; Tenders
-              </TabsTrigger>
-            </TabsList>
+      {/* ═══ TAB BAR ═══ */}
+      <div className="bg-white border-b border-gray-100 sticky top-14 z-30 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center gap-0 overflow-x-auto scrollbar-hide">
+            {tabs.map(t => {
+              const Icon = t.icon
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => { setTab(t.id); setSearch('') }}
+                  className={`flex items-center gap-2 px-4 sm:px-6 py-4 text-sm font-semibold whitespace-nowrap border-b-2 transition-all
+                    ${tab === t.id ? 'border-[#0d4a28] text-[#0d4a28] bg-[#0d4a28]/4' : 'border-transparent text-gray-500 hover:text-[#0d4a28] hover:bg-gray-50'}`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {isAm ? t.labelAm : t.label}
+                  {t.count !== undefined && (
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${tab === t.id ? 'bg-[#0d4a28] text-white' : 'bg-gray-100 text-gray-500'}`}>
+                      {t.count}
+                    </span>
+                  )}
+                </button>
+              )
+            })}
 
-            {/* ===== NEWS TAB ===== */}
-            <TabsContent value="news" className="mt-8 pb-12">
-              <h2 className="text-2xl font-bold text-foreground gov-section-title mb-8">
-                Latest News &amp; Media
-              </h2>
-              <motion.div
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-              >
-                {newsItems.map((item) => (
-                  <motion.div key={item.id} variants={fadeInUp} transition={{ duration: 0.4 }}>
-                    <Card className="overflow-hidden border border-border hover:shadow-lg transition-shadow h-full flex flex-col group">
-                      <div className="h-48 bg-gradient-to-br from-[#0d4a28] to-[#1a6b3c] flex items-center justify-center relative">
-                        <FileText className="w-16 h-16 text-white/20 group-hover:scale-110 transition-transform" />
-                        <Badge className="absolute top-3 left-3 bg-white/90 text-[#0d4a28] text-xs font-semibold">
-                          {item.category}
-                        </Badge>
-                      </div>
-                      <CardContent className="p-5 flex-1 flex flex-col">
-                        <h3 className="font-bold text-foreground mb-2 line-clamp-2 group-hover:text-[#1a6b3c] transition-colors">
-                          {item.title}
-                        </h3>
-                        <p className="text-sm text-muted-foreground line-clamp-3 flex-1 mb-4">
-                          {item.excerpt}
-                        </p>
-                        <div className="flex items-center justify-between pt-4 border-t border-border">
-                          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            {/* Search - right side */}
+            {tab !== 'gallery' && (
+              <div className="ml-auto flex items-center pl-4 py-2">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" />
+                  <Input
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    placeholder={isAm ? 'ፈልግ...' : 'Search...'}
+                    className="pl-9 h-8 w-40 sm:w-56 text-xs border-gray-200"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <AnimatePresence mode="wait">
+
+          {/* ═══════════ NEWS TAB ═══════════ */}
+          {tab === 'news' && (
+            <motion.div key="news" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.2 }}>
+              {filteredNews.length === 0 ? (
+                <div className="text-center py-20 text-gray-400">
+                  <Newspaper className="w-12 h-12 mx-auto mb-3 opacity-30" />
+                  <p className="font-semibold">{isAm ? 'ዜናዎች አልተገኙም' : 'No news found'}</p>
+                </div>
+              ) : (
+                <div className="space-y-8">
+                  {/* Featured story */}
+                  {featured && !search && (
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="group cursor-pointer rounded-2xl overflow-hidden bg-white shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100"
+                      onClick={() => navigateTo('news-detail', { newsId: featured.id })}>
+                      <div className="grid md:grid-cols-2 gap-0">
+                        <div className="relative h-64 md:h-full min-h-[280px]">
+                          <img src={featured.image || '/news-meeting.png'} alt={featured.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            onError={e => { e.currentTarget.src = '/news-meeting.png' }} />
+                          <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
+                          <div className="absolute top-4 left-4">
+                            <span className="px-3 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-widest"
+                              style={{ backgroundColor: catColor[featured.category] || '#1a6b3c' }}>
+                              {featured.category}
+                            </span>
+                          </div>
+                          <div className="absolute bottom-4 left-4">
+                            <span className="bg-[#c8a415] text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Featured</span>
+                          </div>
+                        </div>
+                        <div className="p-8 flex flex-col justify-center">
+                          <div className="flex items-center gap-2 text-xs text-gray-400 mb-3">
                             <Calendar className="w-3.5 h-3.5" />
-                            {item.date}
+                            {featured.date}
+                          </div>
+                          <h2 className="text-2xl md:text-3xl font-extrabold text-[#0d4a28] mb-4 leading-tight group-hover:text-[#1a6b3c] transition-colors">
+                            {featured.title}
+                          </h2>
+                          <p className="text-gray-600 leading-relaxed mb-6 text-sm">{featured.excerpt}</p>
+                          <span className="inline-flex items-center gap-2 text-[#1a6b3c] font-bold text-sm group-hover:gap-3 transition-all">
+                            {isAm ? 'ተጨማሪ አንብብ' : 'Read Full Story'} <ArrowRight className="w-4 h-4" />
                           </span>
-                          <Button
-                            variant="link"
-                            className="text-[#1a6b3c] p-0 h-auto text-sm font-semibold"
-                            onClick={() => navigateTo('news-detail', { newsId: item.id })}
-                          >
-                            READ MORE <ChevronRight className="w-4 h-4 ml-1" />
-                          </Button>
                         </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* News grid */}
+                  <motion.div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6" variants={stagger} initial="hidden" animate="visible">
+                    {(search ? filteredNews : restNews).map((item, i) => (
+                      <motion.div key={item.id} variants={fadeInUp}
+                        className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-pointer flex flex-col"
+                        onClick={() => navigateTo('news-detail', { newsId: item.id })}>
+                        <div className="relative h-48 overflow-hidden">
+                          <img src={item.image || '/news-meeting.png'} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            onError={e => { e.currentTarget.src = '/news-meeting.png' }} />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                          <div className="absolute top-3 left-3">
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-wider"
+                              style={{ backgroundColor: catColor[item.category] || '#1a6b3c' }}>
+                              {item.category}
+                            </span>
+                          </div>
+                          <div className="absolute bottom-3 left-3 right-3">
+                            <h3 className="font-bold text-white text-sm leading-snug line-clamp-2 drop-shadow-md">{item.title}</h3>
+                          </div>
+                        </div>
+                        <div className="p-4 flex flex-col flex-1">
+                          <p className="text-xs text-gray-500 line-clamp-2 flex-1 leading-relaxed">{item.excerpt}</p>
+                          <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
+                            <span className="flex items-center gap-1.5 text-[11px] text-gray-400">
+                              <Calendar className="w-3 h-3" /> {item.date}
+                            </span>
+                            <span className="text-[11px] text-[#1a6b3c] font-bold flex items-center gap-1">
+                              {isAm ? 'አንብብ' : 'Read'} <ChevronRight className="w-3 h-3" />
+                            </span>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                </div>
+              )}
+            </motion.div>
+          )}
+
+          {/* ═══════════ VACANCIES TAB ═══════════ */}
+          {tab === 'vacancies' && (
+            <motion.div key="vacancies" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-sm text-gray-500">
+                  <span className="font-bold text-[#0d4a28]">{filteredVacancies.filter(v => v.status === 'Open').length}</span> {isAm ? 'ክፍት ቦታዎች' : 'open positions'}
+                </p>
+              </div>
+              <motion.div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" variants={stagger} initial="hidden" animate="visible">
+                {filteredVacancies.map(item => (
+                  <motion.div key={item.id} variants={fadeInUp}>
+                    <Card className={`h-full border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 rounded-2xl overflow-hidden ${item.status === 'Closed' ? 'opacity-60' : ''}`}>
+                      {/* Top accent bar */}
+                      <div className="h-1.5 w-full" style={{ background: item.status === 'Open' ? 'linear-gradient(to right, #0d4a28, #1a6b3c)' : '#e5e7eb' }} />
+                      <CardContent className="p-5 flex flex-col h-full">
+                        <div className="flex items-start justify-between mb-3">
+                          <StatusBadge status={item.status} />
+                          <span className="text-[10px] font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded-full">{(item as any).type}</span>
+                        </div>
+                        <h3 className="text-base font-extrabold text-[#0d4a28] mb-3 leading-snug">{item.title}</h3>
+                        <div className="space-y-2 flex-1">
+                          <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <Building2 className="w-3.5 h-3.5 text-[#1a6b3c] shrink-0" />
+                            {(item as any).department}
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <DollarSign className="w-3.5 h-3.5 text-[#1a6b3c] shrink-0" />
+                            {(item as any).salary}
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <Clock className="w-3.5 h-3.5 text-[#c8a415] shrink-0" />
+                            {isAm ? 'የማስጠናቀቂያ ቀን:' : 'Deadline:'} {(item as any).deadline}
+                          </div>
+                        </div>
+                        <Button
+                          className={`mt-4 w-full text-xs h-9 font-bold rounded-xl ${item.status === 'Open' ? 'bg-[#0d4a28] hover:bg-[#1a6b3c] text-white' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
+                          disabled={item.status !== 'Open'}
+                          onClick={() => navigateTo('vacancy-detail', { vacancyId: item.id })}
+                        >
+                          {item.status === 'Open' ? (isAm ? 'ዝርዝር ይመልከቱ' : 'VIEW & APPLY') : (isAm ? 'ተዘጋ' : 'CLOSED')}
+                          {item.status === 'Open' && <ChevronRight className="w-3.5 h-3.5 ml-1" />}
+                        </Button>
                       </CardContent>
                     </Card>
                   </motion.div>
                 ))}
               </motion.div>
-            </TabsContent>
+            </motion.div>
+          )}
 
-            {/* ===== VACANCIES TAB ===== */}
-            <TabsContent value="vacancies" className="mt-8 pb-12">
-              <h2 className="text-2xl font-bold text-foreground gov-section-title mb-8">
-                Current Vacancies
-              </h2>
-              <motion.div
-                className="grid grid-cols-1 lg:grid-cols-2 gap-6"
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-              >
-                {vacancyItems.map((item) => (
-                  <motion.div key={item.id} variants={fadeInUp} transition={{ duration: 0.4 }}>
-                    <Card className="overflow-hidden border border-border hover:shadow-lg transition-shadow h-full flex flex-col">
-                      <CardContent className="p-5 flex-1 flex flex-col">
+          {/* ═══════════ BIDS TAB ═══════════ */}
+          {tab === 'bids' && (
+            <motion.div key="bids" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <div className="flex items-center justify-between mb-6">
+                <p className="text-sm text-gray-500">
+                  <span className="font-bold text-[#0d4a28]">{filteredBids.filter(b => b.status === 'Open').length}</span> {isAm ? 'ክፍት ጨረታዎች' : 'open tenders'}
+                </p>
+              </div>
+              <motion.div className="grid sm:grid-cols-2 gap-5" variants={stagger} initial="hidden" animate="visible">
+                {filteredBids.map(item => (
+                  <motion.div key={item.id} variants={fadeInUp}>
+                    <Card className={`h-full border border-gray-100 shadow-sm hover:shadow-md transition-all rounded-2xl overflow-hidden ${item.status === 'Closed' ? 'opacity-60' : ''}`}>
+                      <div className="h-1.5 w-full" style={{ background: item.status === 'Open' ? 'linear-gradient(to right, #c8a415, #0d4a28)' : '#e5e7eb' }} />
+                      <CardContent className="p-5 flex flex-col h-full">
                         <div className="flex flex-wrap items-center gap-2 mb-3">
                           <StatusBadge status={item.status} />
-                          <Badge variant="outline" className="border-[#c8a415] text-[#c8a415] font-medium text-xs">
-                            {item.type}
-                          </Badge>
+                          <span className="text-[10px] font-bold text-[#1a6b3c] bg-[#1a6b3c]/10 px-2 py-1 rounded-full">{(item as any).category}</span>
+                          <span className="text-[10px] font-mono text-gray-400 bg-gray-100 px-2 py-1 rounded-full">{(item as any).reference}</span>
                         </div>
-                        <h3 className="text-lg font-bold text-foreground mb-3">{item.title}</h3>
+                        <h3 className="text-base font-extrabold text-[#0d4a28] mb-3 leading-snug">{item.title}</h3>
                         <div className="space-y-2 flex-1">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Building2 className="w-4 h-4 text-[#1a6b3c] shrink-0" />
-                            <span>{item.department}</span>
+                          <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <DollarSign className="w-3.5 h-3.5 text-[#c8a415] shrink-0" />
+                            {isAm ? 'ወጪ:' : 'Budget:'} <span className="font-bold text-[#0d4a28]">{(item as any).budget}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <DollarSign className="w-4 h-4 text-[#1a6b3c] shrink-0" />
-                            <span>{item.salary}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <AlertTriangle className="w-4 h-4 text-[#c8a415] shrink-0" />
-                            <span>Deadline: {item.deadline}</span>
+                          <div className="flex items-center gap-2 text-xs text-gray-500">
+                            <Clock className="w-3.5 h-3.5 text-[#c8a415] shrink-0" />
+                            {isAm ? 'የማስጠናቀቂያ ቀን:' : 'Deadline:'} {(item as any).deadline}
                           </div>
                         </div>
-                        <div className="mt-4 pt-4 border-t border-border">
+                        <div className="mt-4 flex gap-2">
                           <Button
-                            className={`w-full ${item.status === 'Open' ? 'bg-[#1a6b3c] hover:bg-[#0d4a28] text-white' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
-                            disabled={item.status === 'Closed'}
-                            onClick={() => navigateTo('vacancy-detail', { vacancyId: item.id })}
-                          >
-                            VIEW DETAILS <ChevronRight className="w-4 h-4 ml-1" />
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </TabsContent>
-
-            {/* ===== BIDS TAB ===== */}
-            <TabsContent value="bids" className="mt-8 pb-12">
-              <h2 className="text-2xl font-bold text-foreground gov-section-title mb-8">
-                Bids &amp; Tenders
-              </h2>
-              <motion.div
-                className="grid grid-cols-1 lg:grid-cols-2 gap-6"
-                variants={staggerContainer}
-                initial="hidden"
-                animate="visible"
-              >
-                {bidItems.map((item) => (
-                  <motion.div key={item.id} variants={fadeInUp} transition={{ duration: 0.4 }}>
-                    <Card className="overflow-hidden border border-border hover:shadow-lg transition-shadow h-full flex flex-col">
-                      <CardContent className="p-5 flex-1 flex flex-col">
-                        <div className="flex flex-wrap items-center gap-2 mb-3">
-                          <StatusBadge status={item.status} />
-                          <Badge variant="outline" className="border-[#1a6b3c] text-[#1a6b3c] font-medium text-xs bg-[#e8f5e9]">
-                            {item.category}
-                          </Badge>
-                          <Badge variant="secondary" className="text-xs font-mono text-muted-foreground bg-gray-100">
-                            {item.reference}
-                          </Badge>
-                        </div>
-                        <h3 className="text-lg font-bold text-foreground mb-3">{item.title}</h3>
-                        <div className="space-y-2 flex-1">
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <DollarSign className="w-4 h-4 text-[#1a6b3c] shrink-0" />
-                            <span>Budget: {item.budget}</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                            <Clock className="w-4 h-4 text-[#c8a415] shrink-0" />
-                            <span>Deadline: {item.deadline}</span>
-                          </div>
-                        </div>
-                        <div className="mt-4 pt-4 border-t border-border">
-                          <Button
-                            className={`w-full ${item.status === 'Open' ? 'bg-[#1a6b3c] hover:bg-[#0d4a28] text-white' : 'bg-gray-200 text-gray-500 cursor-not-allowed'}`}
+                            className={`flex-1 text-xs h-9 font-bold rounded-xl ${item.status === 'Open' ? 'bg-[#0d4a28] hover:bg-[#1a6b3c] text-white' : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
                             disabled={item.status !== 'Open'}
                             onClick={() => navigateTo('bids-detail', { bidId: item.id })}
                           >
-                            VIEW DETAILS <ChevronRight className="w-4 h-4 ml-1" />
+                            {item.status === 'Open' ? (isAm ? 'ዝርዝር' : 'VIEW DETAILS') : 'CLOSED'}
+                            {item.status === 'Open' && <ChevronRight className="w-3.5 h-3.5 ml-1" />}
                           </Button>
+                          {item.status === 'Open' && (
+                            <Button variant="outline" className="h-9 px-3 border-gray-200 rounded-xl" title="Download documents">
+                              <Download className="w-3.5 h-3.5 text-[#1a6b3c]" />
+                            </Button>
+                          )}
                         </div>
                       </CardContent>
                     </Card>
                   </motion.div>
                 ))}
               </motion.div>
-            </TabsContent>
-          </Tabs>
-        </div>
+            </motion.div>
+          )}
+
+          {/* ═══════════ GALLERY TAB ═══════════ */}
+          {tab === 'gallery' && (
+            <motion.div key="gallery" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              {/* Tag filter */}
+              <div className="flex flex-wrap gap-2 mb-6">
+                {galleryTags.map(t => (
+                  <button key={t} onClick={() => setGalleryTag(t)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all
+                      ${galleryTag === t ? 'bg-[#0d4a28] text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:border-[#0d4a28] hover:text-[#0d4a28]'}`}>
+                    {t}
+                  </button>
+                ))}
+              </div>
+
+              <p className="text-xs text-gray-400 mb-4">{filteredGallery.length} {isAm ? 'ፎቶዎች' : 'photos'} · {isAm ? 'ሙሉ ምስል ለማየት ጠቅ ያድርጉ' : 'Click to enlarge'}</p>
+
+              {/* Masonry-style grid */}
+              <motion.div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3" variants={stagger} initial="hidden" animate="visible">
+                {filteredGallery.map((img, i) => (
+                  <motion.div key={img.src + i} variants={fadeInUp}
+                    onClick={() => setLightbox(i)}
+                    className="group relative overflow-hidden rounded-xl cursor-pointer bg-gray-100 aspect-square shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
+                    <img src={img.src} alt={img.caption} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      onError={e => { (e.currentTarget as HTMLImageElement).src = '/dessie-logo.png' }} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ZoomIn className="w-6 h-6 text-white drop-shadow-lg" />
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 p-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                      <p className="text-white text-[10px] font-semibold leading-tight truncate">{img.caption}</p>
+                      <span className="text-[9px] text-[#c8a415] font-bold">{img.tag}</span>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
+
+        </AnimatePresence>
       </div>
+
+      {/* ═══ LIGHTBOX ═══ */}
+      <AnimatePresence>
+        {lightbox !== null && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4"
+            onClick={() => setLightbox(null)}>
+            <button onClick={() => setLightbox(null)} className="absolute top-4 right-4 text-white/60 hover:text-white z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors">
+              <X className="w-5 h-5" />
+            </button>
+            <button onClick={e => { e.stopPropagation(); setLightbox(i => i !== null ? Math.max(i - 1, 0) : null) }}
+              disabled={lightbox === 0}
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors disabled:opacity-20">
+              ‹
+            </button>
+            <button onClick={e => { e.stopPropagation(); setLightbox(i => i !== null ? Math.min(i + 1, filteredGallery.length - 1) : null) }}
+              disabled={lightbox === filteredGallery.length - 1}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white z-10 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors disabled:opacity-20">
+              ›
+            </button>
+            <motion.div key={lightbox} initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 0.2 }}
+              className="max-w-4xl w-full" onClick={e => e.stopPropagation()}>
+              <img src={filteredGallery[lightbox]?.src} alt={filteredGallery[lightbox]?.caption}
+                className="w-full max-h-[75vh] object-contain rounded-xl shadow-2xl"
+                onError={e => { (e.currentTarget as HTMLImageElement).src = '/dessie-logo.png' }} />
+              <div className="mt-3 text-center">
+                <p className="text-white font-semibold">{filteredGallery[lightbox]?.caption}</p>
+                <p className="text-[#c8a415] text-xs font-bold mt-1">{filteredGallery[lightbox]?.tag}</p>
+                <p className="text-white/40 text-xs mt-2">{lightbox + 1} / {filteredGallery.length} · Use ← → keys to navigate</p>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </div>
   )
 }

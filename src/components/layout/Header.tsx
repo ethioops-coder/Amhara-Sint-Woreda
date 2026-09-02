@@ -192,22 +192,54 @@ export default function Header({ navItems }: { navItems: NavItem[] }) {
               
               return (
                 <div key={item.label} className="relative"
-                  onMouseEnter={() => hasDropdown ? handleDropdownEnter(item.label) : undefined}
-                  onMouseLeave={() => hasDropdown ? handleDropdownLeave() : undefined}>
+                  onMouseEnter={() => (hasDropdown || item.label === 'CONTACT') ? handleDropdownEnter(item.label) : undefined}
+                  onMouseLeave={() => (hasDropdown || item.label === 'CONTACT') ? handleDropdownLeave() : undefined}>
                   <Link href={resolveHref(item.id, item.label)} className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[0.76rem] font-semibold transition-all ${isCurrent ? 'text-white bg-[#1a6b3c] shadow-md' : 'text-[#333] hover:text-[#1a6b3c] hover:bg-[#1a6b3c]/8'}`}>
                     <NavIcon className="w-3.5 h-3.5 shrink-0" />
                     {navLabel(item.label)}
-                    {hasDropdown && <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${openDropdown === item.label ? 'rotate-180' : ''}`} />}
+                    {(hasDropdown || item.label === 'CONTACT') && <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${openDropdown === item.label ? 'rotate-180' : ''}`} />}
                   </Link>
 
-                  {hasDropdown && (
-                    <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white border border-[#e2e8e0] rounded-2xl shadow-2xl z-[70] overflow-hidden transition-all duration-200 origin-top ${openDropdown === item.label ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`} style={{ minWidth: item.label === 'SERVICES' ? '700px' : '240px' }} onMouseEnter={() => handleDropdownEnter(item.label)} onMouseLeave={() => handleDropdownLeave()}>
+                  {/* Desktop dropdown panel — force-show for CONTACT even if hasDropdown=false */}
+                  {(hasDropdown || item.label === 'CONTACT') && (
+                    <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white border border-[#e2e8e0] rounded-2xl shadow-2xl z-[70] overflow-hidden transition-all duration-200 origin-top ${openDropdown === item.label ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`} style={{ minWidth: item.label === 'SERVICES' ? '700px' : item.label === 'CONTACT' ? '440px' : '240px' }} onMouseEnter={() => handleDropdownEnter(item.label)} onMouseLeave={() => handleDropdownLeave()}>
                       <div className="bg-gradient-to-r from-[#0d4a28] to-[#1a6b3c] px-4 py-3 flex items-center gap-2">
                         <NavIcon className="w-4 h-4 text-[#c8a415]" />
                         <span className="text-white font-bold text-sm">{navLabel(item.label)}</span>
                       </div>
-                      
-                      {item.label === 'SERVICES' ? (
+
+                      {item.label === 'CONTACT' ? (
+                        <div className="flex bg-white">
+                          <div className="w-2/5 relative shrink-0 min-h-[200px]">
+                            <img src="/dessie-city-hall-day.png" alt="Contact Dessie" className="absolute inset-0 w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0d4a28]/90 via-[#0d4a28]/40 to-transparent flex flex-col justify-end p-4">
+                              <span className="text-white font-bold text-[0.85rem] leading-tight">Get in Touch</span>
+                              <span className="text-white/80 text-[0.7rem] mt-1">+251-33-111-XXXX</span>
+                              <span className="text-white/60 text-[0.65rem]">info@dessiecity.gov.et</span>
+                            </div>
+                          </div>
+                          <div className="w-3/5 p-2 bg-slate-50/50 flex flex-col gap-0.5">
+                            {[
+                              { label: 'Contact Us',       id: 'contact',  icon: PhoneCall },
+                              { label: 'Send Message',     id: 'contact',  icon: Send },
+                              { label: 'Request Service',  id: 'services', icon: Settings },
+                              { label: 'Report a Problem', id: 'contact',  icon: MessageSquareWarning },
+                              { label: 'Find Our Office',  id: 'contact',  icon: MapPin },
+                            ].map(ci => {
+                              const CIcon = ci.icon;
+                              return (
+                                <Link key={ci.label} href={resolveHref(ci.id, ci.label)} onClick={() => setOpenDropdown(null)}
+                                  className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all hover:bg-white hover:shadow-sm group border border-transparent hover:border-gray-100">
+                                  <div className="w-7 h-7 rounded-full bg-white shadow-sm border border-gray-100 group-hover:bg-[#1a6b3c] flex items-center justify-center shrink-0 transition-all">
+                                    <CIcon className="w-3.5 h-3.5 text-[#0d4a28] group-hover:text-white" />
+                                  </div>
+                                  <span className="font-medium text-gray-700 group-hover:text-[#1a6b3c] text-[13px]">{navLabel(ci.label)}</span>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ) : item.label === 'SERVICES' ? (
                         <div className="p-3 grid grid-cols-2 gap-2 min-w-[320px] bg-white">
                           {[
                             { label: 'Education', icon: GraduationCap, href: '/services/education' },
