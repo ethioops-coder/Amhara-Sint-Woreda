@@ -5,7 +5,7 @@ const db = new PrismaClient()
 async function main() {
   console.log('Seeding data...')
 
-  // 1. Seed Hero Sliders
+  // 1. Seed Hero Sliders doen 
   const heroSlides = [
     { image: '/dessie-city-hall.png', title: 'ደሴ ከተማ አስተዳደር', subtitle: 'Welcome to Dessie City Administration — Serving 500,000+ Citizens with Excellence', tag: 'GOVERNANCE' },
     { image: '/dessie-smart-center.png', title: 'Dessie Smart City 2025', subtitle: 'Advanced Digital Control Center — Real-Time City Monitoring & Governance', tag: 'TECHNOLOGY' },
