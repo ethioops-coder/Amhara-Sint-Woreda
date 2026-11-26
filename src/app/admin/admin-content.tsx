@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 
 /* ─── types ─── */
-type AdminPage = "dashboard" | "news" | "news-new" | "news-edit" | "bids" | "bids-new" | "bids-edit" | "vacancy" | "vacancy-new" | "vacancy-edit" | "menus" | "applications" | "subscribers" | "settings" | "content" | "pages" | "pages-new" | "pages-edit" | "contact-messages" | "visitors";
+type AdminPage = "dashboard" | "news" | "news-new" | "news-edit" | "bids" | "bids-new" | "bids-edit" | "vacancy" | "vacancy-new" | "vacancy-edit" | "menus" | "applications" | "subscribers" | "settings" | "content" | "pages" | "pages-new" | "pages-edit" | "contact-messages" | "visitors" | "gallery";
 
 interface DashboardStats {
   totalNews: number;
@@ -39,9 +39,10 @@ function Sidebar({ page, nav, onLogout }: { page: AdminPage; nav: (p: AdminPage)
     { label: "News", key: "news", icon: "📰" },
     { label: "Bids & Tenders", key: "bids", icon: "💼" },
     { label: "Vacancies", key: "vacancy", icon: "📋" },
+    { label: "Applications", key: "applications", icon: "📂" },
+    { label: "Gallery", key: "gallery", icon: "🖼️" },
     { label: "Menu Manager", key: "menus", icon: "📑" },
-    { label: "Applications", key: "applications", icon: "📋" },
-    { label: "Content", key: "content", icon: "📝" },
+    { label: "Content / Slider", key: "content", icon: "🎞️" },
     { label: "Custom Pages", key: "pages", icon: "📄" },
     { label: "Messages", key: "contact-messages", icon: "💬" },
     { label: "Subscribers", key: "subscribers", icon: "✉️" },
@@ -201,14 +202,43 @@ function NewsListPage({ nav }: { nav: (p: AdminPage) => void }) {
   const load = () => { fetch("/admin/api/news").then(r => r.json()).then(setNews).finally(() => setLoading(false)); };
   useEffect(() => { load(); }, []);
   const handleDelete = async (id: string) => { if (!confirm("Delete this article?")) return; await fetch(`/admin/api/news?id=${id}`, { method: "DELETE" }); load(); };
+  const handleApprove = async (id: string) => { await fetch("/admin/api/news", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, status: "published" }) }); load(); };
+  const handleReject = async (id: string) => { await fetch("/admin/api/news", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, status: "rejected" }) }); load(); };
   const filtered = news.filter(n => n.title.toLowerCase().includes(search.toLowerCase()) || n.category.toLowerCase().includes(search.toLowerCase()));
+  const pending = news.filter(n => n.status === "pending_review");
   if (loading) return <Spinner />;
+
+  const statusBadge = (status: string) => {
+    if (status === "published") return <span className="text-xs px-2 py-0.5 rounded bg-green-50 text-green-600">✅ Published</span>;
+    if (status === "pending_review") return <span className="text-xs px-2 py-0.5 rounded bg-amber-50 text-amber-600">⏳ Pending Review</span>;
+    if (status === "rejected") return <span className="text-xs px-2 py-0.5 rounded bg-red-50 text-red-600">❌ Rejected</span>;
+    return <span className="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-500">📄 Draft</span>;
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div><h1 className="text-2xl font-bold text-gray-900">News Management</h1><p className="text-sm text-gray-500 mt-1">{news.length} articles total</p></div>
         <button onClick={() => nav("news-new")} className="bg-[#EAB308] hover:bg-[#CA8A04] text-[#0B3D2E] text-sm font-semibold shadow-sm px-4 py-2 rounded-lg transition-colors">＋ Add News</button>
       </div>
+
+      {/* Review Queue */}
+      {pending.length > 0 && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-3">
+          <h3 className="text-sm font-bold text-amber-800 flex items-center gap-2">⏳ Pending Review ({pending.length})</h3>
+          {pending.map(item => (
+            <div key={item.id} className="bg-white rounded-lg p-3 flex items-center justify-between gap-3 border border-amber-100">
+              <span className="text-sm font-medium text-gray-900 truncate flex-1">{item.title}</span>
+              <div className="flex gap-2 shrink-0">
+                <button onClick={() => handleApprove(item.id)} className="px-3 py-1 text-xs font-bold bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">✅ Approve</button>
+                <button onClick={() => handleReject(item.id)} className="px-3 py-1 text-xs font-bold bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">❌ Reject</button>
+                <button onClick={() => { nav("news-edit"); (window as unknown as { __adminEditId: string }).__adminEditId = item.id; }} className="px-3 py-1 text-xs font-bold bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">✏️ Edit</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div className="relative max-w-sm">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">🔍</span>
         <input placeholder="Search news..." value={search} onChange={e => setSearch(e.target.value)} className="w-full pl-9 pr-3 h-10 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
@@ -234,9 +264,7 @@ function NewsListPage({ nav }: { nav: (p: AdminPage) => void }) {
                   </td>
                   <td className="py-3 px-4 hidden md:table-cell"><span className="bg-gray-100 text-gray-700 text-xs px-2 py-0.5 rounded">{item.category}</span></td>
                   <td className="py-3 px-4 text-gray-500 hidden sm:table-cell">{item.date}</td>
-                  <td className="py-3 px-4">
-                    <span className={`text-xs px-2 py-0.5 rounded ${item.status === "published" ? "bg-green-50 text-green-600" : "bg-gray-100 text-gray-500"}`}>{item.status === "published" ? "👁 Published" : "🚫 Draft"}</span>
-                  </td>
+                  <td className="py-3 px-4">{statusBadge(item.status)}</td>
                   <td className="py-3 px-4">
                     <div className="flex items-center justify-end gap-1">
                       <button onClick={() => { nav("news-edit"); (window as unknown as { __adminEditId: string }).__adminEditId = item.id; }} className="h-8 w-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-[#0B3D2E] hover:bg-gray-100 transition-colors text-sm">✏️</button>
@@ -441,7 +469,21 @@ function NewsForm({ editId, onBack }: { editId: string | null; onBack: () => voi
         <div className="flex gap-3 pb-6">
           <button type="submit" disabled={saving || !form.title.trim()}
             className="flex-1 sm:flex-none bg-[#0B3D2E] hover:bg-[#145A44] disabled:opacity-50 text-white font-semibold text-sm px-8 py-3 rounded-xl transition-colors shadow-md">
-            {saving ? "⏳ Saving..." : editId ? "✅ Save Changes" : "🚀 Publish Article"}
+            {saving ? "⏳ Saving..." : editId ? "✅ Save Changes" : "💾 Save Draft"}
+          </button>
+          <button type="button" disabled={saving || !form.title.trim()} onClick={async () => {
+            if (!form.title.trim()) return;
+            setSaving(true);
+            try {
+              await fetch("/admin/api/news", {
+                method: editId ? "PUT" : "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(editId ? { id: editId, ...form, status: "pending_review" } : { ...form, status: "pending_review" })
+              });
+              onBack();
+            } catch { alert("Failed to submit"); } finally { setSaving(false); }
+          }} className="bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-colors shadow-md">
+            ⏳ Submit for Review
           </button>
           <button type="button" onClick={onBack}
             className="border border-gray-200 hover:bg-gray-50 text-sm font-semibold px-6 py-3 rounded-xl transition-colors">
@@ -461,8 +503,11 @@ function BidsListPage({ nav }: { nav: (p: AdminPage) => void }) {
   const load = () => { fetch("/admin/api/bids").then(r => r.json()).then(setBids).finally(() => setLoading(false)); };
   useEffect(() => { load(); }, []);
   const handleDelete = async (id: string) => { if (!confirm("Delete this bid?")) return; await fetch(`/admin/api/bids?id=${id}`, { method: "DELETE" }); load(); };
+  const handleApprove = async (id: string) => { await fetch("/admin/api/bids", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, status: "Open" }) }); load(); };
+  const handleReject = async (id: string) => { await fetch("/admin/api/bids", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, status: "Closed" }) }); load(); };
   const filtered = bids.filter(b => b.title.toLowerCase().includes(search.toLowerCase()));
-  const statusColor = (s: string) => s === "Open" ? "bg-green-50 text-green-600" : s === "Closed" ? "bg-gray-100 text-gray-500" : "bg-amber-50 text-amber-600";
+  const pending = bids.filter(b => b.status === "pending_review");
+  const statusColor = (s: string) => s === "Open" ? "bg-green-50 text-green-600" : s === "pending_review" ? "bg-amber-50 text-amber-600" : s === "Closed" ? "bg-gray-100 text-gray-500" : "bg-blue-50 text-blue-600";
   if (loading) return <Spinner />;
   return (
     <div className="space-y-6">
@@ -470,6 +515,22 @@ function BidsListPage({ nav }: { nav: (p: AdminPage) => void }) {
         <div><h1 className="text-2xl font-bold text-gray-900">Bids & Tenders</h1><p className="text-sm text-gray-500 mt-1">{bids.length} total bids</p></div>
         <button onClick={() => nav("bids-new")} className="bg-[#EAB308] hover:bg-[#CA8A04] text-[#0B3D2E] text-sm font-semibold shadow-sm px-4 py-2 rounded-lg transition-colors">＋ Add Bid</button>
       </div>
+
+      {pending.length > 0 && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-3">
+          <h3 className="text-sm font-bold text-amber-800">⏳ Pending Review ({pending.length})</h3>
+          {pending.map(item => (
+            <div key={item.id} className="bg-white rounded-lg p-3 flex items-center justify-between gap-3 border border-amber-100">
+              <span className="text-sm font-medium text-gray-900 truncate flex-1">{item.title}</span>
+              <div className="flex gap-2 shrink-0">
+                <button onClick={() => handleApprove(item.id)} className="px-3 py-1 text-xs font-bold bg-green-600 text-white rounded-lg hover:bg-green-700">✅ Approve</button>
+                <button onClick={() => handleReject(item.id)} className="px-3 py-1 text-xs font-bold bg-red-500 text-white rounded-lg hover:bg-red-600">❌ Reject</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div className="relative max-w-sm">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">🔍</span>
         <input placeholder="Search bids..." value={search} onChange={e => setSearch(e.target.value)} className="w-full pl-9 pr-3 h-10 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
@@ -490,7 +551,7 @@ function BidsListPage({ nav }: { nav: (p: AdminPage) => void }) {
                   <td className="py-3 px-4"><span className="font-medium text-gray-900 truncate max-w-[250px] block">{item.title}</span></td>
                   <td className="py-3 px-4 text-gray-600 hidden md:table-cell font-medium">{item.budget}</td>
                   <td className="py-3 px-4 text-gray-500 hidden sm:table-cell">{item.deadline}</td>
-                  <td className="py-3 px-4"><span className={`text-xs px-2 py-0.5 rounded ${statusColor(item.status)}`}>{item.status}</span></td>
+                  <td className="py-3 px-4"><span className={`text-xs px-2 py-0.5 rounded ${statusColor(item.status)}`}>{item.status === "pending_review" ? "⏳ Pending" : item.status}</span></td>
                   <td className="py-3 px-4">
                     <div className="flex items-center justify-end gap-1">
                       <button onClick={() => { nav("bids-edit"); (window as unknown as { __adminEditId: string }).__adminEditId = item.id; }} className="h-8 w-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-[#0B3D2E] hover:bg-gray-100 transition-colors text-sm">✏️</button>
@@ -554,7 +615,15 @@ function BidForm({ editId, onBack }: { editId: string | null; onBack: () => void
             <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Status</label><select value={form.status} onChange={e => u("status", e.target.value)} className="w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm"><option value="Open">Open</option><option value="Closed">Closed</option><option value="Awarded">Awarded</option></select></div>
           </div>
           <div className="flex gap-3 pt-2">
-            <button type="submit" disabled={saving || !form.title.trim()} className="bg-[#0B3D2E] hover:bg-[#145A44] disabled:opacity-50 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors">{saving ? "⏳ Saving..." : editId ? "Save Changes" : "Create Bid"}</button>
+            <button type="submit" disabled={saving || !form.title.trim()} className="bg-[#0B3D2E] hover:bg-[#145A44] disabled:opacity-50 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors">{saving ? "⏳ Saving..." : editId ? "Save Changes" : "💾 Save Draft"}</button>
+            <button type="button" disabled={saving || !form.title.trim()} onClick={async () => {
+              if (!form.title.trim()) return;
+              setSaving(true);
+              try {
+                await fetch("/admin/api/bids", { method: editId ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(editId ? { id: editId, ...form, status: "pending_review" } : { ...form, status: "pending_review" }) });
+                onBack();
+              } catch { alert("Failed"); } finally { setSaving(false); }
+            }} className="bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors">⏳ Submit for Review</button>
             <button type="button" onClick={onBack} className="border border-gray-200 hover:bg-gray-50 text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors">Cancel</button>
           </div>
         </form>
@@ -571,7 +640,10 @@ function VacancyListPage({ nav }: { nav: (p: AdminPage) => void }) {
   const load = () => { fetch("/admin/api/vacancies").then(r => r.json()).then(setVacancies).finally(() => setLoading(false)); };
   useEffect(() => { load(); }, []);
   const handleDelete = async (id: string) => { if (!confirm("Delete this vacancy?")) return; await fetch(`/admin/api/vacancies?id=${id}`, { method: "DELETE" }); load(); };
+  const handleApprove = async (id: string) => { await fetch("/admin/api/vacancies", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, status: "Open" }) }); load(); };
+  const handleReject = async (id: string) => { await fetch("/admin/api/vacancies", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id, status: "Closed" }) }); load(); };
   const filtered = vacancies.filter(v => v.title.toLowerCase().includes(search.toLowerCase()) || v.department.toLowerCase().includes(search.toLowerCase()));
+  const pending = vacancies.filter(v => (v as any).status === "pending_review");
   if (loading) return <Spinner />;
   return (
     <div className="space-y-6">
@@ -579,6 +651,22 @@ function VacancyListPage({ nav }: { nav: (p: AdminPage) => void }) {
         <div><h1 className="text-2xl font-bold text-gray-900">Vacancies</h1><p className="text-sm text-gray-500 mt-1">{vacancies.length} total vacancies</p></div>
         <button onClick={() => nav("vacancy-new")} className="bg-[#EAB308] hover:bg-[#CA8A04] text-[#0B3D2E] text-sm font-semibold shadow-sm px-4 py-2 rounded-lg transition-colors">＋ Add Vacancy</button>
       </div>
+
+      {pending.length > 0 && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-3">
+          <h3 className="text-sm font-bold text-amber-800">⏳ Pending Review ({pending.length})</h3>
+          {pending.map((item: any) => (
+            <div key={item.id} className="bg-white rounded-lg p-3 flex items-center justify-between gap-3 border border-amber-100">
+              <span className="text-sm font-medium text-gray-900 truncate flex-1">{item.title} — {item.department}</span>
+              <div className="flex gap-2 shrink-0">
+                <button onClick={() => handleApprove(item.id)} className="px-3 py-1 text-xs font-bold bg-green-600 text-white rounded-lg hover:bg-green-700">✅ Approve</button>
+                <button onClick={() => handleReject(item.id)} className="px-3 py-1 text-xs font-bold bg-red-500 text-white rounded-lg hover:bg-red-600">❌ Reject</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div className="relative max-w-sm">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">🔍</span>
         <input placeholder="Search vacancies..." value={search} onChange={e => setSearch(e.target.value)} className="w-full pl-9 pr-3 h-10 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
@@ -621,13 +709,13 @@ function VacancyListPage({ nav }: { nav: (p: AdminPage) => void }) {
 function VacancyForm({ editId, onBack }: { editId: string | null; onBack: () => void }) {
   const [loading, setLoading] = useState(!!editId);
   const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({ title: "", department: "", type: "Full-Time" as "Full-Time" | "Part-Time" | "Contract", deadline: "", description: "", requirements: "" });
+  const [form, setForm] = useState({ title: "", department: "", type: "Full-Time" as "Full-Time" | "Part-Time" | "Contract", deadline: "", description: "", requirements: "", salary: "", location: "", postedBy: "HR Department", status: "Open" as string });
 
   useEffect(() => {
     if (!editId) return;
-    fetch("/admin/api/vacancies").then(r => r.json()).then((items: VacancyItem[]) => {
+    fetch("/admin/api/vacancies").then(r => r.json()).then((items: any[]) => {
       const item = items.find(v => v.id === editId);
-      if (item) setForm({ title: item.title || "", department: item.department || "", type: item.type || "Full-Time", deadline: item.deadline || "", description: item.description || "", requirements: item.requirements || "" });
+      if (item) setForm({ title: item.title || "", department: item.department || "", type: item.type || "Full-Time", deadline: item.deadline || "", description: item.description || "", requirements: item.requirements || "", salary: item.salary || "", location: item.location || "", postedBy: item.postedBy || "HR Department", status: item.status || "Open" });
     }).finally(() => setLoading(false));
   }, [editId]);
 
@@ -657,14 +745,127 @@ function VacancyForm({ editId, onBack }: { editId: string | null; onBack: () => 
             <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Department</label><input value={form.department} onChange={e => u("department", e.target.value)} placeholder="e.g. Health Office" className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
             <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Type</label><select value={form.type} onChange={e => u("type", e.target.value)} className="w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm"><option value="Full-Time">Full-Time</option><option value="Part-Time">Part-Time</option><option value="Contract">Contract</option></select></div>
           </div>
-          <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Application Deadline</label><input type="date" value={form.deadline} onChange={e => u("deadline", e.target.value)} className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Salary</label><input value={form.salary} onChange={e => u("salary", e.target.value)} placeholder="e.g. 12,500 ETB / month" className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
+            <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Location</label><input value={form.location} onChange={e => u("location", e.target.value)} placeholder="e.g. Sint Main Office" className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Posted By</label><input value={form.postedBy} onChange={e => u("postedBy", e.target.value)} placeholder="e.g. HR Department" className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
+            <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Application Deadline</label><input type="date" value={form.deadline} onChange={e => u("deadline", e.target.value)} className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
+          </div>
           <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Description</label><textarea value={form.description} onChange={e => u("description", e.target.value)} placeholder="Job description..." rows={4} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] resize-none" /></div>
           <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Requirements</label><textarea value={form.requirements} onChange={e => u("requirements", e.target.value)} placeholder="Required qualifications..." rows={3} className="w-full px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] resize-none" /></div>
+          <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Status</label><select value={form.status} onChange={e => u("status", e.target.value)} className="w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm"><option value="Open">Open</option><option value="Closed">Closed</option><option value="Awarded">Awarded</option></select></div>
           <div className="flex gap-3 pt-2">
-            <button type="submit" disabled={saving || !form.title.trim()} className="bg-[#0B3D2E] hover:bg-[#145A44] disabled:opacity-50 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors">{saving ? "⏳ Saving..." : editId ? "Save Changes" : "Create Vacancy"}</button>
+            <button type="submit" disabled={saving || !form.title.trim()} className="bg-[#0B3D2E] hover:bg-[#145A44] disabled:opacity-50 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors">{saving ? "⏳ Saving..." : editId ? "Save Changes" : "💾 Save Draft"}</button>
+            <button type="button" disabled={saving || !form.title.trim()} onClick={async () => {
+              if (!form.title.trim()) return;
+              setSaving(true);
+              try {
+                await fetch("/admin/api/vacancies", { method: editId ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(editId ? { id: editId, ...form, status: "pending_review" } : { ...form, status: "pending_review" }) });
+                onBack();
+              } catch { alert("Failed"); } finally { setSaving(false); }
+            }} className="bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors">⏳ Submit for Review</button>
             <button type="button" onClick={onBack} className="border border-gray-200 hover:bg-gray-50 text-sm font-semibold px-5 py-2.5 rounded-lg transition-colors">Cancel</button>
           </div>
         </form>
+      </div>
+    </div>
+  );
+}
+
+/* ─── GALLERY PAGE ─── */
+interface GalleryItem { id: string; title: string; description: string; imageUrl: string; category: string; createdAt: string; }
+
+function GalleryPage() {
+  const [items, setItems] = useState<GalleryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [form, setForm] = useState({ title: "", description: "", imageUrl: "", category: "General" });
+  const [adding, setAdding] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  const load = () => { fetch("/admin/api/gallery").then(r => r.json()).then(setItems).finally(() => setLoading(false)); };
+  useEffect(() => { load(); }, []);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const fd = new FormData(); fd.append("file", file);
+      const res = await fetch("/admin/api/upload", { method: "POST", body: fd });
+      const data = await res.json();
+      if (data.url) setForm(f => ({ ...f, imageUrl: data.url }));
+    } catch { alert("Upload failed"); } finally { setUploading(false); e.target.value = ""; }
+  };
+
+  const handleAdd = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.imageUrl.trim()) return;
+    setSaving(true);
+    try {
+      await fetch("/admin/api/gallery", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(form) });
+      setForm({ title: "", description: "", imageUrl: "", category: "General" });
+      setAdding(false);
+      load();
+    } catch { alert("Failed to add item"); } finally { setSaving(false); }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!confirm("Delete this gallery item?")) return;
+    await fetch(`/admin/api/gallery?id=${id}`, { method: "DELETE" });
+    load();
+  };
+
+  if (loading) return <Spinner />;
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div><h1 className="text-2xl font-bold text-gray-900">Gallery</h1><p className="text-sm text-gray-500 mt-1">{items.length} photos</p></div>
+        <button onClick={() => setAdding(!adding)} className="bg-[#EAB308] hover:bg-[#CA8A04] text-[#0B3D2E] text-sm font-semibold shadow-sm px-4 py-2 rounded-lg transition-colors">＋ Add Photo</button>
+      </div>
+
+      {adding && (
+        <div className="bg-white rounded-xl shadow-sm p-6">
+          <h3 className="text-base font-semibold text-gray-900 mb-4">Add New Photo</h3>
+          <form onSubmit={handleAdd} className="space-y-4">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Title</label><input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="Photo title" className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
+              <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Category</label><select value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))} className="w-full h-10 rounded-lg border border-gray-200 bg-white px-3 text-sm"><option>General</option><option>Events</option><option>Infrastructure</option><option>Agriculture</option><option>Education</option><option>Health</option><option>Culture</option></select></div>
+            </div>
+            <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Description</label><input value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="Optional description" className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" /></div>
+            <label className="flex items-center gap-3 w-full cursor-pointer border-2 border-dashed border-gray-200 hover:border-[#0B3D2E]/40 rounded-xl p-4 transition-colors group">
+              <span className="text-2xl">{uploading ? "⏳" : "📷"}</span>
+              <div><p className="text-sm font-semibold text-gray-700">{uploading ? "Uploading..." : "Click to upload photo"}</p><p className="text-xs text-gray-400">JPG, PNG</p></div>
+              <input type="file" accept="image/*" onChange={handleUpload} className="hidden" disabled={uploading} />
+            </label>
+            <div className="flex items-center gap-2"><div className="flex-1 h-px bg-gray-100" /><span className="text-xs text-gray-400">OR paste URL</span><div className="flex-1 h-px bg-gray-100" /></div>
+            <input value={form.imageUrl} onChange={e => setForm(f => ({ ...f, imageUrl: e.target.value }))} placeholder="https://example.com/photo.jpg" className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E]" />
+            {form.imageUrl && <div className="relative rounded-xl overflow-hidden h-40 bg-gray-100"><img src={form.imageUrl} alt="Preview" className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} /></div>}
+            <div className="flex gap-3">
+              <button type="submit" disabled={saving || !form.imageUrl.trim()} className="bg-[#0B3D2E] hover:bg-[#145A44] disabled:opacity-50 text-white font-semibold text-sm px-5 py-2.5 rounded-lg">{saving ? "Adding..." : "Add Photo"}</button>
+              <button type="button" onClick={() => setAdding(false)} className="border border-gray-200 hover:bg-gray-50 text-sm font-semibold px-5 py-2.5 rounded-lg">Cancel</button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {items.map(item => (
+          <div key={item.id} className="group relative bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+            <div className="relative h-40 bg-gray-100">
+              <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover" onError={e => { (e.target as HTMLImageElement).src = "https://placehold.co/400x300/0B3D2E/ffffff?text=Photo"; }} />
+              <button onClick={() => handleDelete(item.id)} className="absolute top-2 right-2 w-7 h-7 bg-red-500 hover:bg-red-600 text-white rounded-full text-xs font-bold flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">✕</button>
+            </div>
+            <div className="p-3">
+              <p className="text-sm font-semibold text-gray-900 truncate">{item.title || "Untitled"}</p>
+              <p className="text-xs text-gray-400 mt-0.5">{item.category}</p>
+            </div>
+          </div>
+        ))}
+        {items.length === 0 && <div className="col-span-4 py-16 text-center text-gray-400">No gallery photos yet. Add your first photo above.</div>}
       </div>
     </div>
   );
@@ -1622,6 +1823,7 @@ export default function AdminPage() {
           {page === "pages-edit" && <CustomPageForm editId={editId} onBack={() => nav("pages")} />}
           {page === "contact-messages" && <ContactMessagesPage />}
           {page === "settings" && <SettingsPage />}
+          {page === "gallery" && <GalleryPage />}
         </main>
       </div>
     </div>

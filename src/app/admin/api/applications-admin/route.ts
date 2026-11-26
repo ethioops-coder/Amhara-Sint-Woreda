@@ -1,22 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import prisma from "@/lib/prisma";
+import {
+  getApplications,
+  updateApplication,
+  deleteApplication,
+} from "@/lib/storage";
 
 export async function GET(request: NextRequest) {
   try {
     const id = request.nextUrl.searchParams.get("id");
     const vacancyId = request.nextUrl.searchParams.get("vacancyId");
-
+    const all = getApplications();
     if (id) {
-      const app = await prisma.application.findUnique({ where: { id } });
+      const app = all.find((a) => a.id === id);
       if (!app) return NextResponse.json({ error: "Not found" }, { status: 404 });
       return NextResponse.json(app);
     }
     if (vacancyId) {
-      const apps = await prisma.application.findMany({ where: { vacancyId }, orderBy: { createdAt: "desc" } });
-      return NextResponse.json(apps);
+      return NextResponse.json(all.filter((a) => a.vacancyId === vacancyId));
     }
-    const apps = await prisma.application.findMany({ orderBy: { createdAt: "desc" } });
-    return NextResponse.json(apps);
+    return NextResponse.json(all);
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
@@ -26,11 +28,12 @@ export async function PUT(request: NextRequest) {
   try {
     const { id, status, notes } = await request.json();
     if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
-    const app = await prisma.application.update({
-      where: { id },
-      data: { ...(status && { status }), ...(notes !== undefined && { notes }) },
+    const item = updateApplication(id, {
+      ...(status !== undefined && { status }),
+      ...(notes !== undefined && { notes }),
     });
-    return NextResponse.json(app);
+    if (!item) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json(item);
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });
   }
@@ -40,7 +43,8 @@ export async function DELETE(request: NextRequest) {
   try {
     const id = request.nextUrl.searchParams.get("id");
     if (!id) return NextResponse.json({ error: "ID required" }, { status: 400 });
-    await prisma.application.delete({ where: { id } });
+    const ok = deleteApplication(id);
+    if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json({ success: true });
   } catch (e: any) {
     return NextResponse.json({ error: e.message }, { status: 500 });

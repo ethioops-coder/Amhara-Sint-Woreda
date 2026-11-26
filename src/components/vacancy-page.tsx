@@ -220,11 +220,33 @@ export function VacancyPage({ onNavigate }: { onNavigate: (p: PageId) => void })
         attachments: { cv: cvStoredName || undefined, coverLetter: coverStoredName || undefined }
       };
 
-      try {
-        const all = [...applications, data];
-        localStorage.setItem("amharasayint_applications", JSON.stringify(all));
-        setApplications(all);
-      } catch {}
+      // Save application to server
+      const payload = {
+        vacancyId: data.vacancyId,
+        vacancyTitle: data.vacancyTitle,
+        fullName: data.applicant.fullName,
+        email: data.applicant.email,
+        phone: data.applicant.phone,
+        gender: data.applicant.gender,
+        education: data.applicant.education.level,
+        institution: data.applicant.education.institution,
+        experienceYears: String(data.applicant.experience.totalYears),
+        currentEmployer: data.applicant.experience.recentEmployer,
+        currentPosition: data.applicant.experience.currentPosition,
+        keyQualifications: "",
+        cvName: cvFile?.name || "",
+        cvFile: cvStoredName || "",
+        coverLetterName: coverFile?.name || "",
+        coverLetterFile: coverStoredName || "",
+        appliedAt: data.appliedAt,
+        status: "Under Review",
+        notes: "",
+      };
+      await fetch("/admin/api/applications", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
       setFormStatus("success");
       (e.target as HTMLFormElement).reset();
