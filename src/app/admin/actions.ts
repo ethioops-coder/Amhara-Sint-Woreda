@@ -23,8 +23,8 @@ import {
   type VacancyItem,
 } from "@/lib/storage";
 
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "AmharaSayint@2026";
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "admin123";
 const SESSION_COOKIE = "admin_session";
 const SESSION_MAX_AGE = 60 * 10; // 10 minutes
 

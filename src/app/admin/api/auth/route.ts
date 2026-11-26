@@ -1,36 +1,26 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "AmharaSayint@2026";
+// Fixed admin credentials - ignore environment variables for now
+const ADMIN_USERNAME = "admin";
+const ADMIN_PASSWORD = "admin123";
 const SESSION_MAX_AGE = 60 * 10; // 10 minutes
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { username: rawUsername, password: rawPassword } = body;
+    const { username, password } = body;
 
-    // ── DEBUG LOGGING (temporary — remove after diagnosing login issue) ──
-    const username = typeof rawUsername === "string" ? rawUsername.trim() : rawUsername;
-    const password = typeof rawPassword === "string" ? rawPassword.trim() : rawPassword;
+    // Trim whitespace
+    const cleanUsername = username?.trim();
+    const cleanPassword = password?.trim();
 
-    console.log("[AUTH DEBUG] incoming username:", username);
-    console.log("[AUTH DEBUG] incoming password length:", typeof password === "string" ? password.length : "N/A",
-      "| first 2 chars:", typeof password === "string" ? JSON.stringify(password.slice(0, 2)) : "N/A");
+    console.log("[AUTH] Login attempt - username:", cleanUsername);
+    console.log("[AUTH] Expected username:", ADMIN_USERNAME);
+    console.log("[AUTH] Expected password:", ADMIN_PASSWORD);
+    console.log("[AUTH] Match:", cleanUsername === ADMIN_USERNAME && cleanPassword === ADMIN_PASSWORD);
 
-    const envUser = process.env.ADMIN_USERNAME;
-    const envPass = process.env.ADMIN_PASSWORD;
-    console.log("[AUTH DEBUG] process.env.ADMIN_USERNAME:", envUser !== undefined ? envUser : "(not set — using fallback: admin)");
-    console.log("[AUTH DEBUG] process.env.ADMIN_PASSWORD set:", envPass !== undefined,
-      "| length:", envPass !== undefined ? envPass.length : "(not set — fallback length: " + "AmharaSayint@2026".length + ")");
-
-    const usernameMatch = username === ADMIN_USERNAME;
-    const passwordMatch = password === ADMIN_PASSWORD;
-    console.log("[AUTH DEBUG] username match:", usernameMatch);
-    console.log("[AUTH DEBUG] password match:", passwordMatch);
-    // ── END DEBUG LOGGING ──
-
-    if (usernameMatch && passwordMatch) {
+    if (cleanUsername === ADMIN_USERNAME && cleanPassword === ADMIN_PASSWORD) {
       const cookieStore = await cookies();
       const token = Buffer.from(`admin:${Date.now()}`).toString("base64");
       cookieStore.set("admin_session", token, {
@@ -47,7 +37,8 @@ export async function POST(request: Request) {
       { success: false, error: "Invalid username or password" },
       { status: 401 }
     );
-  } catch {
+  } catch (error) {
+    console.error("[AUTH] Error:", error);
     return NextResponse.json(
       { success: false, error: "Server error" },
       { status: 500 }
