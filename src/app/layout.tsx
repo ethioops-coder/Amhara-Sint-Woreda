@@ -22,7 +22,7 @@ const geistMono = Geist_Mono({
 });
 
 /* ── Site constants ──────────────────────────────────────────── */
-const SITE_URL = "https://amhara-sint-woreda.onrender.com";
+const SITE_URL = "https://amhara-sayint-woreda.onrender.com";
 const SITE_NAME = "Amhara Sayint Woreda Administration";
 const OG_IMAGE = "https://sfile.chatglm.cn/images-ppt/d57be5c1e89d.jpg";
 
@@ -276,8 +276,8 @@ const jsonLd = {
       ],
       sameAs: [
         "https://www.facebook.com/100066823706013",
-        "https://www.youtube.com/@AmharaSint",
-        "https://t.me/AmharaSint",
+        "https://www.youtube.com/@AmharaSayint",
+        "https://t.me/AmharaSayint",
         "https://www.linkedin.com/in/meseret-akalu-76363121b/",
       ],
       numberOfEmployees: {
@@ -417,7 +417,7 @@ const jsonLd = {
           name: "How can I find job vacancies in Amhara Sayint Woreda?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Current job vacancies and government employment opportunities in Amhara Sayint Woreda are published on this official portal. Visit the Vacancy section at amhara-sint-woreda.onrender.com for all open positions.",
+            text: "Current job vacancies and government employment opportunities in Amhara Sayint Woreda are published on this official portal. Visit the Vacancy section at amhara-sayint-woreda.onrender.com for all open positions.",
           },
         },
       ],

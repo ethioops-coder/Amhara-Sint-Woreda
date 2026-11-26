@@ -14,7 +14,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://amhara-sint-woreda.onrender.com/sitemap.xml",
-    host: "https://amhara-sint-woreda.onrender.com",
+    sitemap: "https://amhara-sayint-woreda.onrender.com/sitemap.xml",
+    host: "https://amhara-sayint-woreda.onrender.com",
   };
 }

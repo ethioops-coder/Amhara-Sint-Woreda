@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import Header from "@/components/header";
 import {
   Users, School, Building2, MapPin, TreePine, Droplets,
   Home as HomeIcon, ChevronLeft, ChevronRight, ChevronDown, BarChart3, TrendingUp,
@@ -22,13 +23,30 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { BanksSliderSection } from "@/components/banks-slider-section";
 import CookieConsentBanner from "@/components/cookie-consent";
 import VisitorCounter from "@/components/visitor-counter";
 import SubscribeBanner from "@/components/subscribe-banner";
+import { WoredaStatistics } from "@/components/woreda-statistics";
+import { InternationalNewsFeed } from "@/components/international-news-feed";
+import { HomeDashboardSection } from "@/components/home-dashboard-section";
+import { DetailedStatsSection } from "@/components/detailed-stats-section";
+
+import { PaginatedNewsSection } from "@/components/paginated-news-section";
+import { VacancyPage } from "@/components/vacancy-page";
+import { TourismPage } from "@/components/tourism-page";
+import {
+  TopInfoBar,
+  CitizenServicesSection,
+  VacancyBidsSection,
+  MayorMessageSection,
+  FeaturedProjectsSection,
+  EmergencyContactsSection,
+} from "@/components/homepage-sections";
 
 /* ─── Types ────────────────────────────────────────────────── */
 type PageId =
-  | "home" | "about-history" | "about-overview" | "about-location"
+  | "home" | "tourism" | "about-history" | "about-overview" | "about-location"
   | "gov-leadership" | "gov-structure" | "gov-offices"
   | "svc-education" | "svc-health" | "svc-agriculture"
   | "svc-transport" | "svc-water" | "svc-justice" | "svc-finance"
@@ -46,7 +64,7 @@ interface ApplicationData {
 }
 
 /* ─── Animated Counter ─────────────────────────────────────── */
-function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
+function AnimatedCounter({ target, suffix = "", duration = 2000, spaceFormat = false }: { target: number; suffix?: string; duration?: number; spaceFormat?: boolean }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   const hasAnimated = useRef(false);
@@ -66,7 +84,7 @@ function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: num
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [target, duration]);
-  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
+  return <span ref={ref}>{spaceFormat ? count.toLocaleString().replace(/,/g, " ") : count.toLocaleString()}{suffix}</span>;
 }
 
 /* ─── Animated Section ──────────────────────────────────────── */
@@ -151,124 +169,6 @@ const SLIDES = [
   { image: "https://sfile.chatglm.cn/images-ppt/5d19c0f98d58.jpg", title: "Our Vision", subtitle: "A prosperous, equitable, and self-reliant Amhara Sayint — rooted in tradition, reaching for the future" },
 ];
 
-/* ─── Nav Links ────────────────────────────────────────────── */
-interface NavItem { label: string; href: PageId; children?: { label: string; href: PageId; icon: React.ElementType }[]; }
-const NAV_LINKS: NavItem[] = [
-  { label: "Home", href: "home" },
-  { label: "About", href: "about-overview", children: [
-    { label: "History & Background", href: "about-history", icon: BookOpen },
-    { label: "Overview", href: "about-overview", icon: Globe },
-    { label: "Location & Geography", href: "about-location", icon: MapPin },
-  ]},
-  { label: "Government", href: "gov-leadership", children: [
-    { label: "Leadership", href: "gov-leadership", icon: UserCheck },
-    { label: "Administrative Structure", href: "gov-structure", icon: Building },
-    { label: "Offices & Departments", href: "gov-offices", icon: Shield },
-  ]},
-  { label: "Services", href: "svc-education", children: [
-    { label: "Education", href: "svc-education", icon: GraduationCap },
-    { label: "Health", href: "svc-health", icon: HeartPulse },
-    { label: "Agriculture", href: "svc-agriculture", icon: Tractor },
-    { label: "Trade & Commerce", href: "svc-trade", icon: Store },
-    { label: "Technology", href: "svc-technology", icon: Monitor },
-    { label: "Construction", href: "svc-construction", icon: HardHat },
-    { label: "Transport", href: "svc-transport", icon: Truck },
-    { label: "Water & Sanitation", href: "svc-water", icon: Droplets },
-    { label: "Justice & Security", href: "svc-justice", icon: Scale },
-    { label: "Finance & Revenue", href: "svc-finance", icon: Banknote },
-  ]},
-  { label: "Vacancy", href: "vacancy" },
-  { label: "Announcements", href: "news-announcements", children: [
-    { label: "News", href: "news-news", icon: Newspaper },
-    { label: "Bids & Tenders", href: "bids", icon: Briefcase },
-    { label: "Events", href: "news-announcements", icon: Calendar },
-    { label: "Announcements", href: "news-announcements", icon: Award },
-  ]},
-  { label: "Gallery", href: "gallery" },
-];
-
-/* ─── HEADER ───────────────────────────────────────────────── */
-function Header({ currentPage, onNavigate }: { currentPage: PageId; onNavigate: (p: PageId) => void }) {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const tRef = useRef<NodeJS.Timeout | null>(null);
-  useEffect(() => { const h = () => setScrolled(window.scrollY > 20); window.addEventListener("scroll", h); return () => window.removeEventListener("scroll", h); }, []);
-  const mE = (l: string) => { if (tRef.current) clearTimeout(tRef.current); setOpenDropdown(l); };
-  const mL = () => { tRef.current = setTimeout(() => setOpenDropdown(null), 200); };
-  const nav = (p: PageId) => { onNavigate(p); setMobileOpen(false); setOpenDropdown(null); window.scrollTo({ top: 0, behavior: "smooth" }); };
-
-  return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-[#0B3D2E]/95 backdrop-blur-md shadow-lg shadow-black/20" : "bg-gradient-to-r from-[#062B1F] via-[#0B3D2E] to-[#145A44]"}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-[92px] md:h-[110px]">
-          <button onClick={() => nav("home")} className="flex items-center gap-4 group shrink-0">
-            <img src="/logo.png" alt="Amhara Sayint Woreda" className="h-[88px] w-auto rounded-2xl shadow-xl group-hover:scale-105 transition-transform object-contain ring-2 ring-white/20 ring-offset-2 ring-offset-[#0B3D2E]" />
-            <div className="hidden sm:block">
-              <h1 className="text-white font-bold text-xl md:text-2xl leading-tight">Amhara Sayint</h1>
-              <p className="text-[#86EFAC] text-xs md:text-sm font-medium">Woreda Administration</p>
-            </div>
-          </button>
-          <nav className="hidden lg:flex items-center gap-1.5">
-            {NAV_LINKS.map((item) => (
-              <div key={item.label} className="relative" onMouseEnter={() => item.children && mE(item.label)} onMouseLeave={mL}>
-                <button onClick={() => item.children ? setOpenDropdown(openDropdown === item.label ? null : item.label) : nav(item.href)}
-                  className={`flex items-center gap-1.5 px-5 py-2.5 rounded-lg text-[15px] font-semibold transition-all duration-200 ${currentPage === item.href ? "text-[#EAB308] bg-white/10" : "text-white/80 hover:text-white hover:bg-white/10"}`}>
-                  {item.label}{item.children && <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${openDropdown === item.label ? "rotate-180" : ""}`} />}
-                </button>
-                {item.children && openDropdown === item.label && (
-                  <div className="absolute top-full left-0 mt-1 w-64 bg-[#0a3327]/95 backdrop-blur-lg border border-white/15 rounded-2xl shadow-2xl py-2 z-[100]">
-                    {item.children.map((c) => (
-                      <button key={c.href} onClick={() => nav(c.href)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 text-[14px] font-medium transition-all ${currentPage === c.href ? "text-[#EAB308] bg-white/10" : "text-white/70 hover:text-white hover:bg-white/10"}`}>
-                        <c.icon className="w-4 h-4 shrink-0" />{c.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-          </nav>
-          <div className="flex items-center gap-2">
-            <button onClick={() => nav("contact")} className="hidden md:inline-flex items-center gap-2 bg-[#EAB308] hover:bg-[#CA8A04] text-[#0B3D2E] font-bold text-[15px] px-6 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-105">
-              <Phone className="w-[18px] h-[18px]" /> Contact Us
-            </button>
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden text-white p-2 hover:bg-white/10 rounded-lg" aria-label="Toggle menu">
-              {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
-          </div>
-        </div>
-      </div>
-      {mobileOpen && (
-        <div className="lg:hidden bg-[#0B3D2E] border-t border-white/10 shadow-xl max-h-[80vh] overflow-y-auto">
-          <nav className="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-1">
-            {NAV_LINKS.map((item) => (
-              <div key={item.label}>
-                <button onClick={() => item.children ? setOpenDropdown(openDropdown === item.label ? null : item.label) : nav(item.href)}
-                  className="w-full flex items-center justify-between text-white/80 hover:text-white hover:bg-white/10 px-4 py-2.5 rounded-lg text-sm font-medium transition-all">
-                  {item.label}{item.children && <ChevronDown className={`w-4 h-4 transition-transform ${openDropdown === item.label ? "rotate-180" : ""}`} />}
-                </button>
-                {item.children && openDropdown === item.label && (
-                  <div className="ml-4 mt-1 flex flex-col gap-1">
-                    {item.children.map((c) => (
-                      <button key={c.href} onClick={() => nav(c.href)} className={`flex items-center gap-2.5 text-sm px-4 py-2 rounded-lg transition-all ${currentPage === c.href ? "text-[#EAB308] bg-white/10" : "text-white/60 hover:text-white hover:bg-white/5"}`}>
-                        <c.icon className="w-4 h-4" />{c.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-            <button onClick={() => nav("contact")} className="flex items-center justify-center gap-2 bg-[#EAB308] hover:bg-[#CA8A04] text-[#0B3D2E] font-semibold text-sm px-4 py-2.5 rounded-lg mt-3 transition-all">
-              <Phone className="w-4 h-4" /> Contact Us
-            </button>
-          </nav>
-        </div>
-      )}
-    </header>
-  );
-}
-
 /* ─── QUICK NAV BAR (Home) ──────────────────────────────── */
 const QUICK_NAV_ITEMS = [
   { label: "Services", icon: Layers, href: "svc-education" as PageId },
@@ -300,39 +200,59 @@ function QuickNavBar({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   );
 }
 
-/* ─── HERO STATS SECTION (Below Slider) — FULL WIDTH COLOR BAR ─── */
+/* ─── HERO STATS SECTION (Below Slider) ─── */
 const HERO_STATS = [
-  { value: 214056, suffix: "", display: "214,056", label: "Population", icon: Users, color: "#10B981", bg: "bg-emerald-500", hoverBg: "hover:bg-emerald-600" },
-  { value: 37, suffix: "", display: null, label: "Kebeles", icon: MapPin, color: "#6366F1", bg: "bg-indigo-500", hoverBg: "hover:bg-indigo-600" },
-  { value: 106, suffix: "", display: "106", label: "Schools", icon: School, color: "#F59E0B", bg: "bg-amber-500", hoverBg: "hover:bg-amber-600" },
-  { value: 8, suffix: "", display: "8", label: "Health Facilities", icon: HeartPulse, color: "#F43F5E", bg: "bg-rose-500", hoverBg: "hover:bg-rose-600" },
-  { value: 1437, suffix: "", display: "1,437", label: "Area (km\u00B2)", icon: Map, color: "#8B5CF6", bg: "bg-violet-500", hoverBg: "hover:bg-violet-600" },
-  { value: 200, suffix: " M ETB", display: "200M ETB", label: "Annual Budget", icon: Banknote, color: "#06B6D4", bg: "bg-cyan-500", hoverBg: "hover:bg-cyan-600" },
+  { value: 214056, display: "214,056", label: "Population",       icon: Users,      bg: "#16A34A", light: "#DCFCE7" },
+  { value: 37,     display: "37",      label: "Kebeles",          icon: MapPin,     bg: "#2563EB", light: "#DBEAFE" },
+  { value: 106,    display: "106",     label: "Schools",          icon: School,     bg: "#D97706", light: "#FEF3C7" },
+  { value: 8,      display: "8",       label: "Health Facilities", icon: HeartPulse, bg: "#DC2626", light: "#FEE2E2" },
+  { value: 1437,   display: "1,437",   label: "Area km²",         icon: Map,        bg: "#7C3AED", light: "#EDE9FE" },
+  { value: 200,    display: "200 M",   label: "Budget (ETB)",     icon: Banknote,   bg: "#0891B2", light: "#CFFAFE" },
 ];
 function HeroStatsSection() {
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
+    const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.05 });
     if (ref.current) o.observe(ref.current);
     return () => o.disconnect();
   }, []);
   return (
-    <section ref={ref} className="w-full">
-      <div className="grid grid-cols-3 md:grid-cols-6">
-        {HERO_STATS.map((s, i) => (
-          <div
-            key={s.label}
-            className={`${s.bg} ${s.hoverBg} flex flex-col items-center justify-center py-5 md:py-7 px-3 transition-all duration-500 cursor-default group ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"} border-r border-white/20 last:border-r-0`}
-            style={{ transitionDelay: `${i * 80}ms` }}
-          >
-            <s.icon className="w-5 h-5 md:w-6 md:h-6 text-white/80 mb-1.5 group-hover:scale-110 group-hover:text-white transition-all duration-300" />
-            <div className="text-lg md:text-2xl lg:text-3xl font-black text-white leading-tight group-hover:scale-105 transition-transform duration-300">
-              {s.display || <AnimatedCounter target={s.value} suffix={s.suffix} />}
+    <section ref={ref} className="w-full bg-white border-b border-gray-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-5">
+          {HERO_STATS.map((s, i) => (
+            <div
+              key={s.label}
+              className={`rounded-2xl p-4 md:p-5 flex flex-col items-center gap-3 cursor-default group
+                hover:shadow-xl hover:-translate-y-1 transition-all duration-300
+                ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+              style={{
+                backgroundColor: s.light,
+                transitionDelay: `${i * 80}ms`,
+              }}
+            >
+              {/* Colored icon circle */}
+              <div
+                className="w-12 h-12 md:w-14 md:h-14 rounded-2xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300 shrink-0"
+                style={{ backgroundColor: s.bg }}
+              >
+                <s.icon className="w-6 h-6 md:w-7 md:h-7 text-white" />
+              </div>
+              {/* Number */}
+              <div
+                className="text-2xl md:text-3xl font-black leading-none tabular-nums"
+                style={{ color: s.bg }}
+              >
+                {s.display}
+              </div>
+              {/* Label */}
+              <p className="text-[10px] md:text-xs font-semibold text-gray-500 uppercase tracking-wider text-center leading-tight">
+                {s.label}
+              </p>
             </div>
-            <p className="text-[10px] md:text-xs text-white/70 font-semibold mt-1 text-center uppercase tracking-wide">{s.label}</p>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -690,7 +610,7 @@ function TVETCollegeSection({ onNavigate }: { onNavigate: (p: PageId) => void })
                   <stat.icon className="w-6 h-6 text-white" />
                 </div>
                 <div className="text-2xl md:text-3xl font-black mb-1" style={{ color: stat.color }}>
-                  <AnimatedCounter target={stat.value} suffix="+" />
+                  <AnimatedCounter target={stat.value} suffix="+" spaceFormat={true} />
                 </div>
                 <p className="text-gray-500 text-xs font-semibold">{stat.label}</p>
               </div>
@@ -770,7 +690,7 @@ function TVETCollegeSection({ onNavigate }: { onNavigate: (p: PageId) => void })
             </div>
 
             <div className="relative z-10 px-6 sm:px-8 lg:px-10 py-8 md:py-10">
-              <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
+              <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-8">
                 {/* Image */}
                 <div className="relative shrink-0">
                   <div className="relative">
@@ -856,32 +776,64 @@ function TVETCollegeSection({ onNavigate }: { onNavigate: (p: PageId) => void })
   );
 }
 
-/* ─── QUICK STATS (Home) — Compact horizontal row ───────── */
+/* ─── QUICK STATS (Home) ─── */
 const KEY_STATS = [
-  { label: "Population", value: 214056, suffix: "", display: "214,056", icon: Users, color: "text-emerald-600", bg: "bg-emerald-50" },
-  { label: "Kebeles", value: 37, suffix: "", display: null, icon: MapPin, color: "text-blue-600", bg: "bg-blue-50" },
-  { label: "Schools", value: 106, suffix: "", display: "106", icon: School, color: "text-amber-600", bg: "bg-amber-50" },
-  { label: "Health Facilities", value: 8, suffix: "", display: "8", icon: HeartPulse, color: "text-rose-600", bg: "bg-rose-50" },
-  { label: "Area (km\u00B2)", value: 1437, suffix: "", display: "1,437", icon: Map, color: "text-purple-600", bg: "bg-purple-50" },
-  { label: "Budget (ETB)", value: 200, suffix: " M", display: "200 M", icon: Banknote, color: "text-teal-600", bg: "bg-teal-50" },
+  { label: "Population",       value: 214056, display: "214,056", icon: Users,      bg: "#16A34A", light: "#F0FDF4", border: "#BBF7D0" },
+  { label: "Kebeles",          value: 37,     display: "37",      icon: MapPin,     bg: "#2563EB", light: "#EFF6FF", border: "#BFDBFE" },
+  { label: "Schools",          value: 106,    display: "106",     icon: School,     bg: "#D97706", light: "#FFFBEB", border: "#FDE68A" },
+  { label: "Health Facilities",value: 8,      display: "8",       icon: HeartPulse, bg: "#DC2626", light: "#FFF1F2", border: "#FECDD3" },
+  { label: "Area (km²)",       value: 1437,   display: "1,437",   icon: Map,        bg: "#7C3AED", light: "#FAF5FF", border: "#DDD6FE" },
+  { label: "Budget (ETB)",     value: 200,    display: "200 M",   icon: Banknote,   bg: "#0891B2", light: "#ECFEFF", border: "#A5F3FC" },
 ];
 function QuickStats() {
   return (
-    <section id="statistics-section" className="bg-white border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-10 py-7 md:py-8">
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-3 md:gap-5">
+    <section id="statistics-section" className="bg-gray-50 py-10 md:py-14 border-b border-gray-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Section heading */}
+        <div className="text-center mb-8 md:mb-6">
+          <span className="inline-flex items-center gap-2 bg-[#0B3D2E]/8 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/15 mb-3">
+            <BarChart3 className="w-3.5 h-3.5" /> Woreda at a Glance
+          </span>
+          <h2 className="text-2xl md:text-3xl font-extrabold text-[#0B3D2E]">
+            Key <span className="text-[#EAB308]">Statistics</span>
+          </h2>
+        </div>
+
+        {/* Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
           {KEY_STATS.map((s, i) => (
-            <AnimatedSection key={s.label} delay={i * 60}>
-              <div className={`${s.bg} rounded-xl p-3 md:p-4 flex items-center gap-3 hover:shadow-md transition-all duration-300 group cursor-default`}>
-                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl ${s.bg} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300`}>
-                  <s.icon className={`w-5 h-5 md:w-6 md:h-6 ${s.color}`} />
+            <AnimatedSection key={s.label} delay={i * 70}>
+              <div
+                className="rounded-2xl p-5 md:p-6 flex flex-col items-center text-center gap-3 border hover:shadow-lg hover:-translate-y-1 transition-all duration-300 cursor-default group"
+                style={{ backgroundColor: s.light, borderColor: s.border }}
+              >
+                {/* Icon */}
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300"
+                  style={{ backgroundColor: s.bg }}
+                >
+                  <s.icon className="w-6 h-6 text-white" />
                 </div>
-                <div className="min-w-0">
-                  <div className="text-lg md:text-2xl font-extrabold leading-tight" style={{ color: s.color === "text-emerald-600" ? "#059669" : s.color === "text-blue-600" ? "#2563EB" : s.color === "text-amber-600" ? "#D97706" : s.color === "text-rose-600" ? "#E11D48" : s.color === "text-purple-600" ? "#9333EA" : "#0D9488" }}>
-                    {s.display ? s.display : <><AnimatedCounter target={s.value} suffix={s.suffix} /></>}
-                  </div>
-                  <p className="text-[10px] md:text-xs text-gray-500 font-medium truncate">{s.label}</p>
+
+                {/* Number */}
+                <div
+                  className="text-4xl md:text-5xl font-black leading-tight tabular-nums drop-shadow-sm transition-all duration-300"
+                  style={{ color: s.bg }}
+                >
+                  <AnimatedCounter target={s.value} suffix={s.display.includes("M") ? " M" : ""} spaceFormat={true} />
                 </div>
+
+                {/* Label */}
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide leading-tight">
+                  {s.label}
+                </p>
+
+                {/* Bottom bar */}
+                <div
+                  className="h-1 w-8 rounded-full group-hover:w-12 transition-all duration-300"
+                  style={{ backgroundColor: s.bg, opacity: 0.3 }}
+                />
               </div>
             </AnimatedSection>
           ))}
@@ -946,7 +898,7 @@ function ServicesOverviewSection({ onNavigate }: { onNavigate: (p: PageId) => vo
 }
 
 /* ─── CULTURAL PLACES (Home) ─────────────────────────────── */
-const CULTURAL_PLACES = [
+export const CULTURAL_PLACES = [
   {
     title: "Tadbaba Maryam Monastery",
     subtitle: "The Tabernacle of Zion — ተድባበ ማርያም",
@@ -1053,7 +1005,7 @@ function CulturalPlacesSection({ onNavigate }: { onNavigate: (p: PageId) => void
   const others = CULTURAL_PLACES.filter(p => !p.featured);
 
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-b from-white via-gray-50/50 to-gray-50 relative overflow-hidden">
+    <section className="py-8 md:py-10 bg-gradient-to-b from-white via-gray-50/50 to-gray-50 relative overflow-hidden">
       {/* Decorative bg */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-amber-100/30 rounded-full blur-3xl" />
@@ -1061,7 +1013,7 @@ function CulturalPlacesSection({ onNavigate }: { onNavigate: (p: PageId) => void
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <AnimatedSection>
-          <div className="text-center mb-10">
+          <div className="text-center mb-6">
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-50 to-yellow-50 border border-amber-200/50 rounded-full px-5 py-2 mb-4">
               <Landmark className="w-4 h-4 text-amber-600" />
               <span className="text-amber-800 text-xs font-bold uppercase tracking-[0.15em]">Heritage & Treasures</span>
@@ -1228,7 +1180,7 @@ function CulturalPlacesSection({ onNavigate }: { onNavigate: (p: PageId) => void
 
         {/* Explore more */}
         <AnimatedSection delay={400}>
-          <div className="text-center mt-10">
+          <div className="text-center mt-6">
             <button onClick={() => onNavigate("about-history")}
               className="group inline-flex items-center gap-2.5 bg-gradient-to-r from-[#0B3D2E] to-[#145A44] hover:from-[#145A44] hover:to-[#0B3D2E] text-white font-bold px-7 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105 text-sm">
               Explore Full History <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -1376,14 +1328,14 @@ function SubPage({ onNavigate, title, breadcrumb, badge, badgeColor, children }:
 
   return (
     <div className="min-h-screen pt-[92px] md:pt-[110px]">
-      <div className="bg-gradient-to-r from-[#0B3D2E] via-[#145A44] to-[#0B3D2E] py-12 md:py-16">
+      <div className="bg-gradient-to-r from-[#0B3D2E] via-[#145A44] to-[#0B3D2E] py-8 md:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-white/50 text-sm mb-2">Home / {breadcrumb}</p>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-4">{title}</h1>
           <Badge className={`${badgeColor || "bg-[#EAB308]/20 text-[#EAB308] border-[#EAB308]/30"} text-sm font-medium`}>{badge}</Badge>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 flex flex-col lg:flex-row gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10 flex flex-col lg:flex-row gap-8">
         <div className="flex-1 min-w-0">{children}</div>
         <div className="w-full lg:w-72 shrink-0">
           <div className="lg:hidden mb-4">
@@ -1488,7 +1440,7 @@ function AboutOverviewPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
       <div className="space-y-8 max-w-4xl mx-auto">
         <ContentCard>
           <h2 className="text-xl md:text-2xl font-bold text-[#0B3D2E] mb-4 flex items-center gap-2"><Globe className="w-6 h-6 text-[#EAB308]" /> About Amhara Sayint Woreda</h2>
-          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Amhara Sayint Woreda is an administrative district in the South Wollo Zone of the Amhara Regional State, Ethiopia. Covering approximately 1,245 square kilometers, it is home to an estimated 142,350 people across 22 kebeles. The administration is headquartered in the town of Amhara Sayint.</p>
+          <p className="text-[#0B3D2E]/70 leading-relaxed mb-4">Amhara Sayint Woreda is an administrative district in the South Wollo Zone of the Amhara Regional State, Ethiopia. Covering approximately 1,437 square kilometers, it is home to an estimated 214,056 people across 37 kebeles. The administration is headquartered in the town of Ajibar. The woreda is bordered by the dramatic Blue Nile canyon to the west and features majestic highland peaks such as Mount Tabor (4,247m).</p>
           <p className="text-[#0B3D2E]/70 leading-relaxed">The woreda operates under Ethiopia's federal governance structure, with administrative layers including the woreda council, executive committee, and kebele-level administrations responsible for delivering public services and managing development programs.</p>
         </ContentCard>
         <div className="grid md:grid-cols-2 gap-6">
@@ -1725,51 +1677,51 @@ function AboutLocationPage({ onNavigate }: { onNavigate: (p: PageId) => void }) 
 /* ─── GOVERNMENT: Leadership (ORG CHART STYLE) ────────── */
 function GovLeadershipPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   const woredaLeader = {
-    name: "Ato Dereje Getachew", title: "Woreda Administrator",
-    phone: "+251 33 440 1001", email: "admin@amharasint.gov.et",
-    avatar: "https://ui-avatars.com/api/?name=Dereje+Getachew&background=0B3D2E&color=fff&size=200&bold=true&font-size=0.35",
+    name: "Ato Getachew Workneh", title: "Woreda Administrator",
+    phone: "+251 33 440 1001", email: "admin@amharasayint.gov.et",
+    avatar: "/team/admin.jpg",
     desc: "Chief Administrator of Amhara Sayint Woreda, leading development initiatives and coordinating all government departments.",
     deptLabel: "Woreda Administration", deptColor: "#059669",
   };
   const deputyLeader = {
     name: "Ato Tadesse Abebe", title: "Deputy Administrator",
-    phone: "+251 33 440 1002", email: "deputy@amharasint.gov.et",
-    avatar: "https://ui-avatars.com/api/?name=Tadesse+Abebe&background=145A44&color=fff&size=200&bold=true&font-size=0.35",
+    phone: "+251 33 440 1002", email: "deputy@amharasayint.gov.et",
+    avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo",
     desc: "Oversees social services, education, and health sectors. Supports the Administrator in day-to-day governance.",
     deptLabel: "Woreda Administration", deptColor: "#059669",
   };
   const councilSpeaker = {
     name: "W/ro Almaz Tesfaye", title: "Woreda Council Speaker",
-    phone: "+251 33 440 1003", email: "council@amharasint.gov.et",
-    avatar: "https://ui-avatars.com/api/?name=Almaz+Tesfaye&background=0B3D2E&color=fff&size=200&bold=true&font-size=0.35",
+    phone: "+251 33 440 1003", email: "council@amharasayint.gov.et",
+    avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo",
     desc: "Presides over the Woreda Council, facilitating legislative sessions and ensuring accountability.",
     deptLabel: "Woreda Council", deptColor: "#6366F1",
   };
 
   const sectorHeads = [
-    { name: "W/ro Tigist Mekonnen", title: "Head of Education Office", phone: "+251 33 440 1005", email: "education@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Tigist+Mekonnen&background=1D4ED8&color=fff&size=200&bold=true", icon: GraduationCap, deptLabel: "Education Bureau", deptColor: "#1D4ED8", desc: "Leads education reform, manages 106 schools, and improves learning quality across all kebeles.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintEducation", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintEdu", icon: "telegram" }] },
-    { name: "Ato Fikadu Hailu", title: "Head of Agriculture Office", phone: "+251 33 440 1007", email: "agriculture@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Fikadu+Hailu&background=16A34A&color=fff&size=200&bold=true", icon: Tractor, deptLabel: "Agriculture Bureau", deptColor: "#16A34A", desc: "Manages agricultural extension, food security programs, and natural resource conservation.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintAgriculture", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintAgri", icon: "telegram" }] },
-    { name: "Dr. Alemayehu Bekele", title: "Head of Health Office", phone: "+251 33 440 1006", email: "health@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Alemayehu+Bekele&background=DC2626&color=fff&size=200&bold=true", icon: HeartPulse, deptLabel: "Health Bureau", deptColor: "#DC2626", desc: "Oversees public health programs, 8 health facilities, and community health extension workers.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintHealth", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintHealth", icon: "telegram" }] },
-    { name: "Ato Getachew Worku", title: "Head of Transport", phone: "+251 33 440 1009", email: "transport@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Getachew+Worku&background=0284C7&color=fff&size=200&bold=true", icon: Truck, deptLabel: "Transport Office", deptColor: "#0284C7", desc: "Leads road construction, rural connectivity, and transport infrastructure development.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintTransport", icon: "facebook" }] },
-    { name: "Ato Nahom Tadesse", title: "Head of ICT & Technology", phone: "+251 33 440 1012", email: "tech@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Nahom+Tadesse&background=0891B2&color=fff&size=200&bold=true", icon: Monitor, deptLabel: "Technology Office", deptColor: "#0891B2", desc: "Manages ICT infrastructure, digital transformation, and computer lab maintenance.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintTech", icon: "facebook" }, { platform: "LinkedIn", url: "https://www.linkedin.com/in/meseret-akalu-76363121b/", icon: "linkedin" }] },
-    { name: "Ato Yohannes Girma", title: "Head of Finance", phone: "+251 33 440 1004", email: "finance@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Yohannes+Girma&background=059669&color=fff&size=200&bold=true", icon: Banknote, deptLabel: "Finance & Revenue", deptColor: "#059669", desc: "Oversees budget planning, revenue collection, and economic development initiatives.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintFinance", icon: "facebook" }] },
-    { name: "Ato Assefa Demeke", title: "Head of Justice", phone: "+251 33 440 1008", email: "justice@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Assefa+Demeke&background=475569&color=fff&size=200&bold=true", icon: Scale, deptLabel: "Justice Bureau", deptColor: "#475569", desc: "Manages legal affairs, conflict resolution, and community justice programs.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintJustice", icon: "facebook" }] },
-    { name: "Ato Teshome Kebede", title: "Head of Construction", phone: "+251 33 440 1011", email: "construction@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Teshome+Kebede&background=EA580C&color=fff&size=200&bold=true", icon: HardHat, deptLabel: "Construction Office", deptColor: "#EA580C", desc: "Supervises public building projects, road construction, and water infrastructure.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintConstruction", icon: "facebook" }] },
+    { name: "W/ro Tigist Mekonnen", title: "Head of Education Office", phone: "+251 33 440 1005", email: "education@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: GraduationCap, deptLabel: "Education Bureau", deptColor: "#1D4ED8", desc: "Leads education reform, manages 106 schools, and improves learning quality across all kebeles.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintEducation", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSayintEdu", icon: "telegram" }] },
+    { name: "Ato Fikadu Hailu", title: "Head of Agriculture Office", phone: "+251 33 440 1007", email: "agriculture@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Tractor, deptLabel: "Agriculture Bureau", deptColor: "#16A34A", desc: "Manages agricultural extension, food security programs, and natural resource conservation.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintAgriculture", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSayintAgri", icon: "telegram" }] },
+    { name: "Dr. Alemayehu Bekele", title: "Head of Health Office", phone: "+251 33 440 1006", email: "health@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: HeartPulse, deptLabel: "Health Bureau", deptColor: "#DC2626", desc: "Oversees public health programs, 8 health facilities, and community health extension workers.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintHealth", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSayintHealth", icon: "telegram" }] },
+    { name: "Ato Getachew Worku", title: "Head of Transport", phone: "+251 33 440 1009", email: "transport@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Truck, deptLabel: "Transport Office", deptColor: "#0284C7", desc: "Leads road construction, rural connectivity, and transport infrastructure development.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintTransport", icon: "facebook" }] },
+    { name: "Ato Nahom Tadesse", title: "Head of ICT & Technology", phone: "+251 33 440 1012", email: "tech@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Monitor, deptLabel: "Technology Office", deptColor: "#0891B2", desc: "Manages ICT infrastructure, digital transformation, and computer lab maintenance.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintTech", icon: "facebook" }, { platform: "LinkedIn", url: "https://www.linkedin.com/in/meseret-akalu-76363121b/", icon: "linkedin" }] },
+    { name: "Ato Yohannes Girma", title: "Head of Finance", phone: "+251 33 440 1004", email: "finance@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Banknote, deptLabel: "Finance & Revenue", deptColor: "#059669", desc: "Oversees budget planning, revenue collection, and economic development initiatives.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintFinance", icon: "facebook" }] },
+    { name: "Ato Assefa Demeke", title: "Head of Justice", phone: "+251 33 440 1008", email: "justice@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Scale, deptLabel: "Justice Bureau", deptColor: "#475569", desc: "Manages legal affairs, conflict resolution, and community justice programs.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintJustice", icon: "facebook" }] },
+    { name: "Ato Teshome Kebede", title: "Head of Construction", phone: "+251 33 440 1011", email: "construction@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: HardHat, deptLabel: "Construction Office", deptColor: "#EA580C", desc: "Supervises public building projects, road construction, and water infrastructure.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintConstruction", icon: "facebook" }] },
   ];
 
   const managementHeads = [
-    { name: "Ato Girma Ayele", title: "Head of Women & Children Affairs", phone: "+251 33 440 1013", email: "womenchildren@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Girma+Ayele&background=DB2777&color=fff&size=200&bold=true", icon: Heart, deptLabel: "Women & Children Bureau", deptColor: "#DB2777", desc: "Leads gender equality programs, children's rights protection, women's economic empowerment, and anti-violence campaigns across the woreda.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintWomen", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintWomen", icon: "telegram" }] },
-    { name: "W/ro Hiwot Abebe", title: "Head of Youth & Sports Office", phone: "+251 33 440 1014", email: "youthsports@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Hiwot+Abebe&background=7C3AED&color=fff&size=200&bold=true", icon: Award, deptLabel: "Youth & Sports Bureau", deptColor: "#7C3AED", desc: "Coordinates youth development programs, sports tournaments, talent identification, and entrepreneurship support for young people.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintYouth", icon: "facebook" }] },
-    { name: "Ato Demeke Zeleke", title: "Head of Trade & Industry", phone: "+251 33 440 1015", email: "trade@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Demeke+Zeleke&background=B45309&color=fff&size=200&bold=true", icon: Store, deptLabel: "Trade & Industry Bureau", deptColor: "#B45309", desc: "Promotes local trade, supports small enterprises, manages market regulations, and attracts investment to the woreda.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintTrade", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintTrade", icon: "telegram" }] },
-    { name: "W/ro Meselech Assefa", title: "Head of Water & Energy", phone: "+251 33 440 1016", email: "water@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Meselech+Assefa&background=0369A1&color=fff&size=200&bold=true", icon: Droplets, deptLabel: "Water & Energy Bureau", deptColor: "#0369A1", desc: "Manages clean water supply, irrigation systems, rural electrification, and renewable energy initiatives across all kebeles.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintWater", icon: "facebook" }] },
-    { name: "Ato Bekele Tadesse", title: "Head of Environmental Protection", phone: "+251 33 440 1017", email: "environment@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Bekele+Tadesse&background=15803D&color=fff&size=200&bold=true", icon: Leaf, deptLabel: "Environment Bureau", deptColor: "#15803D", desc: "Leads environmental conservation, climate resilience programs, forest management, and waste disposal regulation.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintEnv", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintEnv", icon: "telegram" }] },
-    { name: "Ato Solomon Mulugeta", title: "Head of Social Affairs", phone: "+251 33 440 1018", email: "social@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Solomon+Mulugeta&background=9333EA&color=fff&size=200&bold=true", icon: Handshake, deptLabel: "Social Affairs Bureau", deptColor: "#9333EA", desc: "Manages social safety nets, disability inclusion programs, elder care support, and community development initiatives.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintSocial", icon: "facebook" }] },
-    { name: "W/ro Selamawit Girma", title: "Head of Communication Affairs", phone: "+251 33 440 1019", email: "communication@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Selamawit+Girma&background=DC2626&color=fff&size=200&bold=true", icon: Megaphone, deptLabel: "Communication Bureau", deptColor: "#DC2626", desc: "Leads public relations, government communications, media liaison, community awareness campaigns, and digital content strategy.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintCommunication", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/amharasayintcommunication", icon: "telegram" }, { platform: "YouTube", url: "https://youtube.com/@UC9q-EOZGRREV8kr104kL-Hw", icon: "youtube" }, { platform: "Instagram", url: "https://instagram.com/amharasayintworedacomm", icon: "instagram" }] },
-    { name: "Ato Zelalem Hailu", title: "Head of Cooperatives Office", phone: "+251 33 440 1020", email: "cooperatives@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Zelalem+Hailu&background=0F766E&color=fff&size=200&bold=true", icon: People, deptLabel: "Cooperatives Bureau", deptColor: "#0F766E", desc: "Supports farmer cooperatives, savings and credit groups, artisan associations, and cooperative union development.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintCoop", icon: "facebook" }] },
-    { name: "W/ro Tigist Dabi", title: "Head of Labor & Skills", phone: "+251 33 440 1021", email: "labor@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Tigist+Dabi&background=C2410C&color=fff&size=200&bold=true", icon: Briefcase, deptLabel: "Labor & Skills Bureau", deptColor: "#C2410C", desc: "Oversees employment services, vocational skills training, labor rights protection, and workforce development programs.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintLabor", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintLabor", icon: "telegram" }] },
-    { name: "Ato Kassahun Worku", title: "Head of Urban Development", phone: "+251 33 440 1022", email: "urban@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Kassahun+Worku&background=4338CA&color=fff&size=200&bold=true", icon: Building2, deptLabel: "Urban Dev. Bureau", deptColor: "#4338CA", desc: "Manages urban planning, land administration, housing development, and municipal infrastructure in the town center.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintUrban", icon: "facebook" }] },
-    { name: "W/ro Alemtsehay Girma", title: "Head of Culture & Tourism", phone: "+251 33 440 1023", email: "culture@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Alemtsehay+Girma&background=B91C1C&color=fff&size=200&bold=true", icon: Landmark, deptLabel: "Culture & Tourism Bureau", deptColor: "#B91C1C", desc: "Promotes cultural heritage, organizes festivals, develops tourism sites, and preserves historical landmarks of the woreda.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintCulture", icon: "facebook" }, { platform: "YouTube", url: "https://youtube.com/@UC9q-EOZGRREV8kr104kL-Hw", icon: "youtube" }] },
-    { name: "Ato Yared Demissie", title: "Head of Disaster Risk Management", phone: "+251 33 440 1024", email: "disaster@amharasint.gov.et", avatar: "https://ui-avatars.com/api/?name=Yared+Demissie&background=991B1B&color=fff&size=200&bold=true", icon: Siren, deptLabel: "Disaster Mgmt Bureau", deptColor: "#991B1B", desc: "Coordinates disaster preparedness, emergency response, drought mitigation, and community resilience building programs.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSintDRM", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSintDRM", icon: "telegram" }] },
+    { name: "Ato Girma Ayele", title: "Head of Women & Children Affairs", phone: "+251 33 440 1013", email: "womenchildren@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Heart, deptLabel: "Women & Children Bureau", deptColor: "#DB2777", desc: "Leads gender equality programs, children's rights protection, women's economic empowerment, and anti-violence campaigns across the woreda.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintWomen", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSayintWomen", icon: "telegram" }] },
+    { name: "W/ro Hiwot Abebe", title: "Head of Youth & Sports Office", phone: "+251 33 440 1014", email: "youthsports@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Award, deptLabel: "Youth & Sports Bureau", deptColor: "#7C3AED", desc: "Coordinates youth development programs, sports tournaments, talent identification, and entrepreneurship support for young people.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintYouth", icon: "facebook" }] },
+    { name: "Ato Demeke Zeleke", title: "Head of Trade & Industry", phone: "+251 33 440 1015", email: "trade@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Store, deptLabel: "Trade & Industry Bureau", deptColor: "#B45309", desc: "Promotes local trade, supports small enterprises, manages market regulations, and attracts investment to the woreda.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintTrade", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSayintTrade", icon: "telegram" }] },
+    { name: "W/ro Meselech Assefa", title: "Head of Water & Energy", phone: "+251 33 440 1016", email: "water@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Droplets, deptLabel: "Water & Energy Bureau", deptColor: "#0369A1", desc: "Manages clean water supply, irrigation systems, rural electrification, and renewable energy initiatives across all kebeles.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintWater", icon: "facebook" }] },
+    { name: "Ato Bekele Tadesse", title: "Head of Environmental Protection", phone: "+251 33 440 1017", email: "environment@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Leaf, deptLabel: "Environment Bureau", deptColor: "#15803D", desc: "Leads environmental conservation, climate resilience programs, forest management, and waste disposal regulation.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintEnv", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSayintEnv", icon: "telegram" }] },
+    { name: "Ato Solomon Mulugeta", title: "Head of Social Affairs", phone: "+251 33 440 1018", email: "social@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Handshake, deptLabel: "Social Affairs Bureau", deptColor: "#9333EA", desc: "Manages social safety nets, disability inclusion programs, elder care support, and community development initiatives.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintSocial", icon: "facebook" }] },
+    { name: "W/ro Selamawit Girma", title: "Head of Communication Affairs", phone: "+251 33 440 1019", email: "communication@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Megaphone, deptLabel: "Communication Bureau", deptColor: "#DC2626", desc: "Leads public relations, government communications, media liaison, community awareness campaigns, and digital content strategy.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintCommunication", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/amharasayintcommunication", icon: "telegram" }, { platform: "YouTube", url: "https://youtube.com/@UC9q-EOZGRREV8kr104kL-Hw", icon: "youtube" }, { platform: "Instagram", url: "https://instagram.com/amharasayintworedacomm", icon: "instagram" }] },
+    { name: "Ato Zelalem Hailu", title: "Head of Cooperatives Office", phone: "+251 33 440 1020", email: "cooperatives@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: People, deptLabel: "Cooperatives Bureau", deptColor: "#0F766E", desc: "Supports farmer cooperatives, savings and credit groups, artisan associations, and cooperative union development.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintCoop", icon: "facebook" }] },
+    { name: "W/ro Tigist Dabi", title: "Head of Labor & Skills", phone: "+251 33 440 1021", email: "labor@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Briefcase, deptLabel: "Labor & Skills Bureau", deptColor: "#C2410C", desc: "Oversees employment services, vocational skills training, labor rights protection, and workforce development programs.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintLabor", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSayintLabor", icon: "telegram" }] },
+    { name: "Ato Kassahun Worku", title: "Head of Urban Development", phone: "+251 33 440 1022", email: "urban@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Building2, deptLabel: "Urban Dev. Bureau", deptColor: "#4338CA", desc: "Manages urban planning, land administration, housing development, and municipal infrastructure in the town center.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintUrban", icon: "facebook" }] },
+    { name: "W/ro Alemtsehay Girma", title: "Head of Culture & Tourism", phone: "+251 33 440 1023", email: "culture@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Landmark, deptLabel: "Culture & Tourism Bureau", deptColor: "#B91C1C", desc: "Promotes cultural heritage, organizes festivals, develops tourism sites, and preserves historical landmarks of the woreda.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintCulture", icon: "facebook" }, { platform: "YouTube", url: "https://youtube.com/@UC9q-EOZGRREV8kr104kL-Hw", icon: "youtube" }] },
+    { name: "Ato Yared Demissie", title: "Head of Disaster Risk Management", phone: "+251 33 440 1024", email: "disaster@amharasayint.gov.et", avatar: "https://placehold.co/200x200/0B3D2E/ffffff?text=Mock+Photo", icon: Siren, deptLabel: "Disaster Mgmt Bureau", deptColor: "#991B1B", desc: "Coordinates disaster preparedness, emergency response, drought mitigation, and community resilience building programs.", socials: [{ platform: "Facebook", url: "https://facebook.com/AmharaSayintDRM", icon: "facebook" }, { platform: "Telegram", url: "https://t.me/AmharaSayintDRM", icon: "telegram" }] },
   ];
 
   const iconMap: Record<string, React.ElementType> = { facebook: Facebook, telegram: Twitter, linkedin: Linkedin, youtube: Youtube, instagram: Instagram };
@@ -1947,7 +1899,7 @@ function GovStructurePage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
 /* ─── GOVERNMENT: Offices ───────────────────────────────── */
 function GovOfficesPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   const offices = [
-    { name: "Woreda Administrator's Office", head: "Ato Dereje Getachew", staff: 12, icon: UserCheck, color: "#0B3D2E" },
+    { name: "Woreda Administrator's Office", head: "Ato Getachew Workneh", staff: 12, icon: UserCheck, color: "#0B3D2E" },
     { name: "Education Office", head: "W/ro Tigist Mekonnen", staff: 45, icon: GraduationCap, color: "#1D4ED8" },
     { name: "Health Office", head: "Dr. Alemayehu Bekele", staff: 38, icon: HeartPulse, color: "#DC2626" },
     { name: "Agriculture Office", head: "Ato Fikadu Hailu", staff: 52, icon: Tractor, color: "#16A34A" },
@@ -2371,269 +2323,6 @@ function ServiceFinancePage({ onNavigate }: { onNavigate: (p: PageId) => void })
   />;
 }
 
-/* ─── VACANCY PAGE (Full Application System) ──────────── */
-const DEFAULT_VACANCIES = [
-  { id: "v1", title: "Senior Education Expert", department: "Education Office", type: "Permanent", deadline: "2026-08-15", description: "Provide technical leadership in curriculum development, teacher training coordination, and education quality improvement across 47 schools.", requirements: "MA/MSc in Education or related field; 5+ years experience in education sector; strong leadership and communication skills." },
-  { id: "v2", title: "Agricultural Development Expert", department: "Agriculture Office", type: "Permanent", deadline: "2026-08-20", description: "Lead agricultural extension programs, coordinate farmer training, and support cooperative development for 28,500+ farming households.", requirements: "BSc/MSc in Agriculture or related field; 3+ years experience; knowledge of modern farming techniques." },
-  { id: "v3", title: "ICT Officer", department: "ICT & Technology Office", type: "Permanent", deadline: "2026-08-25", description: "Manage the woreda's ICT infrastructure, maintain computer labs, provide technical support, and drive digital transformation initiatives.", requirements: "BSc in Computer Science or IT; 2+ years experience; networking and hardware maintenance skills." },
-  { id: "v4", title: "Health Extension Worker (3 Positions)", department: "Health Office", type: "Contract", deadline: "2026-07-30", description: "Provide community-level health services including maternal care, immunization, health education, and disease prevention.", requirements: "Diploma in Health Extension or Nursing; clinical experience preferred; willingness to work in rural kebeles." },
-  { id: "v5", title: "Civil Engineer", department: "Construction Office", type: "Contract", deadline: "2026-09-01", description: "Supervise road construction, public building projects, and water infrastructure development across the woreda.", requirements: "BSc in Civil Engineering; 3+ years construction supervision experience; registered with relevant professional body." },
-  { id: "v6", title: "Revenue Collection Officer", department: "Finance & Revenue Office", type: "Permanent", deadline: "2026-08-10", description: "Manage tax assessment, collection, and taxpayer registration for the woreda's growing revenue base.", requirements: "BA in Accounting or Finance; 2+ years experience; knowledge of Ethiopian tax law and regulations." },
-];
-
-function VacancyPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
-  const [vacancies, setVacancies] = useState<any[]>([]);
-  const [selectedVacancy, setSelectedVacancy] = useState<any>(null);
-  const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const [applications, setApplications] = useState<ApplicationData[]>([]);
-
-  useEffect(() => {
-    // Load vacancies from admin API
-    fetch("/admin/api/vacancies").then(r => r.json()).then(data => {
-      if (Array.isArray(data) && data.length > 0) {
-        setVacancies(data);
-      } else {
-        // Fallback to localStorage or defaults
-        try { const v = localStorage.getItem("amharasint_vacancies"); if (v) { setVacancies(JSON.parse(v)); return; } } catch {}
-        setVacancies(DEFAULT_VACANCIES);
-      }
-    }).catch(() => {
-      try { const v = localStorage.getItem("amharasint_vacancies"); if (v) setVacancies(JSON.parse(v)); else setVacancies(DEFAULT_VACANCIES); } catch { setVacancies(DEFAULT_VACANCIES); }
-    });
-    // Load application count
-    try { const a = localStorage.getItem("amharasint_applications"); if (a) setApplications(JSON.parse(a)); } catch {}
-  }, []);
-
-  const uploadFile = async (file: File): Promise<string | null> => {
-    try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/admin/api/upload", { method: "POST", body: fd });
-      const data = await res.json();
-      return data.storedName || null;
-    } catch { return null; }
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setFormStatus("loading");
-    try {
-      const fd = new FormData(e.currentTarget);
-      const cvFile = fd.get("cv") as File;
-      const coverFile = fd.get("coverLetter") as File;
-
-      // Upload files to server (best-effort, don't block submission on failure)
-      let cvStoredName: string | null = null;
-      let coverStoredName: string | null = null;
-
-      if (cvFile && cvFile.size > 0) {
-        cvStoredName = await uploadFile(cvFile).catch(() => null);
-      }
-      if (coverFile && coverFile.size > 0) {
-        coverStoredName = await uploadFile(coverFile).catch(() => null);
-      }
-
-      const data: ApplicationData = {
-        id: "app_" + Date.now(),
-        fullName: fd.get("fullName") as string,
-        email: fd.get("email") as string,
-        phone: fd.get("phone") as string,
-        dob: fd.get("dob") as string,
-        gender: fd.get("gender") as string,
-        address: fd.get("address") as string,
-        education: fd.get("education") as string,
-        institution: fd.get("institution") as string,
-        yearGraduated: fd.get("yearGraduated") as string,
-        experienceYears: fd.get("experienceYears") as string,
-        currentEmployer: fd.get("currentEmployer") as string,
-        currentPosition: fd.get("currentPosition") as string,
-        keyQualifications: fd.get("keyQualifications") as string,
-        coverLetterName: coverFile?.name || "Not provided",
-        cvName: cvFile?.name || "Not provided",
-        vacancyTitle: selectedVacancy?.title || "",
-        vacancyId: selectedVacancy?.id || "",
-        appliedAt: new Date().toISOString(),
-        status: "Under Review",
-      };
-
-      // Save to server — this is the primary storage
-      const serverRes = await fetch("/api/applications", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...data,
-          cvFile: cvStoredName,
-          coverLetterFile: coverStoredName,
-        }),
-      });
-
-      if (!serverRes.ok) {
-        const err = await serverRes.json().catch(() => ({}));
-        throw new Error(err.error || "Server error");
-      }
-
-      // Also save locally for immediate display
-      try {
-        const all = [...applications, data];
-        localStorage.setItem("amharasint_applications", JSON.stringify(all));
-        setApplications(all);
-      } catch {}
-
-      setFormStatus("success");
-      (e.target as HTMLFormElement).reset();
-      setTimeout(() => { setSelectedVacancy(null); setFormStatus("idle"); }, 4000);
-    } catch (err: any) {
-      console.error("Application submit error:", err);
-      setFormStatus("error");
-    }
-  };
-
-  const isExpired = (deadline: string) => new Date(deadline) < new Date();
-
-  return (
-    <SubPage onNavigate={onNavigate} title="Job Vacancies" breadcrumb="Careers / Vacancy" badge="Join Our Team">
-      <div className="max-w-4xl mx-auto space-y-6">
-        {formStatus === "success" && (
-          <ContentCard>
-            <div className="bg-green-50 border border-green-200 rounded-xl p-6 text-center">
-              <div className="w-14 h-14 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-3"><ThumbsUp className="w-7 h-7 text-green-600" /></div>
-              <h3 className="font-bold text-green-800 text-lg mb-1">Application Submitted Successfully!</h3>
-              <p className="text-green-600 text-sm">Thank you for applying for the {selectedVacancy?.title} position. We will review your application and contact you if shortlisted.</p>
-            </div>
-          </ContentCard>
-        )}
-
-        {!selectedVacancy ? (
-          <>
-            <AnimatedSection>
-              <div className="bg-gradient-to-r from-[#0B3D2E] to-[#145A44] rounded-2xl p-6 md:p-8 text-white mb-6">
-                <h2 className="text-2xl font-extrabold mb-2">Build Your Career with Amhara Sayint</h2>
-                <p className="text-white/70 text-sm">Join our team of dedicated public servants making a difference in the community. Browse open positions and apply online.</p>
-                <div className="flex gap-4 mt-4">
-                  <div className="bg-white/10 rounded-lg px-4 py-2 text-center"><div className="text-xl font-bold">{vacancies.filter(v => !isExpired(v.deadline)).length}</div><div className="text-white/60 text-xs">Open Positions</div></div>
-                  <div className="bg-white/10 rounded-lg px-4 py-2 text-center"><div className="text-xl font-bold">{applications.length}</div><div className="text-white/60 text-xs">Total Applications</div></div>
-                </div>
-              </div>
-            </AnimatedSection>
-            {vacancies.map((v, i) => (
-              <AnimatedSection key={v.id} delay={i * 80}>
-                <Card className="border-0 shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
-                  <div className="flex flex-col md:flex-row">
-                    <div className={`w-full md:w-2 ${isExpired(v.deadline) ? "bg-gray-300" : "bg-gradient-to-b from-[#EAB308] to-[#CA8A04]"}`} />
-                    <div className="flex-1 p-5 md:p-6">
-                      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-3">
-                        <div>
-                          <div className="flex items-center gap-2 mb-1">
-                            <h3 className="font-bold text-[#0B3D2E] text-base">{v.title}</h3>
-                            <Badge className={isExpired(v.deadline) ? "bg-gray-200 text-gray-500" : "bg-green-100 text-green-700"}>{isExpired(v.deadline) ? "Closed" : "Open"}</Badge>
-                          </div>
-                          <div className="flex flex-wrap gap-3 text-xs text-[#0B3D2E]/50">
-                            <span className="flex items-center gap-1"><Building className="w-3 h-3" />{v.department}</span>
-                            <span className="flex items-center gap-1"><Briefcase className="w-3 h-3" />{v.type}</span>
-                            <span className="flex items-center gap-1"><Clock className="w-3 h-3" />Deadline: {v.deadline}</span>
-                          </div>
-                        </div>
-                        {!isExpired(v.deadline) && (
-                          <button onClick={() => setSelectedVacancy(v)} className="inline-flex items-center gap-2 bg-[#0B3D2E] hover:bg-[#145A44] text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-all shadow-md hover:shadow-lg hover:scale-105 shrink-0">
-                            <Send className="w-4 h-4" /> Apply Now
-                          </button>
-                        )}
-                      </div>
-                      <p className="text-[#0B3D2E]/60 text-sm leading-relaxed mb-3">{v.description}</p>
-                      <p className="text-xs text-[#0B3D2E]/40"><strong>Requirements:</strong> {v.requirements}</p>
-                    </div>
-                  </div>
-                </Card>
-              </AnimatedSection>
-            ))}
-          </>
-        ) : (
-          <ContentCard>
-            <div className="flex items-center gap-3 mb-6">
-              <button onClick={() => setSelectedVacancy(null)} className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"><ArrowLeft className="w-5 h-5 text-[#0B3D2E]" /></button>
-              <div>
-                <h2 className="text-xl font-bold text-[#0B3D2E]">Apply: {selectedVacancy.title}</h2>
-                <p className="text-sm text-[#0B3D2E]/50">{selectedVacancy.department} • {selectedVacancy.type} • Deadline: {selectedVacancy.deadline}</p>
-              </div>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-8">
-              {/* Personal Information */}
-              <div>
-                <h3 className="font-bold text-[#0B3D2E] mb-4 flex items-center gap-2 text-base"><User className="w-5 h-5 text-[#EAB308]" /> Personal Information</h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Full Name *</label><input name="fullName" required className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white" placeholder="Enter your full name" /></div>
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Email Address *</label><input name="email" type="email" required className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white" placeholder="your.email@example.com" /></div>
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Phone Number *</label><input name="phone" type="tel" required className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white" placeholder="+251 9XX XXX XXX" /></div>
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Date of Birth *</label><input name="dob" type="date" required className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white" /></div>
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Gender *</label><select name="gender" required className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white"><option value="">Select</option><option>Male</option><option>Female</option></select></div>
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Address *</label><input name="address" required className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white" placeholder="City, Woreda, Zone" /></div>
-                </div>
-              </div>
-
-              {/* Education */}
-              <div>
-                <h3 className="font-bold text-[#0B3D2E] mb-4 flex items-center gap-2 text-base"><GraduationCap className="w-5 h-5 text-[#EAB308]" /> Education Background</h3>
-                <div className="grid md:grid-cols-3 gap-4">
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Highest Qualification *</label><select name="education" required className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white"><option value="">Select</option><option>PhD</option><option>Masters (MA/MSc/MBA)</option><option>Bachelors (BA/BSc)</option><option>Diploma</option><option>Certificate</option><option>TVET</option></select></div>
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Institution *</label><input name="institution" required className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white" placeholder="University/College name" /></div>
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Year Graduated *</label><input name="yearGraduated" type="number" required min="1980" max="2026" className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white" placeholder="e.g. 2020" /></div>
-                </div>
-              </div>
-
-              {/* Experience */}
-              <div>
-                <h3 className="font-bold text-[#0B3D2E] mb-4 flex items-center gap-2 text-base"><Briefcase className="w-5 h-5 text-[#EAB308]" /> Work Experience</h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Years of Experience *</label><select name="experienceYears" required className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white"><option value="">Select</option><option>No Experience (Fresh Graduate)</option><option>1-2 Years</option><option>3-5 Years</option><option>6-10 Years</option><option>11-15 Years</option><option>16+ Years</option></select></div>
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Current Employer</label><input name="currentEmployer" className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white" placeholder="Organization name (if employed)" /></div>
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Current Position</label><input name="currentPosition" className="w-full h-10 px-3 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white" placeholder="Your current job title" /></div>
-                  <div><label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Key Qualifications *</label><textarea name="keyQualifications" required rows={1} className="w-full h-10 px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#0B3D2E]/20 focus:border-[#0B3D2E] transition-all bg-white" placeholder="Key skills and qualifications relevant to this position" /></div>
-                </div>
-              </div>
-
-              {/* Document Uploads */}
-              <div>
-                <h3 className="font-bold text-[#0B3D2E] mb-4 flex items-center gap-2 text-base"><Upload className="w-5 h-5 text-[#EAB308]" /> Upload Documents</h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Upload CV / Resume (PDF) *</label>
-                    <div className="relative">
-                      <input name="cv" type="file" accept=".pdf,.doc,.docx" required className="w-full h-12 px-3 rounded-lg border-2 border-dashed border-gray-200 text-sm file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:bg-[#0B3D2E] file:text-white file:text-xs file:font-semibold file:cursor-pointer hover:border-[#0B3D2E]/30 transition-all bg-white cursor-pointer" />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-[#0B3D2E]/70 mb-1.5">Upload Cover Letter (PDF)</label>
-                    <input name="coverLetter" type="file" accept=".pdf,.doc,.docx" className="w-full h-12 px-3 rounded-lg border-2 border-dashed border-gray-200 text-sm file:mr-3 file:py-1.5 file:px-4 file:rounded-lg file:border-0 file:bg-[#145A44] file:text-white file:text-xs file:font-semibold file:cursor-pointer hover:border-[#0B3D2E]/30 transition-all bg-white" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Submit */}
-              <div className="flex flex-col gap-3 pt-4 border-t border-gray-100">
-                {formStatus === "error" && (
-                  <div className="bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl px-4 py-3 flex items-center gap-2">
-                    <span className="font-bold">!</span>
-                    Submission failed. Please check your internet connection and try again.
-                    <button onClick={() => setFormStatus("idle")} className="ml-auto text-red-400 hover:text-red-600 text-xs underline">Dismiss</button>
-                  </div>
-                )}
-                <div className="flex items-center gap-4">
-                  <button type="submit" disabled={formStatus === "loading"}
-                    className="inline-flex items-center gap-2 bg-[#EAB308] hover:bg-[#CA8A04] disabled:bg-gray-300 text-[#0B3D2E] font-bold text-sm px-8 py-3 rounded-xl transition-all shadow-lg hover:shadow-xl hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed">
-                    {formStatus === "loading" ? "Submitting..." : <><Send className="w-4 h-4" /> Submit Application</>}
-                  </button>
-                  <button type="button" onClick={() => setSelectedVacancy(null)} className="text-sm text-[#0B3D2E]/50 hover:text-[#0B3D2E] transition-colors">Cancel</button>
-                </div>
-              </div>
-            </form>
-          </ContentCard>
-        )}
-      </div>
-    </SubPage>
-  );
-}
-
 /* ─── NEWS PAGE ──────────────────────────────────────── */
 function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
   const [items, setItems] = useState<any[]>([]);
@@ -2773,7 +2462,7 @@ function NewsPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
                   {(selectedNews.initialLikes || 0) + (likes[selectedNews.id] || 0)} Likes
                 </button>
                 <div className="flex items-center gap-2">
-                  <button onClick={() => { const shareUrl = `https://amhara-sint-woreda.onrender.com`; if (navigator.share) { navigator.share({ title: selectedNews.title, text: selectedNews.summary, url: shareUrl }); } else { navigator.clipboard.writeText(shareUrl); } }}
+                  <button onClick={() => { const shareUrl = `https://amhara-sayint-woreda.onrender.com`; if (navigator.share) { navigator.share({ title: selectedNews.title, text: selectedNews.summary, url: shareUrl }); } else { navigator.clipboard.writeText(shareUrl); } }}
                     className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-[#0B3D2E] text-white hover:bg-[#145A44] transition-all">
                     <Share2 className="w-4 h-4" /> Share
                   </button>
@@ -3099,7 +2788,7 @@ function GalleryPage() {
 
   return (
     <div className="min-h-screen pt-[92px] md:pt-[110px]">
-      <div className="bg-gradient-to-r from-[#0B3D2E] via-[#145A44] to-[#0B3D2E] py-12 md:py-16">
+      <div className="bg-gradient-to-r from-[#0B3D2E] via-[#145A44] to-[#0B3D2E] py-8 md:py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-white/50 text-sm mb-2">Home / Gallery</p>
           <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-4">Photo Gallery</h1>
@@ -3184,71 +2873,172 @@ function ContactPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
     setTimeout(() => setFormStatus("idle"), 4000);
   };
 
+  const DEPT_CONTACTS = [
+    { dept: "Main Office (Woreda Administration)", phone: "+251 33 440 1001", email: "info@amharasayint.gov.et", icon: Building },
+    { dept: "Education Office", phone: "+251 33 440 1015", email: "education@amharasayint.gov.et", icon: GraduationCap },
+    { dept: "Health Office", phone: "+251 33 440 1020", email: "health@amharasayint.gov.et", icon: HeartPulse },
+    { dept: "Agriculture Office", phone: "+251 33 440 1025", email: "agri@amharasayint.gov.et", icon: Tractor },
+    { dept: "Finance & Revenue", phone: "+251 33 440 1030", email: "finance@amharasayint.gov.et", icon: Banknote },
+    { dept: "Water & Sanitation", phone: "+251 33 440 1035", email: "water@amharasayint.gov.et", icon: Droplets },
+    { dept: "Justice & Security", phone: "+251 33 440 1040", email: "justice@amharasayint.gov.et", icon: Scale },
+    { dept: "Women & Youth Affairs", phone: "+251 33 440 1045", email: "women@amharasayint.gov.et", icon: UsersRound },
+  ];
+
   return (
     <SubPage onNavigate={onNavigate} title="Contact Us" breadcrumb="Contact" badge="Get in Touch">
-      <div className="max-w-5xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-6">
+      <div className="max-w-6xl mx-auto space-y-6">
 
-          {/* ── LEFT: Contact Info (existing) ─────────────── */}
-          <ContentCard>
-            <h2 className="text-lg font-bold text-[#0B3D2E] mb-5 flex items-center gap-2">
-              <Phone className="w-5 h-5 text-[#EAB308]" /> Contact Information
-            </h2>
-            <div className="space-y-4 mb-6">
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><Phone className="w-5 h-5 text-[#0B3D2E]" /></div>
-                <div><h4 className="font-bold text-[#0B3D2E] text-sm">Phone</h4><p className="text-[#0B3D2E]/60 text-sm">+251 33 440 1001 (Main)</p><p className="text-[#0B3D2E]/60 text-sm">+251 912 465 247 (Developer)</p></div>
+        {/* ── TOP: Key contact cards ───────────────────── */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { label: "Main Phone", value: "+251 33 440 1001", icon: Phone, color: "#16A34A" },
+            { label: "Email", value: "info@amharasayint.gov.et", icon: Mail, color: "#2563EB" },
+            { label: "Address", value: "Ajibar Town, South Wollo, Amhara", icon: MapPinned, color: "#D97706" },
+            { label: "Emergency", value: "991 / 907 / 939", icon: Siren, color: "#DC2626" },
+          ].map((c) => (
+            <div key={c.label} className="bg-white rounded-2xl p-5 border border-gray-200 flex flex-col items-center text-center gap-3 shadow-sm hover:shadow-md transition-all">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: c.color + "15" }}>
+                <c.icon className="w-6 h-6" style={{ color: c.color }} />
               </div>
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><Mail className="w-5 h-5 text-[#0B3D2E]" /></div>
-                <div><h4 className="font-bold text-[#0B3D2E] text-sm">Email</h4><p className="text-[#0B3D2E]/60 text-sm">info@amharasint.gov.et</p></div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#0B3D2E]/5 flex items-center justify-center shrink-0"><MapPinned className="w-5 h-5 text-[#0B3D2E]" /></div>
-                <div><h4 className="font-bold text-[#0B3D2E] text-sm">Address</h4><p className="text-[#0B3D2E]/60 text-sm">Amhara Sayint Town, South Wollo Zone, Amhara Region, Ethiopia</p></div>
+              <div>
+                <p className="text-xs text-gray-400 font-semibold uppercase tracking-wide mb-0.5">{c.label}</p>
+                <p className="font-bold text-[#0B3D2E] text-sm leading-snug">{c.value}</p>
               </div>
             </div>
+          ))}
+        </div>
 
-            <h4 className="font-bold text-[#0B3D2E] text-sm mb-3">Follow Us</h4>
-            <div className="flex gap-3 mb-6">
-              {[
-                { I: Facebook, label: "Facebook", url: "https://facebook.com/100066823706013", c: "#1877F2" },
-                { I: Youtube, label: "YouTube", url: "https://youtube.com/@AmharaSint", c: "#FF0000" },
-                { I: Twitter, label: "Telegram", url: "https://t.me/AmharaSint", c: "#0088CC" },
-                { I: Instagram, label: "Instagram", url: "https://facebook.com/100066823706013", c: "#E4405F" },
-              ].map((s) => (
-                <a key={s.label} href={s.url} target="_blank" rel="noopener noreferrer"
-                  className="w-11 h-11 rounded-xl flex items-center justify-center transition-all hover:scale-110 shadow-md"
-                  style={{ backgroundColor: s.c + "15", color: s.c }}><s.I className="w-5 h-5" /></a>
-              ))}
-            </div>
+        <div className="grid lg:grid-cols-5 gap-6">
 
-            <div className="bg-[#F0FDF4] rounded-xl p-4 border border-[#0B3D2E]/5">
-              <h4 className="font-bold text-[#0B3D2E] text-sm mb-2">🕐 Office Hours</h4>
-              <p className="text-[#0B3D2E]/60 text-xs">Monday - Friday: 8:00 AM - 5:00 PM</p>
-              <p className="text-[#0B3D2E]/60 text-xs">Saturday: 8:00 AM - 12:00 PM</p>
-              <p className="text-[#0B3D2E]/60 text-xs">Sunday & Public Holidays: Closed</p>
-            </div>
+          {/* ── LEFT (3/5): Full contact info + map ───── */}
+          <div className="lg:col-span-3 space-y-5">
 
-            {/* Service categories quick list */}
-            <div className="mt-5">
-              <h4 className="font-bold text-[#0B3D2E] text-sm mb-3">📋 Available Services</h4>
-              <div className="flex flex-wrap gap-1.5">
-                {["Education", "Health", "Agriculture", "Water", "Transport", "Justice", "Finance", "Trade", "Construction", "ICT"].map(s => (
-                  <span key={s} className="bg-[#0B3D2E]/5 text-[#0B3D2E]/70 text-[11px] font-medium px-2.5 py-1 rounded-full border border-[#0B3D2E]/10">{s}</span>
+            {/* Main office info */}
+            <ContentCard>
+              <h2 className="text-base font-bold text-[#0B3D2E] mb-5 flex items-center gap-2">
+                <Building className="w-5 h-5 text-[#EAB308]" /> Amhara Sayint Woreda Administration
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-4 mb-5">
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <MapPinned className="w-4 h-4 text-[#EAB308] mt-0.5 shrink-0" />
+                    <div>
+                      <p className="text-xs font-bold text-[#0B3D2E]">Physical Address</p>
+                      <p className="text-xs text-gray-500 mt-0.5">Ajibar Town (ዓጅ ባር), Amhara Sayint Woreda<br />South Wollo Zone, Amhara Region<br />Federal Democratic Republic of Ethiopia</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Phone className="w-4 h-4 text-[#EAB308] mt-0.5 shrink-0" />
+                    <div>
+                      <p className="text-xs font-bold text-[#0B3D2E]">Phone Numbers</p>
+                      <p className="text-xs text-gray-500 mt-0.5">Main: +251 33 440 1001<br />Fax: +251 33 440 1002<br />Mobile: +251 91 XXX XXXX</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3">
+                    <Mail className="w-4 h-4 text-[#EAB308] mt-0.5 shrink-0" />
+                    <div>
+                      <p className="text-xs font-bold text-[#0B3D2E]">Email</p>
+                      <p className="text-xs text-gray-500 mt-0.5">info@amharasayint.gov.et<br />admin@amharasayint.gov.et</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Clock className="w-4 h-4 text-[#EAB308] mt-0.5 shrink-0" />
+                    <div>
+                      <p className="text-xs font-bold text-[#0B3D2E]">Office Hours</p>
+                      <p className="text-xs text-gray-500 mt-0.5">Mon – Fri: 8:30 AM – 5:30 PM<br />Saturday: 8:30 AM – 12:00 PM<br />Sunday & Holidays: Closed</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Map embed */}
+              <div className="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+                <iframe
+                  title="Amhara Sayint Woreda Location"
+                  src="https://www.openstreetmap.org/export/embed.html?bbox=38.45%2C10.80%2C38.80%2C11.05&layer=mapnik&marker=10.92%2C38.65"
+                  className="w-full h-48 border-0"
+                  loading="lazy"
+                />
+              </div>
+              <a href="https://www.google.com/maps?q=10.92,38.65" target="_blank" rel="noopener noreferrer"
+                className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-[#16A34A] hover:text-[#0B3D2E] transition-colors">
+                <ExternalLink className="w-3.5 h-3.5" /> Open in Google Maps
+              </a>
+            </ContentCard>
+
+            {/* Department contacts */}
+            <ContentCard>
+              <h2 className="text-base font-bold text-[#0B3D2E] mb-4 flex items-center gap-2">
+                <Building2 className="w-5 h-5 text-[#EAB308]" /> Department Contacts
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {DEPT_CONTACTS.map((d) => (
+                  <div key={d.dept} className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100 hover:border-[#0B3D2E]/20 hover:bg-[#F0FDF4] transition-all">
+                    <div className="w-9 h-9 rounded-lg bg-[#0B3D2E]/8 flex items-center justify-center shrink-0">
+                      <d.icon className="w-4 h-4 text-[#0B3D2E]" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold text-[#0B3D2E] leading-snug mb-1">{d.dept}</p>
+                      <p className="text-[10px] text-gray-500 flex items-center gap-1"><Phone className="w-3 h-3" />{d.phone}</p>
+                      <p className="text-[10px] text-gray-400 truncate">{d.email}</p>
+                    </div>
+                  </div>
                 ))}
               </div>
-            </div>
-          </ContentCard>
+            </ContentCard>
 
-          {/* ── RIGHT: Service Request Form ────────────────── */}
-          <ContentCard>
-            <h2 className="text-lg font-bold text-[#0B3D2E] mb-5 flex items-center gap-2">
-              <MessageSquare className="w-5 h-5 text-[#EAB308]" /> Send a Message / Service Request
-            </h2>
+            {/* Emergency + social */}
+            <div className="grid sm:grid-cols-2 gap-4">
+              <ContentCard>
+                <h3 className="text-sm font-bold text-[#0B3D2E] mb-3 flex items-center gap-2"><Siren className="w-4 h-4 text-red-500" /> Emergency Numbers</h3>
+                <div className="space-y-2">
+                  {[
+                    { label: "Police", number: "991", color: "#DC2626" },
+                    { label: "Fire Brigade", number: "939", color: "#EA580C" },
+                    { label: "Medical Emergency", number: "907", color: "#16A34A" },
+                    { label: "Ambulance", number: "+251 33 440 1060", color: "#2563EB" },
+                  ].map((e) => (
+                    <a key={e.label} href={`tel:${e.number}`}
+                      className="flex items-center justify-between p-2.5 rounded-lg bg-red-50 hover:bg-red-100 border border-red-100 transition-all group">
+                      <span className="text-xs font-semibold text-gray-600">{e.label}</span>
+                      <span className="font-black text-base" style={{ color: e.color }}>{e.number}</span>
+                    </a>
+                  ))}
+                </div>
+              </ContentCard>
+              <ContentCard>
+                <h3 className="text-sm font-bold text-[#0B3D2E] mb-3">Follow Us</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { I: Facebook, label: "Facebook", url: "https://facebook.com/100066823706013", c: "#1877F2" },
+                    { I: Youtube, label: "YouTube", url: "https://youtube.com/@AmharaSayint", c: "#FF0000" },
+                    { I: Twitter, label: "Telegram", url: "https://t.me/AmharaSayint", c: "#0088CC" },
+                    { I: Instagram, label: "Instagram", url: "https://instagram.com/AmharaSayint", c: "#E4405F" },
+                    { I: Linkedin, label: "LinkedIn", url: "https://linkedin.com/in/meseret-akalu-76363121b", c: "#0A66C2" },
+                    { I: Github, label: "GitHub", url: "https://github.com/ethioops-coder", c: "#333" },
+                  ].map((s) => (
+                    <a key={s.label} href={s.url} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg transition-all hover:scale-105 border text-sm font-semibold"
+                      style={{ backgroundColor: s.c + "12", borderColor: s.c + "30", color: s.c }}>
+                      <s.I className="w-4 h-4 shrink-0" />{s.label}
+                    </a>
+                  ))}
+                </div>
+              </ContentCard>
+            </div>
+          </div>
+
+          {/* ── RIGHT (2/5): Service Request Form ────────── */}
+          <div className="lg:col-span-2">
+            <ContentCard>
+              <h2 className="text-base font-bold text-[#0B3D2E] mb-5 flex items-center gap-2">
+                <MessageSquare className="w-5 h-5 text-[#EAB308]" /> Send a Message
+              </h2>
 
             {formStatus === "success" ? (
-              <div className="flex flex-col items-center justify-center py-12 text-center gap-3">
+              <div className="flex flex-col items-center justify-center py-8 text-center gap-3">
                 <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center">
                   <CheckCircle2 className="w-8 h-8 text-emerald-600" />
                 </div>
@@ -3323,6 +3113,7 @@ function ContactPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
               </form>
             )}
           </ContentCard>
+          </div>
 
         </div>
       </div>
@@ -3377,9 +3168,9 @@ function SubmitCVPage({ onNavigate }: { onNavigate: (p: PageId) => void }) {
 
       // Save locally too
       try {
-        const existing = JSON.parse(localStorage.getItem("amharasint_applications") || "[]");
+        const existing = JSON.parse(localStorage.getItem("amharasayint_applications") || "[]");
         existing.push(submission);
-        localStorage.setItem("amharasint_applications", JSON.stringify(existing));
+        localStorage.setItem("amharasayint_applications", JSON.stringify(existing));
       } catch {}
 
       setFormStatus("success");
@@ -3497,9 +3288,9 @@ function Footer({ onNavigate }: { onNavigate: (p: PageId) => void }) {
             <div className="flex gap-2.5 mb-5">
               {[
                 { I: Facebook, u: "https://facebook.com/100066823706013", label: "Facebook", bg: "#1877F2" },
-                { I: Youtube, u: "https://youtube.com/@AmharaSint", label: "YouTube", bg: "#FF0000" },
-                { I: Twitter, u: "https://t.me/AmharaSint", label: "Telegram", bg: "#0088CC" },
-                { I: Instagram, u: "https://instagram.com/AmharaSint", label: "Instagram", bg: "#E4405F" },
+                { I: Youtube, u: "https://youtube.com/@AmharaSayint", label: "YouTube", bg: "#FF0000" },
+                { I: Twitter, u: "https://t.me/AmharaSayint", label: "Telegram", bg: "#0088CC" },
+                { I: Instagram, u: "https://instagram.com/AmharaSayint", label: "Instagram", bg: "#E4405F" },
                 { I: Linkedin, u: "https://www.linkedin.com/in/meseret-akalu-76363121b/", label: "LinkedIn", bg: "#0A66C2" },
               ].map((s) => (
                 <a key={s.u} href={s.u} target="_blank" rel="noopener noreferrer" title={s.label}
@@ -3578,19 +3369,73 @@ function PageContent({ currentPage, onNavigate }: { currentPage: PageId; onNavig
     case "bids": return <BidsPage onNavigate={onNavigate} />;
     case "contact": return <ContactPage onNavigate={onNavigate} />;
     case "submit-cv": return <SubmitCVPage onNavigate={onNavigate} />;
+    case "tourism": return <TourismPage onNavigate={onNavigate} />;
     default:
       return (
-        <>
-          <DidYouKnowBar />
-          <HeroSlider />
-          <HeroStatsSection />
-          <NewsFeedSection onNavigate={onNavigate} />
-          <TVETCollegeSection onNavigate={onNavigate} />
-          <ServicesOverviewSection onNavigate={onNavigate} />
-          <CulturalPlacesSection onNavigate={onNavigate} />
-          <GeoMapSection onNavigate={onNavigate} />
-          <ServicesOverview onNavigate={onNavigate} />
-        </>
+        <div className="flex flex-col gap-6 md:gap-10 pb-12 bg-gray-50/30">
+          <div>
+            <DidYouKnowBar />
+            <HeroSlider />
+          </div>
+          
+          {/* Services Section (Full Width) */}
+          <AnimatedSection>
+            <CitizenServicesSection onNavigate={onNavigate} />
+          </AnimatedSection>
+
+          {/* News and Vacancy Side-by-Side */}
+          <AnimatedSection>
+            <section className="py-6 md:py-8 bg-white relative">
+              <div className="max-w-[1500px] mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                  
+                  {/* News Side (Left) */}
+                  <div className="w-full">
+                    <PaginatedNewsSection onNavigate={onNavigate} />
+                  </div>
+                  
+                  {/* Vacancy/Bids Side (Right) */}
+                  <div className="w-full">
+                    <HomeDashboardSection onNavigate={onNavigate} />
+                  </div>
+                  
+                </div>
+              </div>
+            </section>
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <DetailedStatsSection />
+          </AnimatedSection>
+
+          <AnimatedSection>
+            <MayorMessageSection onNavigate={onNavigate} />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <FeaturedProjectsSection onNavigate={onNavigate} />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <TVETCollegeSection onNavigate={onNavigate} />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <ServicesOverviewSection onNavigate={onNavigate} />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <CulturalPlacesSection onNavigate={onNavigate} />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <EmergencyContactsSection />
+          </AnimatedSection>
+          
+          <AnimatedSection>
+            <GeoMapSection onNavigate={onNavigate} />
+          </AnimatedSection>
+        </div>
       );
   }
 }
@@ -3601,9 +3446,9 @@ function SocialSidebar() {
   const [visible, setVisible] = useState(false);
   const socials = [
     { I: Facebook, u: "https://facebook.com/100066823706013", label: "Facebook", bg: "#1877F2" },
-    { I: Youtube, u: "https://youtube.com/@AmharaSint", label: "YouTube", bg: "#FF0000" },
-    { I: Twitter, u: "https://t.me/AmharaSint", label: "Telegram", bg: "#0088CC" },
-    { I: Instagram, u: "https://instagram.com/AmharaSint", label: "Instagram", bg: "#E4405F" },
+    { I: Youtube, u: "https://youtube.com/@AmharaSayint", label: "YouTube", bg: "#FF0000" },
+    { I: Twitter, u: "https://t.me/AmharaSayint", label: "Telegram", bg: "#0088CC" },
+    { I: Instagram, u: "https://instagram.com/AmharaSayint", label: "Instagram", bg: "#E4405F" },
     { I: Linkedin, u: "https://www.linkedin.com/in/meseret-akalu-76363121b/", label: "LinkedIn", bg: "#0A66C2" },
   ];
 
@@ -3648,6 +3493,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState<PageId>("home");
   return (
     <div className="min-h-screen flex flex-col bg-white">
+      <TopInfoBar onNavigate={setCurrentPage} />
       <Header currentPage={currentPage} onNavigate={setCurrentPage} />
       <SocialSidebar />
       <main className="flex-1">

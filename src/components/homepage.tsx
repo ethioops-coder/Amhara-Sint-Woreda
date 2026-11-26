@@ -4,6 +4,7 @@ import {
   School, Stethoscope, Droplets, Building2, TreePine, Users, GraduationCap, HeartPulse,
   Tractor, Truck, Scale, BarChart3, Landmark, ChevronRight, ArrowLeft, ArrowRight, Newspaper,
   ThumbsUp, Clock, Eye, Facebook, Youtube, Linkedin, Github, Instagram, Twitter, ExternalLink,
+  Map, MapPin,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -36,15 +37,15 @@ export function HeroSlider() {
   return (
     <section className="relative h-[100vh] min-h-[600px] max-h-[900px] overflow-hidden">
       {/* Left Side Social Media Bar */}
-      <div className="absolute left-0 top-1/2 -translate-y-1/2 z-30 flex flex-col gap-3 pl-3 md:pl-5">
+      <div className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-30 flex-col gap-3 pl-3 md:pl-5">
         {[
-          { icon: Facebook, url: "https://facebook.com/AmharaSint", color: "bg-[#1877F2] hover:bg-[#1565C0]", label: "Facebook" },
-          { icon: Youtube, url: "https://youtube.com/@AmharaSint", color: "bg-[#FF0000] hover:bg-[#CC0000]", label: "YouTube" },
+          { icon: Facebook, url: "https://facebook.com/AmharaSayint", color: "bg-[#1877F2] hover:bg-[#1565C0]", label: "Facebook" },
+          { icon: Youtube, url: "https://youtube.com/@AmharaSayint", color: "bg-[#FF0000] hover:bg-[#CC0000]", label: "YouTube" },
           { icon: Linkedin, url: "https://www.linkedin.com/in/meseret-akalu-76363121b/", color: "bg-[#0A66C2] hover:bg-[#084F97]", label: "LinkedIn" },
-          { icon: Github, url: "https://github.com/AmharaSint", color: "bg-[#333] hover:bg-[#24292F]", label: "GitHub" },
-          { icon: Instagram, url: "https://instagram.com/AmharaSint", color: "bg-[#E4405F] hover:bg-[#C13584]", label: "Instagram" },
-          { icon: Twitter, url: "https://twitter.com/AmharaSint", color: "bg-[#1DA1F2] hover:bg-[#0D8BD9]", label: "Twitter/X" },
-          { icon: ExternalLink, url: "https://t.me/AmharaSint", color: "bg-[#0088CC] hover:bg-[#006699]", label: "Telegram" },
+          { icon: Github, url: "https://github.com/AmharaSayint", color: "bg-[#333] hover:bg-[#24292F]", label: "GitHub" },
+          { icon: Instagram, url: "https://instagram.com/AmharaSayint", color: "bg-[#E4405F] hover:bg-[#C13584]", label: "Instagram" },
+          { icon: Twitter, url: "https://twitter.com/AmharaSayint", color: "bg-[#1DA1F2] hover:bg-[#0D8BD9]", label: "Twitter/X" },
+          { icon: ExternalLink, url: "https://t.me/AmharaSayint", color: "bg-[#0088CC] hover:bg-[#006699]", label: "Telegram" },
         ].map((social, idx) => (
           <a
             key={social.label}
@@ -92,35 +93,61 @@ export function HeroSlider() {
 }
 
 const KEY_STATS = [
-  { icon: School, label: "Primary Schools", value: 47, color: "from-[#059669] to-[#10B981]", bg: "bg-emerald-50" },
-  { icon: School, label: "Secondary Schools", value: 8, color: "from-[#0891B2] to-[#06B6D4]", bg: "bg-cyan-50" },
-  { icon: Stethoscope, label: "Health Centers", value: 5, color: "from-[#DC2626] to-[#EF4444]", bg: "bg-red-50" },
-  { icon: Stethoscope, label: "Health Posts", value: 18, color: "from-[#E11D48] to-[#F43F5E]", bg: "bg-rose-50" },
-  { icon: Droplets, label: "Clean Water Points", value: 64, color: "from-[#0284C7] to-[#0EA5E9]", bg: "bg-sky-50" },
-  { icon: Building2, label: "Kebeles", value: 22, color: "from-[#7C3AED] to-[#8B5CF6]", bg: "bg-violet-50" },
-  { icon: TreePine, label: "Forest Coverage", value: 18, suffix: "%", color: "from-[#16A34A] to-[#22C55E]", bg: "bg-green-50" },
-  { icon: Users, label: "Households", value: 28470, color: "from-[#D97706] to-[#F59E0B]", bg: "bg-amber-50" },
+  { icon: School,      label: "Primary Schools",    value: 47,    bg: "#16A34A", light: "#F0FDF4", borderColor: "#BBF7D0", color: "from-[#059669] to-[#10B981]" },
+  { icon: School,      label: "Secondary Schools",  value: 8,     bg: "#0891B2", light: "#ECFEFF", borderColor: "#A5F3FC", color: "from-[#0891B2] to-[#06B6D4]" },
+  { icon: Stethoscope, label: "Health Centers",     value: 5,     bg: "#DC2626", light: "#FFF1F2", borderColor: "#FECDD3", color: "from-[#DC2626] to-[#EF4444]" },
+  { icon: Stethoscope, label: "Health Posts",       value: 18,    bg: "#E11D48", light: "#FFF1F2", borderColor: "#FECDD3", color: "from-[#E11D48] to-[#F43F5E]" },
+  { icon: Droplets,    label: "Clean Water Points", value: 64,    bg: "#0284C7", light: "#F0F9FF", borderColor: "#BAE6FD", color: "from-[#0284C7] to-[#0EA5E9]" },
+  { icon: Building2,   label: "Kebeles",            value: 22,    bg: "#7C3AED", light: "#FAF5FF", borderColor: "#DDD6FE", color: "from-[#7C3AED] to-[#8B5CF6]" },
+  { icon: TreePine,    label: "Forest Coverage",    value: 18, suffix: "%", bg: "#16A34A", light: "#F0FDF4", borderColor: "#BBF7D0", color: "from-[#16A34A] to-[#22C55E]" },
+  { icon: Users,       label: "Households",         value: 28470, bg: "#D97706", light: "#FFFBEB", borderColor: "#FDE68A", color: "from-[#D97706] to-[#F59E0B]" },
 ];
 
 export function StatisticsSection() {
   return (
-    <section id="statistics-section" className="py-20 md:py-28 bg-[#F0FDF4]">
+    <section id="statistics-section" className="py-16 md:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <AnimatedSection className="text-center mb-14">
-          <Badge variant="secondary" className="mb-4 px-4 py-1.5 text-sm font-medium bg-[#0B3D2E]/10 text-[#0B3D2E]"><BarChart3 className="w-4 h-4 mr-1.5" />Key Statistics</Badge>
-          <h2 className="text-3xl md:text-5xl font-extrabold text-[#0B3D2E] mb-4">Woreda by the <span className="text-[#EAB308]">Numbers</span></h2>
-          <p className="text-[#0B3D2E]/60 max-w-2xl mx-auto text-base md:text-lg">A comprehensive overview of Amhara Sayint Woreda&apos;s key development indicators</p>
+
+        {/* Heading */}
+        <AnimatedSection className="text-center mb-10 md:mb-12">
+          <span className="inline-flex items-center gap-2 bg-[#0B3D2E]/8 text-[#0B3D2E] text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-[#0B3D2E]/15 mb-4">
+            <BarChart3 className="w-3.5 h-3.5" /> Key Statistics
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#0B3D2E] mb-3">
+            Woreda by the <span className="text-[#EAB308]">Numbers</span>
+          </h2>
+          <p className="text-gray-500 max-w-xl mx-auto text-sm md:text-base">
+            A snapshot of Amhara Sayint Woreda's development indicators
+          </p>
         </AnimatedSection>
+
+        {/* Cards */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {KEY_STATS.map((stat, i) => (
             <AnimatedSection key={stat.label} delay={i * 80}>
-              <Card className={`${stat.bg} border-0 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-1 h-full`}>
-                <CardContent className="p-5 md:p-6 text-center">
-                  <div className={`w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center mx-auto mb-4 shadow-lg`}><stat.icon className="w-6 h-6 md:w-7 md:h-7 text-white" /></div>
-                  <div className="text-3xl md:text-4xl font-extrabold text-[#0B3D2E] mb-1"><AnimatedCounter target={stat.value} suffix={stat.suffix || ""} duration={2200} /></div>
-                  <p className="text-[#0B3D2E]/60 text-xs md:text-sm font-medium">{stat.label}</p>
-                </CardContent>
-              </Card>
+              <div
+                className="rounded-2xl p-6 md:p-7 flex flex-col items-center text-center gap-4 border hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 cursor-default group"
+                style={{ backgroundColor: stat.light, borderColor: stat.borderColor }}
+              >
+                {/* Icon */}
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300"
+                  style={{ backgroundColor: stat.bg }}
+                >
+                  <stat.icon className="w-7 h-7 text-white" />
+                </div>
+
+                {/* Animated number */}
+                <div
+                  className="text-4xl md:text-5xl font-black leading-none tabular-nums"
+                  style={{ color: stat.bg }}
+                >
+                  <AnimatedCounter target={stat.value} suffix={stat.suffix || ""} duration={2200} />
+                </div>
+
+                {/* Label */}
+                <p className="text-sm font-semibold text-gray-500 leading-snug">{stat.label}</p>
+              </div>
             </AnimatedSection>
           ))}
         </div>
@@ -131,19 +158,48 @@ export function StatisticsSection() {
 
 export function QuickStats() {
   return (
-    <section className="py-16 bg-gradient-to-r from-[#0B3D2E] via-[#145A44] to-[#0B3D2E] relative">
-      <div className="max-w-6xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-        {[
-          { label: "Population", value: 142350, suffix: "" },
-          { label: "Area", value: 1245, suffix: " km2" },
-          { label: "Growth Rate", value: 2.8, suffix: "%" },
-          { label: "Kebeles", value: 22, suffix: "" },
-        ].map((s, i) => (
-          <div key={s.label} className="animate-fade-in-up" style={{ animationDelay: `${i * 0.15}s` }}>
-            <div className="text-3xl md:text-4xl font-extrabold text-[#EAB308] mb-1"><AnimatedCounter target={s.value} suffix={s.suffix} duration={2000} /></div>
-            <p className="text-white/60 text-sm">{s.label}</p>
-          </div>
-        ))}
+    <section className="py-14 md:py-16 bg-[#0B3D2E]">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {/* Label */}
+        <div className="text-center mb-10">
+          <span className="text-[#EAB308]/70 text-xs font-bold uppercase tracking-[0.25em]">Core Metrics</span>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          {[
+            { label: "Population", value: 142350, suffix: "",    icon: Users,     color: "#34D399" },
+            { label: "Area (km²)", value: 1245,   suffix: "",    icon: Map,       color: "#818CF8" },
+            { label: "Growth Rate",value: 2.8,    suffix: "%",   icon: BarChart3, color: "#FCD34D" },
+            { label: "Kebeles",    value: 22,      suffix: "",    icon: MapPin,    color: "#F9A8D4" },
+          ].map((s, i) => (
+            <AnimatedSection key={s.label} delay={i * 100}>
+              <div className="flex flex-col items-center text-center gap-3 group cursor-default">
+                {/* Icon circle */}
+                <div
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center border-2 border-white/10 group-hover:scale-110 transition-transform duration-300"
+                  style={{ backgroundColor: s.color + "20", borderColor: s.color + "40" }}
+                >
+                  <s.icon className="w-6 h-6" style={{ color: s.color }} />
+                </div>
+
+                {/* Big number */}
+                <div
+                  className="text-4xl md:text-5xl font-black leading-none tabular-nums"
+                  style={{ color: s.color }}
+                >
+                  <AnimatedCounter target={s.value} suffix={s.suffix} duration={2000} />
+                </div>
+
+                {/* Divider */}
+                <div className="w-8 h-0.5 rounded-full" style={{ backgroundColor: s.color, opacity: 0.4 }} />
+
+                {/* Label */}
+                <p className="text-white/55 text-sm font-semibold">{s.label}</p>
+              </div>
+            </AnimatedSection>
+          ))}
+        </div>
       </div>
     </section>
   );

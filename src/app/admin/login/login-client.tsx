@@ -52,7 +52,7 @@ export default function AdminLoginPage() {
             </span>
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight">Admin Panel</h1>
-          <p className="text-white/40 text-sm mt-1">Amhara Sint Woreda Administration</p>
+          <p className="text-white/40 text-sm mt-1">Amhara Sayint Woreda Administration</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-2xl shadow-black/30 p-8">

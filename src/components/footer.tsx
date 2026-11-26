@@ -64,7 +64,7 @@ export default function Footer({ onNavigate }: { onNavigate: (p: PageId) => void
             <div className="space-y-3">
               <div className="flex items-start gap-2.5"><MapPinned className="w-4 h-4 text-[#EAB308] mt-0.5 shrink-0" /><p className="text-white/50 text-sm">Amhara Sayint Town, South Wollo Zone, Amhara, Ethiopia</p></div>
               <div className="flex items-center gap-2.5"><Phone className="w-4 h-4 text-[#EAB308] shrink-0" /><p className="text-white/50 text-sm">+251 33 XXX XXXX</p></div>
-              <div className="flex items-center gap-2.5"><Mail className="w-4 h-4 text-[#EAB308] shrink-0" /><p className="text-white/50 text-sm">info@amharasint.gov.et</p></div>
+              <div className="flex items-center gap-2.5"><Mail className="w-4 h-4 text-[#EAB308] shrink-0" /><p className="text-white/50 text-sm">info@amharasayint.gov.et</p></div>
             </div>
           </div>
           <div>
@@ -76,12 +76,12 @@ export default function Footer({ onNavigate }: { onNavigate: (p: PageId) => void
             <h4 className="text-white font-bold text-sm mb-4 uppercase tracking-wider">Follow Us</h4>
             <div className="flex flex-wrap gap-2.5">
               {([
-                { icon: Facebook, url: "https://facebook.com/AmharaSint", color: "bg-[#1877F2] hover:bg-[#1565C0]" },
-                { icon: Youtube, url: "https://youtube.com/@AmharaSint", color: "bg-[#FF0000] hover:bg-[#CC0000]" },
+                { icon: Facebook, url: "https://facebook.com/AmharaSayint", color: "bg-[#1877F2] hover:bg-[#1565C0]" },
+                { icon: Youtube, url: "https://youtube.com/@AmharaSayint", color: "bg-[#FF0000] hover:bg-[#CC0000]" },
                 { icon: Linkedin, url: "https://www.linkedin.com/in/meseret-akalu-76363121b/", color: "bg-[#0A66C2] hover:bg-[#084F97]" },
-                { icon: Github, url: "https://github.com/AmharaSint", color: "bg-[#333] hover:bg-[#24292F]" },
-                { icon: Instagram, url: "https://instagram.com/AmharaSint", color: "bg-[#E4405F] hover:bg-[#C13584]" },
-                { icon: Twitter, url: "https://twitter.com/AmharaSint", color: "bg-[#1DA1F2] hover:bg-[#0D8BD9]" },
+                { icon: Github, url: "https://github.com/AmharaSayint", color: "bg-[#333] hover:bg-[#24292F]" },
+                { icon: Instagram, url: "https://instagram.com/AmharaSayint", color: "bg-[#E4405F] hover:bg-[#C13584]" },
+                { icon: Twitter, url: "https://twitter.com/AmharaSayint", color: "bg-[#1DA1F2] hover:bg-[#0D8BD9]" },
               ]).map((s) => (
                 <a key={s.url} href={s.url} target="_blank" rel="noopener noreferrer" className={`w-10 h-10 rounded-xl ${s.color} flex items-center justify-center text-white shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200`}><s.icon className="w-4.5 h-4.5" /></a>
               ))}
