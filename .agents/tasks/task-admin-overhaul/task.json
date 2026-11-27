@@ -1,0 +1,7 @@
+{
+  "task_id": "task-admin-overhaul",
+  "task_description": "Comprehensive admin overhaul: fix Prisma → storage.ts for applications and news routes, migrate vacancy-page.tsx to server-side application submission, add maker-checker workflow (draft→pending_review→published/open/rejected) for news/bids/vacancies, add Gallery admin UI, upgrade Hero Slider management, and fill missing vacancy form fields.",
+  "status": "pending",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
+  "blocked_reason": null
+}

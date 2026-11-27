@@ -1,0 +1,39 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Add Maker-Checker (Writer → Reviewer → Published/Open) workflow for News, Bids, and Vacancies. Depends on FEAT-001 being done first (news route must use storage.ts before this can test correctly). Independent of FEAT-003.",
+  "status": "pending",
+  "steps": [
+    "1. In src/lib/storage.ts: extend NewsItem.status union from '\"published\" | \"draft\"' to '\"published\" | \"draft\" | \"pending_review\" | \"rejected\"'. Extend BidItem.status from '\"Open\" | \"Closed\" | \"Awarded\"' to '\"Open\" | \"Closed\" | \"Awarded\" | \"pending_review\" | \"rejected\"'. Extend VacancyItem.status the same way as BidItem. Also add optional fields to VacancyItem: salary?: string; location?: string; postedBy?: string; (these already exist in data/vacancies.json but were missing from the TypeScript type).",
+    "2. In src/app/admin/admin-content.tsx, update the NewsItem interface (around line 23): extend status to '\"published\" | \"draft\" | \"pending_review\" | \"rejected\"'.",
+    "3. In NewsForm component: change the status <select> in the Settings section to include all 4 options: draft ('📄 Draft'), pending_review ('⏳ Submit for Review'), published ('✅ Published'), rejected ('❌ Rejected'). Add a second action button 'Submit for Review' in the action bar that sets form.status = 'pending_review' then programmatically calls handleSubmit (or duplicates the fetch call with status overridden to pending_review). Keep the existing Save/Cancel buttons.",
+    "4. In NewsListPage component: add a Review Queue section rendered above the search bar and table. It shows only items where status === 'pending_review', in an amber-bordered panel. Each row shows: title, author, date, and two buttons: Approve (calls PUT /admin/api/news with { id, status: 'published' } then reloads) and Reject (shows an inline text input for a note; on confirm calls PUT /admin/api/news with { id, status: 'rejected' } then reloads). The panel is hidden if no pending_review items exist. In the status badge column, add cases: pending_review → amber badge '⏳ Pending Review', rejected → red badge '❌ Rejected'.",
+    "5. In src/app/admin/admin-content.tsx, update the BidItem interface: extend status to '\"Open\" | \"Closed\" | \"Awarded\" | \"pending_review\" | \"rejected\"'.",
+    "6. In BidForm component: extend the status <select> to include pending_review ('⏳ Submit for Review') and rejected ('❌ Rejected') options. Add 'Submit for Review' button in action bar.",
+    "7. In BidsListPage component: add Review Queue panel (same amber panel pattern) for bids with status === 'pending_review'. Approve → status 'Open'. Reject → status 'rejected' + note. Extend statusColor helper to cover pending_review (amber) and rejected (red).",
+    "8. In src/app/admin/admin-content.tsx, update the VacancyItem interface: extend status to include pending_review and rejected; add salary?: string; location?: string; postedBy?: string;",
+    "9. In VacancyForm component: add state fields salary: '', location: '', postedBy: '', status: 'Open' to the form state. Add inputs: Salary (text, placeholder '12,500 ETB / month'), Location (text, placeholder 'Sint Main Office'), Posted By (text, placeholder 'HR Department'), Status select (Open, Closed, pending_review as Submit for Review, rejected). In the useEffect load, populate these new fields. In handleSubmit, include them in the POST/PUT body. Add 'Submit for Review' button.",
+    "10. In VacancyListPage component: add Review Queue panel for pending_review vacancies. Approve → status 'Open'. Reject → rejected + note. Add a Status column to the vacancy list table with color-coded badge (green for Open, gray for Closed, amber for pending_review, red for rejected).",
+    "11. In src/components/vacancy-page.tsx: change the activeVacancies filter from 'vacancies.filter(v => !isExpired(v.deadline))' to 'vacancies.filter(v => v.status === \"Open\" && !isExpired(v.deadline))' so pending_review/draft/rejected vacancies never show publicly."
+  ],
+  "acceptance_criteria": [
+    "npm run build completes with zero TypeScript errors",
+    "storage.ts NewsItem, BidItem, VacancyItem status types include pending_review and rejected",
+    "VacancyItem in storage.ts has salary?, location?, postedBy? fields",
+    "Creating a news item and clicking Submit for Review saves it with status pending_review in data/news.json",
+    "Review Queue panel appears in News/Bids/Vacancies list pages showing pending items in amber",
+    "Approving a news item changes its status to published; it disappears from Review Queue",
+    "Rejecting an item changes status to rejected; it shows the red Rejected badge in the list",
+    "A vacancy with status pending_review does NOT appear on the public /vacancies page",
+    "Vacancy form now shows Salary, Location, and Posted By fields; they persist to data/vacancies.json"
+  ],
+  "verification": [
+    "npm run build — must exit with zero errors",
+    "In browser: open News admin, create article, click 'Submit for Review'. Confirm status badge shows amber 'Pending Review' and item appears in Review Queue.",
+    "Click Approve on the queued item. Confirm status changes to Published (green badge). Confirm data/news.json shows status: 'published'.",
+    "In browser: open Vacancies admin, create vacancy with Salary and Location filled. Confirm data/vacancies.json has salary and location fields.",
+    "On public site vacancy page: confirm only Open vacancies are listed after adding a pending_review one."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

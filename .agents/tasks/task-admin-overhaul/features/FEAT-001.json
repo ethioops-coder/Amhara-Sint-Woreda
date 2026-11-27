@@ -1,0 +1,29 @@
+{
+  "id": "FEAT-001",
+  "type": "fix",
+  "description": "Replace Prisma with storage.ts in news and applications API routes, and fix vacancy-page.tsx to POST applications to the server instead of localStorage. These are all backend/API wiring changes with no dependency on FEAT-002 or FEAT-003.",
+  "status": "pending",
+  "steps": [
+    "1. Rewrite src/app/admin/api/news/route.ts: Remove 'import prisma from \"@/lib/prisma\"' and the getNews fallback import. Replace with: import { getNews, createNews, updateNews, deleteNews } from '@/lib/storage'. GET: return NextResponse.json(getNews()). POST: const item = createNews(data); return NextResponse.json(item, { status: 201 }). PUT: extract { id, ...fields }, call updateNews(id, fields), return 404 if null. DELETE: call deleteNews(id), return 404 if false. Remove the entire seeding/upsert logic.",
+    "2. Rewrite src/app/admin/api/applications/route.ts: Remove prisma import and cookies import. Import getApplications, getApplicationsByVacancyId, getApplicationById, createApplication, updateApplication, deleteApplication from '@/lib/storage'. GET: id query → getApplicationById, vacancyId query → getApplicationsByVacancyId, else getApplications(). POST (new): read body { fullName, email, phone, education, experience, coverLetter, vacancyId, vacancyTitle }, call createApplication({ fullName, email, phone, education, experience, coverLetter, vacancyId, vacancyTitle, cvPath: '', cvOriginalName: '', status: 'Pending', notes: '' }), return 201. PUT: updateApplication(id, data). DELETE: deleteApplication(id).",
+    "3. Rewrite src/app/admin/api/applications-admin/route.ts: Same Prisma → storage swap. Import getApplications, getApplicationsByVacancyId, getApplicationById, updateApplication, deleteApplication. GET: same query-param logic as step 2. PUT: updateApplication(id, { ...(status && { status }), ...(notes !== undefined && { notes }) }). DELETE: deleteApplication(id). No POST needed here.",
+    "4. Modify src/components/vacancy-page.tsx handleSubmit: After uploading CV and cover letter files (keep existing uploadFile logic), POST to /admin/api/applications with body { vacancyId, vacancyTitle, fullName, email, phone, education: fd.get('education'), experience: String(fd.get('totalExp')), coverLetter: '', cvPath: cvStoredName || '', cvOriginalName: cvFile?.name || '' }. On non-2xx response, throw to trigger setFormStatus('error'). Remove the localStorage.setItem('amharasayint_applications') call and the setApplications(all) call. In the useEffect, remove the localStorage.getItem('amharasayint_applications') block; remove the applications useState and its related count display, OR fetch count from /admin/api/applications if desired — simplest is to just remove the applicants count stat card from the hero banner.",
+    "5. In vacancy-page.tsx, also change the vacancies fetch fallback: remove localStorage.getItem('amharasayint_vacancies') fallback — if API returns empty or fails, fall straight to DEFAULT_VACANCIES."
+  ],
+  "acceptance_criteria": [
+    "npm run build completes with zero TypeScript errors",
+    "data/news.json is updated when creating/editing/deleting a news item via the admin panel",
+    "Submitting the vacancy apply form creates a new entry in data/applications.json and the success banner appears",
+    "No Prisma import remains in news/route.ts, applications/route.ts, or applications-admin/route.ts",
+    "Admin Applications page (uses /admin/api/applications-admin) shows the submitted application",
+    "Status update buttons (Under Review, Shortlisted, Interviewed, Rejected) in the admin applications page update the record in data/applications.json"
+  ],
+  "verification": [
+    "npm run build — must exit with zero errors",
+    "grep -r 'prisma' src/app/admin/api/news src/app/admin/api/applications src/app/admin/api/applications-admin — must return no matches",
+    "In browser (npm run dev): submit a vacancy application; confirm data/applications.json grows by one entry with the correct fields",
+    "In browser: create/edit/delete a news article; confirm data/news.json reflects the change"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

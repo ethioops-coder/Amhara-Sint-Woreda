@@ -1,0 +1,30 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Add Gallery admin page UI and upgrade Hero Slider management (image upload + reorder + buttonText/buttonHref per slide). Both are UI-only additions in admin-content.tsx; the backend routes already exist and are correct. Independent of FEAT-001 and FEAT-002.",
+  "status": "pending",
+  "steps": [
+    "1. In src/app/admin/admin-content.tsx, add 'gallery' to the AdminPage type union: change the type declaration to include '\"gallery\"'.",
+    "2. In the Sidebar items array, add { label: 'Gallery', key: 'gallery', icon: '🖼️' } after the Vacancies entry (between vacancy and menus items).",
+    "3. Add a new GalleryPage component in admin-content.tsx (place it before the main export default AdminPage). It should: (a) on mount, fetch GET /admin/api/gallery and store items in useState. (b) Show a grid of gallery cards, each with: a thumbnail <img src={item.imageUrl} />, item.title, a category badge (item.category), and a 🗑️ delete button that calls DELETE /admin/api/gallery?id={item.id} then reloads. (c) Have an 'Add Image' button that toggles a form panel. The add form has: an image upload button (use the same pattern as NewsForm.handleCoverUpload — POST FormData to /admin/api/upload, get back { url }, set imageUrl state) OR an imageUrl text input for URL paste; a title input (required); a category input (text, e.g. 'Culture'); a description textarea. On submit: POST { imageUrl, title, category, description } to /admin/api/gallery, reload list, hide form. (d) Search input that filters the grid by title or category.",
+    "4. In the main render router in AdminPage: add {page === 'gallery' && <GalleryPage />} alongside the other page cases.",
+    "5. In ContentManagerPage (already exists in admin-content.tsx around line ~1057): upgrade the hero slides editor. Currently slides have { image, title, subtitle } and only URL input. Changes: (a) On load, normalize each slide: when rendering uSlide, use slide.imageUrl ?? slide.image for the imageUrl field value. The save will write imageUrl going forward. (b) In the per-slide edit panel: replace the single 'image' input with an 'imageUrl' input. Add an upload button above it: a file <input type=file accept=image/*> that on change uploads to /admin/api/upload and sets slide.imageUrl. (c) Add two new inputs per slide: buttonText (text, placeholder 'Learn More') and buttonHref (text, placeholder '/tourism'). (d) Add up/down reorder buttons per slide: an ↑ button (disabled when i===0) swaps heroSlides[i] with heroSlides[i-1]; a ↓ button (disabled when i===heroSlides.length-1) swaps with [i+1]. Call setSaved(false) after reorder. (e) When calling addSlide, initialize the new slide with { id: Date.now().toString(), imageUrl: '', title: 'New Slide', subtitle: 'Description', buttonText: '', buttonHref: '' }."
+  ],
+  "acceptance_criteria": [
+    "npm run build completes with zero TypeScript errors",
+    "'Gallery' item appears in the admin sidebar and navigating to it shows the GalleryPage",
+    "Adding a gallery item (via upload or URL paste) creates an entry in data/gallery.json",
+    "Deleting a gallery item removes it from data/gallery.json and the grid",
+    "Hero Slider editor in Content Manager shows an upload button per slide",
+    "Reorder up/down buttons move slides and Save persists the new order to data/content.json",
+    "buttonText and buttonHref fields appear per slide and are saved to data/content.json"
+  ],
+  "verification": [
+    "npm run build — must exit with zero errors",
+    "In browser: navigate to Gallery in admin sidebar. Add an item via URL paste. Confirm it appears in the gallery grid and in data/gallery.json.",
+    "Delete the gallery item. Confirm it is removed from the grid and data/gallery.json.",
+    "Navigate to Content in admin sidebar. Open Hero Slider section. Add a new slide with buttonText='Visit'. Click ↑ to reorder. Click Save. Confirm data/content.json heroSlides array is updated with the new order and buttonText field."
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

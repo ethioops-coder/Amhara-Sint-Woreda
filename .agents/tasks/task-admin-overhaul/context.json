@@ -1,0 +1,30 @@
+{
+  "project_type": "Next.js 16 App Router + TypeScript + Tailwind CSS, file-based JSON storage",
+  "language": "TypeScript / TSX",
+  "build_system": "npm scripts + Next.js — no monorepo. Build: `npm run build`. Note: `cp -r` in build script is Linux-style; on Windows use `npm run dev` for local testing.",
+  "test_framework": "None configured. Verification is: `npm run build` (TypeScript compile) + manual browser check.",
+  "build_command": "npm run build",
+  "test_command": "npm run build",
+  "verification_instructions": "1. Run `npm run build` from the worktree root and confirm zero TypeScript/compile errors. 2. Run `npm run dev` and open http://localhost:3000/admin to manually verify UI changes. 3. For API changes, check that `data/*.json` files update correctly after actions in the browser.",
+  "snapshot_or_generated_files": null,
+  "environment_constraints": "Windows environment. Do NOT run `cp -r` commands directly (they are in the npm build script for Linux deploy). Use `npm run dev` for local testing. Worktree root is: c:\\Users\\meseretak\\Desktop\\Desktop\\website\\saint wereda\\Saint wereda webite",
+  "contribution_requirements": "No AGENTS.md found. Key rule from task: do NOT use Prisma anywhere — use src/lib/storage.ts functions only. Do NOT install new packages. Keep existing green/amber color scheme (#0B3D2E, #EAB308).",
+  "key_patterns": "API routes under src/app/admin/api/*/route.ts use Next.js App Router handlers (GET/POST/PUT/DELETE). Storage functions are in src/lib/storage.ts using fs read/write to data/*.json. Admin UI is a single-file SPA in src/app/admin/admin-content.tsx with an AdminPage union type, Sidebar items array, per-page components, and a main router at the bottom. Upload endpoint: POST /admin/api/upload returns { url, storedName }. Edit navigation uses window.__adminEditId global hack.",
+  "relevant_files": [
+    "src/lib/storage.ts",
+    "src/app/admin/admin-content.tsx",
+    "src/components/vacancy-page.tsx",
+    "src/app/admin/api/news/route.ts",
+    "src/app/admin/api/applications/route.ts",
+    "src/app/admin/api/applications-admin/route.ts",
+    "src/app/admin/api/vacancies/route.ts",
+    "src/app/admin/api/bids/route.ts",
+    "src/app/admin/api/gallery/route.ts",
+    "src/app/admin/api/content/route.ts",
+    "data/vacancies.json",
+    "data/applications.json",
+    "data/content.json",
+    "data/gallery.json"
+  ],
+  "directory_structure": "src/app/admin/ — admin login page + admin-content.tsx (entire admin SPA). src/app/admin/api/ — Next.js route handlers (one folder per resource). src/lib/storage.ts — all JSON CRUD functions. src/components/ — public site components including vacancy-page.tsx. data/ — all JSON data files (news.json, bids.json, vacancies.json, applications.json, gallery.json, content.json, etc.)."
+}
